@@ -1,0 +1,241 @@
+package balik.console.impl;
+
+public class VEBTreeImpl implements VEBTree {
+
+    static int BASE_SIZE = 2; /* Base vEB Node size */
+    static int NULL = -1; /* Initial min and max values */
+
+    /*PUBLIC**/
+
+    /**
+     * Creates and returns an instance of a van Emde Boas Tree.
+     **/
+    public static VEBTreeImpl createVEBTree(int universeSize) {
+        if (isPowerOf2(universeSize)) {
+            return new VEBTreeImpl(universeSize);
+        } else {//TODO: throw exception
+            System.out.println("ERROR: Must create a tree with size a power of 2!");
+            return null;
+        }
+    }
+
+
+    /**
+     * Insert x into tree
+     *
+     * @param x
+     */
+    @Override
+    public void insert(int x) {
+        insertR(root, x);
+    }
+
+    /**
+     * Delete x into tree
+     *
+     * @param x
+     */
+    @Override
+    public void remove(int x) {
+        removeR(root, x);
+    }
+
+    /**
+     * Returns true if x is in the tree,
+     * false otherwise
+     *
+     * @param x
+     */
+    @Override
+    public boolean find(int x) {
+        return findR(root, x);
+    }
+
+    /***
+     * Returns element before x,
+     * or -1 if x is the minimum
+     *
+     * @param x*/
+    @Override
+    public int prev(int x) {
+        return 0;
+    }
+
+    /***
+     * Returns element after x,
+     * or -1 if x is the maximum
+     *
+     * @param x*/
+    @Override
+    public int next(int x) {
+        return 0;
+    }
+
+    /**
+     * Returns the minimum value in the tree
+     * or -1 if the tree is empty
+     **/
+    @Override
+    public int min() {
+        return root.min;
+    }
+
+    /**
+     * Returns the maximum value in the tree
+     * or -1 if the tree is empty
+     **/
+    @Override
+    public int max() {
+        return root.max;
+    }
+
+    /**
+     * Returns true if tree is empty,
+     * false otherwise
+     **/
+    @Override
+    public boolean empty() {
+        return (root.min == NULL);
+    }
+
+
+    /*PRIVATE*/
+    private VEBNode root;
+
+    /**
+     * Creates the tree structure with a universe size of size
+     * universeSize.
+     **/
+    private VEBTreeImpl(int universeSize) {
+        /*
+         * This node will handle creating all the other nodes,
+         * and the full tree will be built.
+         */
+        root = new VEBNode(universeSize);
+    }
+
+    private boolean findR(VEBNode node, int x) {
+        if (x == node.min || x == node.max) {
+            return true;
+        } else if (BASE_SIZE == node.universeSize) {
+            return false;
+        } else {
+            return findR(node.cluster[high(node, x)], low(node, x));
+        }
+    }
+
+    private void insertR(VEBNode node, int x) {
+        /* This node is empty */
+        if (NULL == node.min) {
+            node.min = x;
+            node.max = x;
+        }
+        if (x < node.min) {
+            int tempValue = x;
+            x = node.min;
+            node.min = tempValue;
+        }
+        if (x > node.min && node.universeSize > BASE_SIZE) {
+            int highOfX = high(node, x);
+            int lowOfX = low(node, x);
+
+            /* Case when the cluster is non-empty*/
+            if (NULL != node.cluster[highOfX].min) {
+                /* Insert into the cluster recursively */
+                insertR(node.cluster[highOfX], lowOfX);
+            } else {
+                /* Insert into the summary recursively */
+                insertR(node.summary, highOfX);
+                node.cluster[highOfX].min = lowOfX;
+                node.cluster[highOfX].max = lowOfX;
+            }
+        }
+        if (x > node.max) {
+            node.max = x;
+        }
+    }
+
+    private void removeR(VEBNode node, int x) {
+        if (node.min == node.max) {
+            node.min = NULL;
+            node.max = NULL;
+        } else if (BASE_SIZE == node.universeSize) {
+            if (0 == x) {
+                node.min = 1;
+            } else {
+                node.min = 0;
+            }
+            node.max = node.min;
+        } else if (x == node.min) {
+            int summaryMin = node.summary.min;
+            x = index(node, summaryMin, node.cluster[summaryMin].min);
+            node.min = x;
+
+            int highOfX = high(node, x);
+            int lowOfX = low(node, x);
+            removeR(node.cluster[highOfX], lowOfX);
+
+            if (NULL == node.cluster[highOfX].min) {
+                removeR(node.summary, highOfX);
+                if (x == node.max) {
+                    int summaryMax = node.summary.max;
+                    if (NULL == summaryMax) {
+                        node.max = node.min;
+                    } else {
+                        node.max = index(node, summaryMax, node.cluster[summaryMax].max);
+                    }
+                }
+            } else if (x == node.max) {
+                node.max = index(node, highOfX, node.cluster[highOfX].max);
+            }
+        }
+    }
+
+    /**
+     * Returns the integer value of the first half of the bits of x.
+     **/
+    private int high(VEBNode node, int x) {
+        return (int) Math.floor(x / lowerSquareRoot(node));
+    }
+
+
+    /**
+     * Returns the integer value of the second half of the bits of x.
+     **/
+    private int low(VEBNode node, int x) {
+        return x % (int) lowerSquareRoot(node);
+    }
+
+
+    /**
+     * Returns the value of the least significant bits of x.
+     **/
+    private double lowerSquareRoot(VEBNode node) {
+        /* Change bases to 2 since java api does not support this. */
+        return Math.pow(2, Math.floor((Math.log10(node.universeSize) / Math.log10(2)) / 2.0));
+    }
+
+
+    /**
+     * Returns the index in the tree of the given value.
+     **/
+    private int index(VEBNode node, int x, int y) {
+        return (int) (x * lowerSquareRoot(node) + y);
+    }
+
+    /**
+     * Returns true if x is a power of 2, false otherwise.
+     **/
+    private static boolean isPowerOf2(int x) {
+        if (0 == x) {
+            return false;
+        }
+
+        while (x % 2 == 0) {
+            x = x / 2;
+        }
+
+        return x == 1;
+    }
+
+}
