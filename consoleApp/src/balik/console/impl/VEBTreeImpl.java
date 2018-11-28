@@ -57,18 +57,8 @@ public class VEBTreeImpl implements VEBTree {
      *
      * @param x*/
     @Override
-    public int prev(int x) {
-        return 0;
-    }
-
-    /***
-     * Returns element after x,
-     * or -1 if x is the maximum
-     *
-     * @param x*/
-    @Override
-    public int next(int x) {
-        return 0;
+    public int predecessor(int x) {
+        return predecessorR(root, x);
     }
 
     /**
@@ -187,6 +177,37 @@ public class VEBTreeImpl implements VEBTree {
                 }
             } else if (x == node.max) {
                 node.max = index(node, highOfX, node.cluster[highOfX].max);
+            }
+        }
+    }
+
+    public int predecessorR(VEBNode node, int x) {
+        if (BASE_SIZE == node.universeSize) {
+            if (1 == x && 0 == node.min) {
+                return 0;
+            } else {
+                return NULL;
+            }
+        } else if (NULL != node.max && x > node.max) {
+            return node.max;
+        } else {
+            int highOfX = high(node, x);
+            int lowOfX = low(node, x);
+
+            int minCluster = node.cluster[highOfX].min;
+            if (NULL != minCluster && lowOfX > minCluster) {
+                return index(node, highOfX, predecessorR(node.cluster[highOfX], lowOfX));
+            } else {
+                int clusterPred = predecessorR(node.summary, highOfX);
+                if (NULL == clusterPred) {
+                    if (NULL != node.min && x > node.min) {
+                        return node.min;
+                    } else {
+                        return NULL;
+                    }
+                } else {
+                    return index(node, clusterPred, node.cluster[clusterPred].max);
+                }
             }
         }
     }

@@ -23,13 +23,7 @@ public interface VEBTree {
      * Returns element before x,
      * or -1 if x is the minimum
      * */
-    int prev(int x);
-
-    /***
-     * Returns element after x,
-     * or -1 if x is the maximum
-     * */
-    int next(int x);
+    int predecessor(int x);
 
     /**
      * Returns the minimum value in the tree

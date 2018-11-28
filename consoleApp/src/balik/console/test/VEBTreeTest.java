@@ -12,7 +12,7 @@ public class VEBTreeTest {
     private VEBTree vEBTree;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         vEBTree = VEBTreeImpl.createVEBTree(16);
 
         assert vEBTree != null;
@@ -77,6 +77,18 @@ public class VEBTreeTest {
         assertTrue("We deleted 15:", !vEBTree.find(15));
     }
 
+    @Test
+    public void testPredecessor() {
+        assertEquals("3 has no predecessor:", -1, vEBTree.predecessor(3));
+
+        assertEquals("Predecessor of 5 is 3:", 3, vEBTree.predecessor(5));
+
+        assertEquals("Predecessor of 8 is 5:", 5, vEBTree.predecessor(8));
+
+        assertEquals("Predecessor of 10 is 8:", 8, vEBTree.predecessor(10));
+
+        assertEquals("Predecessor of 15 is 14:", 14, vEBTree.predecessor(15));
+    }
 
     @Test
     public void testMin() {

@@ -2,11 +2,11 @@ package balik.console.impl;
 
 class VEBNode
 {
-    public int universeSize;
-    public int min;
-    public int max;
-    public VEBNode summary;
-    public VEBNode[] cluster;
+    int universeSize;
+    int min;
+    int max;
+    VEBNode summary;
+    VEBNode[] cluster;
 
     VEBNode(int universeSize)
     {
