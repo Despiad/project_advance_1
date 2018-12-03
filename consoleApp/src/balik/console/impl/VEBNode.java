@@ -1,4 +1,4 @@
-package balik.console.impl;
+ package balik.console.impl;
 
 class VEBNode
 {
@@ -27,14 +27,14 @@ class VEBNode
         }
         else
         {
-            int childUnivereSize = higherSquareRoot();
+            int childUniverseSize = higherSquareRoot();
 
-            summary = new VEBNode(childUnivereSize);
-            cluster = new VEBNode[childUnivereSize];
+            summary = new VEBNode(childUniverseSize);
+            cluster = new VEBNode[childUniverseSize];
 
-            for(int i = 0; i < childUnivereSize; i++)
+            for(int i = 0; i < childUniverseSize; i++)
             {
-                cluster[i] = new VEBNode(childUnivereSize);
+                cluster[i] = new VEBNode(childUniverseSize);
             }
         }
     }

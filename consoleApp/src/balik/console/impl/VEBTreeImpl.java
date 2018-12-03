@@ -181,7 +181,7 @@ public class VEBTreeImpl implements VEBTree {
         }
     }
 
-    public int predecessorR(VEBNode node, int x) {
+    private int predecessorR(VEBNode node, int x) {
         if (BASE_SIZE == node.universeSize) {
             if (1 == x && 0 == node.min) {
                 return 0;

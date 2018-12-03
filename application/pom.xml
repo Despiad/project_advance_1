@@ -12,7 +12,7 @@
         <resources>
             <resource>
                 <filtering>false</filtering>
-                <directory>src/main/java</directory>
+                <directory>src/main/java/resources</directory>
                 <includes>
                     <include>**/*.fxml</include>
                 </includes>
