@@ -1,10 +1,9 @@
 package advanced.balik.application;
 
-import advanced.balik.application.view.Controller;
-import advanced.balik.application.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -12,15 +11,37 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Starter extends Application {
-    private Stage primaryStage;
-    private BorderPane rootLayout;
+    private static Stage primaryStage;
+    private static BorderPane rootLayout;
+
+
+    /**
+     * Возвращает главную сцену.
+     *
+     * @return
+     */
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    //TODO: ARROW BUTTON IMG and icon
+
+    /**
+     * Значок приложения.
+     */
+    private static final Image ICON = new Image(Starter.class.getResourceAsStream("/icon.png"));
+
+    /**
+     * Заголовок окна.
+     */
+    private static final String TITLE = "Van Emde Boas Tree";
+
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Van Emde Boas Tree");
-
-        //this.primaryStage.getIcons().add(new Image("file:resources/images/address_book_32.png"));
+        Starter.primaryStage = primaryStage;
+        Starter.primaryStage.setTitle(TITLE);
+        Starter.primaryStage.getIcons().add(ICON);
 
         initRootLayout();
 
@@ -29,17 +50,10 @@ public class Starter extends Application {
 
     private void showMainWindow() {
         try {
-
             FXMLLoader loader = new FXMLLoader();
             AnchorPane mainWindow = loader.load(getClass().getClassLoader().getResource("MainWindow.fxml"));
 
-            // Помещаем сведения об адресатах в центр корневого макета.
             rootLayout.setCenter(mainWindow);
-
-            // Даём контроллеру доступ к главному приложению.
-            Controller controller = loader.getController();
-//            controller.setMainApp(this);
-
         } catch (IOException e) {
             e.printStackTrace();//TODO:LOG
         }
@@ -56,14 +70,14 @@ public class Starter extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
 
-            // Даём контроллеру доступ к главному приложению.
-            RootLayoutController controller = loader.getController();
-            //controller.setMainApp(this);
-
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();//TODO:LOG
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
 }
