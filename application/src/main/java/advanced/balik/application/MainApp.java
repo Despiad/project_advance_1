@@ -1,5 +1,7 @@
 package advanced.balik.application;
 
+import advanced.balik.application.view.MainInterfaceController;
+import advanced.balik.application.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,9 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Starter extends Application {
-    private static Stage primaryStage;
-    private static BorderPane rootLayout;
+public class MainApp extends Application {
+    private Stage primaryStage;
+    private BorderPane rootLayout;
 
 
     /**
@@ -20,16 +22,22 @@ public class Starter extends Application {
      *
      * @return
      */
-    public static Stage getPrimaryStage() {
+    public Stage getPrimaryStage() {
         return primaryStage;
     }
 
     //TODO: ARROW BUTTON IMG and icon
 
+    private final static String ROOT_PATH = "/fxml/RootLayout.fxml";
+
+    private final static String MAIN_PATH = "/fxml/MainWindow.fxml";
+
+    private final static String ICON_PATH = "/img/icon.png";
+
     /**
      * Значок приложения.
      */
-    private static final Image ICON = new Image(Starter.class.getResourceAsStream("/icon.png"));
+    private static final Image ICON = new Image(MainApp.class.getResourceAsStream(ICON_PATH));
 
     /**
      * Заголовок окна.
@@ -39,9 +47,9 @@ public class Starter extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Starter.primaryStage = primaryStage;
-        Starter.primaryStage.setTitle(TITLE);
-        Starter.primaryStage.getIcons().add(ICON);
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle(TITLE);
+        this.primaryStage.getIcons().add(ICON);
 
         initRootLayout();
 
@@ -50,8 +58,11 @@ public class Starter extends Application {
 
     private void showMainWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            AnchorPane mainWindow = loader.load(getClass().getClassLoader().getResource("MainWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PATH));
+            AnchorPane mainWindow = loader.load();
+
+            MainInterfaceController controller = loader.getController();
+            controller.setMainApp(this);
 
             rootLayout.setCenter(mainWindow);
         } catch (IOException e) {
@@ -62,13 +73,16 @@ public class Starter extends Application {
     private void initRootLayout() {
         try {
             // Загружаем корневой макет из fxml файла.
-            FXMLLoader loader = new FXMLLoader();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(ROOT_PATH));
 
-            rootLayout = loader.load(getClass().getClassLoader().getResource("RootLayout.fxml"));
+            rootLayout = loader.load();
 
             // Отображаем сцену, содержащую корневой макет.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
 
             primaryStage.show();
         } catch (IOException e) {
