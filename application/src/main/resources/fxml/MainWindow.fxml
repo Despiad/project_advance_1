@@ -23,7 +23,7 @@
                                         <HBox layoutX="8.0" layoutY="61.0" spacing="10.0">
                                             <children>
                                                 <Button layoutX="8.0" layoutY="61.0" mnemonicParsing="false" onAction="#insert" text="Insert" />
-                                                <Button layoutX="74.0" layoutY="61.0" mnemonicParsing="false" text="Delete" />
+                                                <Button layoutX="74.0" layoutY="61.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
                                             </children>
                                         </HBox>
                                         <Button disable="true" layoutX="4.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Step back" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
@@ -44,7 +44,7 @@
                                         <Font name="DejaVu Serif Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="445.0" layoutY="16.0" text="0">
+                                <Label fx:id="stepLabel" layoutX="445.0" layoutY="16.0" text="0">
                                     <font>
                                         <Font name="DejaVu Sans Bold" size="14.0" />
                                     </font>

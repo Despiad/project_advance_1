@@ -15,23 +15,38 @@ public class MainInterfaceController {
     private MainApp mainApp;
 
     private List<Integer> data;
+    private Integer step;
 
     @FXML
     private Label dataLabel;
+    @FXML
+    private Label stepLabel;
     @FXML
     private TextField inputValue;
 
     @FXML
     private void insert() {
-        if (isInputValid()) {
+        if (isInputValid(true)) {
             data.add(Integer.parseInt(inputValue.getText()));
+            step++;
+            refreshData();
+        }
+        inputValue.clear();
+    }
+
+    @FXML
+    private void delete() {
+        if (isInputValid(false)) {
+            data.remove(data.indexOf(Integer.parseInt(inputValue.getText())));
+            step++;
             refreshData();
         }
         inputValue.clear();
     }
 
     public MainInterfaceController() {
-        data = new ArrayList<Integer>();
+        data = new ArrayList<>();
+        step = 0;
     }
 
     @FXML
@@ -44,21 +59,18 @@ public class MainInterfaceController {
     }
 
     private void refreshData() {
+        data.sort(Integer::compareTo);
         dataLabel.setText(data.toString());
+        stepLabel.setText(step.toString());
     }
 
     private boolean notNumeral(String str) {
         if (str == null || str.isEmpty()) {
             return true;
         }
-        int commaCount = 0;
-        for (int i = 0; i < str.length(); i++) {
 
-            if (str.charAt(i) == '.') {
-                commaCount++;
-            }
-            if ((!Character.isDigit(str.charAt(i)) && str.charAt(i) != '.' && str.charAt(i) != '-')
-                    || commaCount > 1) {
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
                 return true;
             }
         }
@@ -66,17 +78,28 @@ public class MainInterfaceController {
         return false;
     }
 
-
     /**
      * Проверяет пользовательский ввод в текстовых полях.
      *
      * @return true, если пользовательский ввод корректен
      */
-    private boolean isInputValid() {
+    private boolean isInputValid(boolean isInsert) {
+        final String input = inputValue.getText();
         String errorMessage = "";
 
-        if (notNumeral(inputValue.getText())) {
-            errorMessage = "No valid input!\n";
+        if (notNumeral(input)) {
+            errorMessage = "No valid input!\n" +
+                    "Please enter only integer number";
+        } else {
+            Integer element = Integer.parseInt(input);
+            if (data.contains(element) && isInsert) {
+                errorMessage = "This item is already in the tree.";
+            }
+
+            if (!data.contains(element) && !isInsert) {
+                errorMessage = "This item isn't in the tree.";
+            }
+
         }
 
         if (errorMessage.length() == 0) {
@@ -86,7 +109,7 @@ public class MainInterfaceController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initOwner(mainApp.getPrimaryStage());
             alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
+            alert.setHeaderText("Please correct invalid field");
             alert.setContentText(errorMessage);
 
             alert.showAndWait();
