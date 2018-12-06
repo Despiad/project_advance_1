@@ -1,7 +1,7 @@
 package balik.advanced.consoleApp.heap;
 
 public class LeftistHeap {
-    private LeftHeapNode root;
+    private Node root;
 
     public LeftistHeap() {
         root = null;
@@ -16,7 +16,7 @@ public class LeftistHeap {
     }
 
     public void insert(int x) {
-        root = merge(new LeftHeapNode(x), root);
+        root = merge(new Node(x), root);
     }
 
     public void merge(LeftistHeap rhs) {
@@ -26,13 +26,13 @@ public class LeftistHeap {
         rhs.root = null;
     }
 
-    private LeftHeapNode merge(LeftHeapNode x, LeftHeapNode y) {
+    private Node merge(Node x, Node y) {
         if (x == null)
             return y;
         if (y == null)
             return x;
         if (x.element > y.element) {
-            LeftHeapNode temp = x;
+            Node temp = x;
             x = y;
             y = temp;
         }
@@ -44,7 +44,7 @@ public class LeftistHeap {
             x.right = null;
         } else {
             if (x.left.sValue < x.right.sValue) {
-                LeftHeapNode temp = x.left;
+                Node temp = x.left;
                 x.left = x.right;
                 x.right = temp;
             }

@@ -36,4 +36,10 @@ public class LeftistHeapTest {
         assertTrue("Heap should be empty", heap.isEmpty());
     }
 
+    @Test
+    public void testClear(){
+        assertTrue("Tree should be non empty", !heap.isEmpty());
+        heap.clear();
+        assertTrue("Tree should be empty", heap.isEmpty());
+    }
 }

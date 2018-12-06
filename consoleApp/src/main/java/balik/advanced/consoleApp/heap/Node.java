@@ -1,14 +1,14 @@
 package balik.advanced.consoleApp.heap;
 
-class LeftHeapNode {
+class Node {
     int element, sValue;
-    LeftHeapNode left, right;
+    Node left, right;
 
-    LeftHeapNode(int ele) {
+    Node(int ele) {
         this(ele, null, null);
     }
 
-    private LeftHeapNode(int ele, LeftHeapNode left, LeftHeapNode right) {
+    private Node(int ele, Node left, Node right) {
         this.element = ele;
         this.left = left;
         this.right = right;
