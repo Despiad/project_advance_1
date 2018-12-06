@@ -42,4 +42,21 @@ public class LeftistHeapTest {
         heap.clear();
         assertTrue("Tree should be empty", heap.isEmpty());
     }
+
+    @Test
+    public void testMerge(){
+        LeftistHeap newHeap=new LeftistHeap();
+        newHeap.insert(6);
+        newHeap.insert(1);
+        heap.merge(newHeap);
+        assertEquals("Min should be 1:", 1, heap.extractMin());
+        assertEquals("Min should be 1:", 1, heap.extractMin());
+        assertEquals("Min should be 2:", 2, heap.extractMin());
+        assertEquals("Min should be 3:", 3, heap.extractMin());
+        assertEquals("Min should be 4:", 4, heap.extractMin());
+        assertEquals("Min should be 5:", 5, heap.extractMin());
+        assertEquals("Min should be 6:", 6, heap.extractMin());
+        assertEquals("Min should be -1:", -1, heap.extractMin());
+        assertTrue("Heap should be empty", heap.isEmpty());
+    }
 }
