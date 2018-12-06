@@ -1,0 +1,24 @@
+/* Tree graph visualisation styling */
+
+.cell {
+    -fx-font: 14px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+    -fx-max-width: 90;
+    -fx-max-height: 90;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+.cell-selected {
+    -fx-background-color: #9999ff;
+    -fx-border-color: #551111;
+}
+
+.vertex {
+    -fx-stroke-width: 2px;
+}

@@ -1,69 +1,121 @@
 package advanced.balik.application.view;
 
 import advanced.balik.application.MainApp;
+import advanced.balik.application.graph.HeapGraph;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
-//TODO:BETTER DATA VISUALIZATION
 public class MainInterfaceController {
+
+    /**
+     * Генератор случайных чисел.
+     */
+    private static final Random RANDOM = new Random();
+
+    /**
+     * Верхняя граница (не включительно) генерации случайных чисел.
+     */
+    private static final int UPPER_BOUND_RANDOM = 1000;
+
+    /**
+     * Нижняя граница (включительно) генерации случайных чисел.
+     */
+    private static final int LOWER_BOUND_RANDOM = -999;
+
+    /**
+     * Визуальное представление кучи
+     */
+    private final HeapGraph heapGraph = new HeapGraph();
 
     private MainApp mainApp;
 
-    private List<Integer> data;
     private Integer step;
 
-    @FXML
-    private Label dataLabel;
     @FXML
     private Label stepLabel;
     @FXML
     private TextField inputValue;
-
+    @FXML
+    private FlowPane board;
+//todo: FIX SPACE
     @FXML
     private void insert() {
-        if (isInputValid(true)) {
-            data.add(Integer.parseInt(inputValue.getText()));
-            step++;
-            refreshData();
-        }
-        inputValue.clear();
+        //todo:check input
+        heapGraph.addNode(Integer.parseInt(inputValue.getText()));
+    }
+
+    /**
+     * Добавить случайное значение как новый элемент кучи.
+     */
+    @FXML
+    public void insertRandom() {
+        RANDOM.setSeed(System.currentTimeMillis());
+        int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
+        heapGraph.addNode(randomValue);
     }
 
     @FXML
-    private void delete() {
-        if (isInputValid(false)) {
-            data.remove(data.indexOf(Integer.parseInt(inputValue.getText())));
-            step++;
-            refreshData();
-        }
-        inputValue.clear();
+    private void logAction() {
+
+    }
+
+    @FXML
+    private void getMin() {
+
     }
 
     public MainInterfaceController() {
-        data = new ArrayList<>();
         step = 0;
     }
 
     @FXML
     private void initialize() {
-        refreshData();
+        Group content = heapGraph.getContent();
+        board.getChildren().add(content);
     }
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
-    private void refreshData() {
-        data.sort(Integer::compareTo);
-        dataLabel.setText(data.toString());
-        stepLabel.setText(step.toString());
+    /**
+     * Проверить наличие целого числа в поле ввода и вернуть его внутри контейнера Optional.
+     *
+     * @return Optional, возможно содержащий целое число.
+     */
+    private Optional<Integer> getInput() {
+        String input = inputValue.getText();
+
+        Optional<Integer> optional;
+        if (input.matches("^(-?)\\d+")) {
+            optional = Optional.of(Integer.parseInt(input));
+        } else {
+            optional = Optional.empty();
+            inputValue.clear();
+        }
+
+        return optional;
     }
 
+    /**
+     * Завершить работу программы.
+     */
+    @FXML
+    public void close() {
+        Platform.exit();
+    }
+
+    /**
+     * LEGACY
+     **/
     private boolean notNumeral(String str) {
         if (str == null || str.isEmpty()) {
             return true;
@@ -83,23 +135,13 @@ public class MainInterfaceController {
      *
      * @return true, если пользовательский ввод корректен
      */
-    private boolean isInputValid(boolean isInsert) {
+    private boolean isInputValid() {
         final String input = inputValue.getText();
         String errorMessage = "";
 
         if (notNumeral(input)) {
             errorMessage = "No valid input!\n" +
                     "Please enter only integer number";
-        } else {
-            Integer element = Integer.parseInt(input);
-            if (data.contains(element) && isInsert) {
-                errorMessage = "This item is already in the tree.";
-            }
-
-            if (!data.contains(element) && !isInsert) {
-                errorMessage = "This item isn't in the tree.";
-            }
-
         }
 
         if (errorMessage.length() == 0) {

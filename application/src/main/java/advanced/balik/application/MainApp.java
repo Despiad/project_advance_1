@@ -42,7 +42,7 @@ public class MainApp extends Application {
     /**
      * Заголовок окна.
      */
-    private static final String TITLE = "Van Emde Boas Tree";
+    private static final String TITLE = "Leftist Heap";
 
 
     @Override
