@@ -1,55 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.embed.swing.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advanced.balik.application.view.MainInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="660.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advanced.balik.application.view.MainInterfaceController">
     <children>
-        <SplitPane dividerPositions="0.871859296482412" layoutX="182.0" layoutY="54.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane fx:id="splitPane" dividerPositions="0.75" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="600.0">
                     <children>
-                        <SplitPane dividerPositions="0.24161073825503357" layoutX="139.0" layoutY="80.0" prefHeight="351.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <items>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                        <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <center>
+                                <ScrollPane fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                                    <content>
+                                        <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="494.0" prefWidth="472.0" stylesheets="@../css/graph.css">
+                                            <padding>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="20.0" />
+                                            </padding>
+                                        </FlowPane>
+                                    </content>
+                                </ScrollPane>
+                            </center>
+                            <left>
+                                <AnchorPane fx:id="rightControlGroup" BorderPane.alignment="CENTER">
                                     <children>
-                                        <TextField fx:id="inputValue" layoutX="8.0" layoutY="29.0" prefHeight="25.0" prefWidth="125.0" />
-                                        <Text layoutX="41.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input data" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="15.0" />
-                                          <Button layoutX="41.0" layoutY="54.0" mnemonicParsing="false" onAction="#insert" text="Insert" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0" />
-                                        <Button disable="true" layoutX="4.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Step back" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
-                                        <HBox layoutX="8.0" layoutY="92.0" spacing="10.0" />
-                              <Button layoutX="15.0" layoutY="66.0" mnemonicParsing="false" onAction="#insertRandom" text="RANDOM" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0" prefWidth="180.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <children>
+                                                <AnchorPane prefHeight="35.0" prefWidth="171.0">
+                                                    <children>
+                                                        <TextField fx:id="inputValue" layoutX="34.0" prefHeight="35.0" prefWidth="134.0" promptText="Insert element" styleClass="search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                    </children>
+                                                </AnchorPane>
+                                                <AnchorPane prefWidth="180.0">
+                                                    <children>
+                                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                            <children>
+                                                                <Button id="add-node-btn" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="181.0" styleClass="control-btn" text="+" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                <Button id="min-btn" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="183.0" styleClass="control-btn" text="min" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                                                                <Button id="random-btn" mnemonicParsing="false" onAction="#insertRandom" prefHeight="25.0" prefWidth="186.0" text="    ▶ Случайный" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
+                                                                    <styleClass>
+                                                                        <String fx:value="control-btn" />
+                                                                        <String fx:value="control-btn-left" />
+                                                                    </styleClass>
+                                                                </Button>
+                                                                <Button id="clean-btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clean" prefHeight="25.0" prefWidth="182.0" text="▶ Очистка" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+                                                                    <styleClass>
+                                                                        <String fx:value="control-btn" />
+                                                                        <String fx:value="control-btn-left" />
+                                                                    </styleClass>
+                                                                </Button>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </AnchorPane>
+                                                <TitledPane animated="false" maxHeight="1.7976931348623157E308" prefWidth="180.0" text="Анимация" VBox.vgrow="ALWAYS">
+                                                    <padding>
+                                                        <Insets left="3.0" />
+                                                    </padding>
+                                                    <content>
+                                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="178.0">
+                                                            <children>
+                                                                <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                                <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="5.0" />
+                                                                <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                </TitledPane>
+                                            </children>
+                                        </VBox>
+                                        <ToggleButton fx:id="sideBarToggle" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#hideSideBar" prefHeight="335.0" selected="true" styleClass="hide-controls-button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <graphic>
+                                                <Label styleClass="hide-controls" text="▼" />
+                                            </graphic>
+                                        </ToggleButton>
                                     </children>
                                 </AnchorPane>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <FlowPane fx:id="board" layoutX="91.0" layoutY="41.0" prefHeight="341.0" prefWidth="448.0" stylesheets="@../css/graph.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children></AnchorPane>
-                            </items>
-                        </SplitPane>
+                            </left>
+                        </BorderPane>
                     </children>
                 </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane fx:id="lowerTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
                     <children>
-                        <HBox layoutX="406.0" layoutY="16.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0">
-                            <children>
-                                <Label layoutX="10.0" layoutY="10.0" text="STEP ">
-                                    <font>
-                                        <Font name="DejaVu Serif Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="stepLabel" layoutX="445.0" layoutY="16.0" text="0">
-                                    <font>
-                                        <Font name="DejaVu Sans Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </HBox>
+                        <ScrollPane fx:id="consoleTab" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ToggleButton fx:id="hideConsoleToggle" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hideConsole" styleClass="hide-controls-button" text="▲" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                     </children>
                 </AnchorPane>
             </items>

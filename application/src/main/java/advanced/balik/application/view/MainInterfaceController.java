@@ -5,10 +5,13 @@ import advanced.balik.application.graph.HeapGraph;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 import java.util.Random;
@@ -28,7 +31,7 @@ public class MainInterfaceController {
     /**
      * Нижняя граница (включительно) генерации случайных чисел.
      */
-    private static final int LOWER_BOUND_RANDOM = -999;
+    private static final int LOWER_BOUND_RANDOM = 0;
 
     /**
      * Визуальное представление кучи
@@ -45,12 +48,65 @@ public class MainInterfaceController {
     private TextField inputValue;
     @FXML
     private FlowPane board;
+    @FXML
+    private BorderPane workSpace;
+    @FXML
+    private VBox sideBar;
+    @FXML
+    private ToggleButton sideBarToggle;
+    @FXML
+    private SplitPane splitPane;
+    @FXML
+    private ToggleButton hideConsoleToggle;
+    @FXML
+    private ScrollPane consoleTab;
+    @FXML
+    private AnchorPane lowerTab;
+    @FXML
+    private AnchorPane rightControlGroup;
 //todo: FIX SPACE
+
+
+    /**
+     * Убрать либо вернуть боковую панель управления.
+     */
+    @FXML
+    public void hideSideBar() {
+        if (!sideBarToggle.isSelected()) {
+            rightControlGroup.getChildren().remove(sideBar);
+        } else {
+            rightControlGroup.getChildren().add(sideBar);
+        }
+    }
+
+    @FXML
+    public void hideConsole() {
+        if (hideConsoleToggle.isSelected()) {
+            splitPane.setDividerPositions(1.0);
+            lowerTab.getChildren().remove(consoleTab);
+        } else {
+            splitPane.setDividerPositions(0.75);
+            lowerTab.getChildren().add(consoleTab);
+        }
+    }
+
     @FXML
     private void insert() {
-        //todo:check input
-        heapGraph.addNode(Integer.parseInt(inputValue.getText()));
+        getInput().ifPresent(heapGraph::addNode);
+
     }
+
+    /**
+     * Очистить дерево.
+     */
+    @FXML
+    public void clean() {
+        heapGraph.clear();
+        inputValue.clear();
+        //cache.drop();
+        //updateTraversal();
+    }
+
 
     /**
      * Добавить случайное значение как новый элемент кучи.
@@ -87,6 +143,21 @@ public class MainInterfaceController {
     }
 
     /**
+     * Общий обработчик событий клавиатуры.
+     * <br>По кнопке ENTER - принимает значение из поля ввода.
+     *
+     * @param keyEvent событие нажатия на кнопку клавиатуры.
+     */
+    @FXML
+    public void onKeyPressed(KeyEvent keyEvent) {
+        KeyCode keyCode = keyEvent.getCode();
+        if (keyCode.equals(KeyCode.ENTER)) {
+            getInput().ifPresent(heapGraph::addNode);
+        }
+        //navigateToSelected();
+    }
+
+    /**
      * Проверить наличие целого числа в поле ввода и вернуть его внутри контейнера Optional.
      *
      * @return Optional, возможно содержащий целое число.
@@ -99,9 +170,8 @@ public class MainInterfaceController {
             optional = Optional.of(Integer.parseInt(input));
         } else {
             optional = Optional.empty();
-            inputValue.clear();
         }
-
+        inputValue.clear();
         return optional;
     }
 
@@ -111,54 +181,6 @@ public class MainInterfaceController {
     @FXML
     public void close() {
         Platform.exit();
-    }
-
-    /**
-     * LEGACY
-     **/
-    private boolean notNumeral(String str) {
-        if (str == null || str.isEmpty()) {
-            return true;
-        }
-
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Проверяет пользовательский ввод в текстовых полях.
-     *
-     * @return true, если пользовательский ввод корректен
-     */
-    private boolean isInputValid() {
-        final String input = inputValue.getText();
-        String errorMessage = "";
-
-        if (notNumeral(input)) {
-            errorMessage = "No valid input!\n" +
-                    "Please enter only integer number";
-        }
-
-        if (errorMessage.length() == 0) {
-            return true;
-        } else {
-            // Показываем сообщение об ошибке.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid field");
-            alert.setContentText(errorMessage);
-
-            alert.showAndWait();
-
-            return false;
-        }
-
     }
 
 }

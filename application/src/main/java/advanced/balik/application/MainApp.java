@@ -35,6 +35,16 @@ public class MainApp extends Application {
     private final static String ICON_PATH = "/img/icon.png";
 
     /**
+     * Минимальная высота окна в пикселях.
+     */
+    private static final int MIN_HEIGHT = 660;
+
+    /**
+     * Минимальная ширина окна в пикселях.
+     */
+    private static final int MIN_WIDTH = 700;
+
+    /**
      * Значок приложения.
      */
     private static final Image ICON = new Image(MainApp.class.getResourceAsStream(ICON_PATH));
@@ -50,6 +60,8 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle(TITLE);
         this.primaryStage.getIcons().add(ICON);
+        this.primaryStage.setMinHeight(MIN_HEIGHT);
+        this.primaryStage.setMinWidth(MIN_WIDTH);
 
         initRootLayout();
 
