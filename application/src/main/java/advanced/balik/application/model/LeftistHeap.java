@@ -69,4 +69,52 @@ public class LeftistHeap {
     public LeftHeapNode getRoot() {
         return root;
     }
+
+    public int height() {
+        int level;
+        if (isEmpty()) {
+            level = 0;
+        } else {
+            level = getHeight(1, root);
+        }
+        return level;
+    }
+
+    /**
+     * Рекурсивный метод получения высоты дерева.
+     *
+     * @param level текущий уровень вершины на дереве, считая от корня.
+     *              Инициализируется с изначальным значением = 1.
+     * @return высота дерева
+     */
+    private int getHeight(int level, LeftHeapNode root) {
+        if (root == null) {
+            return level;
+        }
+        LeftistHeap left = new LeftistHeap(root.getLeft());
+        LeftistHeap right = new LeftistHeap(root.getRight());
+
+        int nextLevel = level + 1;
+
+        if (left.isEmpty() && right.isEmpty()) {
+            return level;
+        }
+
+        int rightHeight = right.getHeight(nextLevel, right.getRoot());
+        int leftHeight = left.getHeight(nextLevel, left.getRoot());
+
+        if (left.isEmpty()) {
+            return rightHeight;
+        }
+
+        if (right.isEmpty()) {
+            return leftHeight;
+        }
+
+        if (leftHeight > rightHeight) {
+            return leftHeight;
+        } else {
+            return rightHeight;
+        }
+    }
 }

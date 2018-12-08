@@ -26,7 +26,7 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
-    //TODO: ARROW BUTTON IMG and icon
+    //TODO: ARROW BUTTON IMG
 
     private final static String ROOT_PATH = "/fxml/RootLayout.fxml";
 

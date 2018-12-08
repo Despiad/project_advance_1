@@ -71,6 +71,7 @@ public class HeapGraph {
     public void addNode(int value) {
         tree.insert(value);
         draw();
+        findNode(value);
     }
 
     /**
@@ -104,7 +105,6 @@ public class HeapGraph {
      *
      * @return карта позиций для каждого значения из дерева.
      */
-    //todo: height of tree
     private Map<Integer, Position> buildLevels(LeftistHeap tree, Position position) {
         if (tree.isEmpty()) return Collections.emptyMap();
 
@@ -117,9 +117,8 @@ public class HeapGraph {
         LeftistHeap left = new LeftistHeap(tree.getRoot().getLeft());
         LeftistHeap right = new LeftistHeap(tree.getRoot().getRight());
 
-//        int height = right.getRoot().getsValue() > left.getRoot().getsValue()
-//                ? right.getRoot().getsValue() : left.getRoot().getsValue();
-        double horizontalGap = (CELL_RADIUS * 0.75) * (1L << 2); // fastest way to get a power of 2
+        int height = right.height() > left.height() ? right.height() : left.height();
+        double horizontalGap = (CELL_RADIUS * 0.75) * (1L << height); // fastest way to get a power of 2
 
         if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, VERTICAL_GAP)));
 
@@ -139,7 +138,7 @@ public class HeapGraph {
         String text = String.valueOf(value);
         Label cell = cache.getCell(value, () -> {
             Label newCell = new Label(text);
-            newCell.setId(text);
+            newCell.setId(text);//TODO:UNIQUE ID
             newCell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
             newCell.setOnMouseClicked(e -> {
                 String selected = Style.CELL_SELECTED_STYLE.getStyleClass();
@@ -172,8 +171,8 @@ public class HeapGraph {
         if (root.isPresent()) {
             int rootVal = root.get().getElement();
 
-            LeftistHeap leftBranch = new LeftistHeap(root.get().getLeft());
-            LeftistHeap rightBranch = new LeftistHeap(root.get().getRight());
+            LeftistHeap leftBranch = new LeftistHeap(tree.getRoot().getLeft());
+            LeftistHeap rightBranch = new LeftistHeap(tree.getRoot().getRight());
 
             Optional<LeftHeapNode> right = Optional.ofNullable(rightBranch.getRoot());
             Optional<LeftHeapNode> left = Optional.ofNullable(leftBranch.getRoot());
@@ -188,6 +187,8 @@ public class HeapGraph {
         }
 
     }
+
+    //TODO: UNIQUE VERTEX
 
     /**
      * Метод отрисовки ребра графа между двумя его вершинами с указанными значениями.
@@ -221,6 +222,42 @@ public class HeapGraph {
         cells.getChildren()
                 .forEach(node -> node.getStyleClass()
                         .removeIf(Predicate.isEqual(Style.CELL_SELECTED_STYLE.getStyleClass())));
+    }
+
+
+    /**
+     * Получить вершину графа, выделенную на данный момент.
+     * Если таковой нет, {@link Optional} должен хранить пустую ссылку (null).
+     *
+     * @return контейнер, который может содержать ссылку на выделенную ячейку.
+     */
+    public Optional<Label> getSelected() {
+        return Optional.ofNullable((Label) cells.lookup('.' + Style.CELL_SELECTED_STYLE.getStyleClass()));
+    }
+
+    /**
+     * Метод выделения вершины.
+     *
+     * @param cell ячейка для выделения.
+     */
+    private void selectCell(Label cell) {
+        ObservableList<String> styleClass = cell.getStyleClass();
+        String selected = Style.CELL_SELECTED_STYLE.getStyleClass();
+        if (!styleClass.contains(selected)) {
+            getSelected().ifPresent(label -> label.getStyleClass().remove(selected));
+            styleClass.add(selected);
+        }
+    }
+
+    /**
+     * Метод поиска вершины графа. Вызывает обновление визуальной части если на модели есть такая вершина.
+     * <br>Обратите внимние, что поиск на визуальной части осуществляется отдельно с помощью css-селектора - для простоты и производительности.
+     *
+     * @param value искомое значение.
+     */
+    public void findNode(int value) {
+        Optional.ofNullable(cells.lookup("#" + value))
+                .ifPresent(node -> selectCell((Label) node));
     }
 
     /**

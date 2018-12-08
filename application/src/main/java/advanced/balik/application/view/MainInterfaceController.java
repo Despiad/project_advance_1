@@ -31,7 +31,7 @@ public class MainInterfaceController {
     /**
      * Нижняя граница (включительно) генерации случайных чисел.
      */
-    private static final int LOWER_BOUND_RANDOM = 0;
+    private static final int LOWER_BOUND_RANDOM = -999;
 
     /**
      * Визуальное представление кучи
@@ -92,8 +92,11 @@ public class MainInterfaceController {
 
     @FXML
     private void insert() {
-        getInput().ifPresent(heapGraph::addNode);
-
+        getInput().ifPresent(value -> {
+            heapGraph.addNode(value);
+            step++;
+            logAction();
+        });
     }
 
     /**
@@ -101,10 +104,12 @@ public class MainInterfaceController {
      */
     @FXML
     public void clean() {
+        step = 0;
         heapGraph.clear();
         inputValue.clear();
         //cache.drop();
         //updateTraversal();
+        logAction();
     }
 
 
@@ -116,16 +121,18 @@ public class MainInterfaceController {
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         heapGraph.addNode(randomValue);
+        step++;
+        logAction();
     }
 
-    @FXML
     private void logAction() {
-
+        //stepLabel.setText(step.toString());
     }
 
     @FXML
     private void getMin() {
-
+        step++;
+        logAction();
     }
 
     public MainInterfaceController() {
@@ -152,7 +159,11 @@ public class MainInterfaceController {
     public void onKeyPressed(KeyEvent keyEvent) {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.ENTER)) {
-            getInput().ifPresent(heapGraph::addNode);
+            getInput().ifPresent(value -> {
+                heapGraph.addNode(value);
+                step++;
+                logAction();
+            });
         }
         //navigateToSelected();
     }
