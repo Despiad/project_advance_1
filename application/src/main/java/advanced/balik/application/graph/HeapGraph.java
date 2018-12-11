@@ -55,7 +55,6 @@ public class HeapGraph {
     /**
      * Базовый конструктор - задает композицию групп визуальных компонентов.
      */
-    //TODO:FACTORY
     public HeapGraph() {
         cells = new Group();
         vertexes = new Group();
@@ -140,16 +139,6 @@ public class HeapGraph {
             Label newCell = new Label(text);
             newCell.setId(text);//TODO:UNIQUE ID
             newCell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
-            newCell.setOnMouseClicked(e -> {
-                String selected = Style.CELL_SELECTED_STYLE.getStyleClass();
-                ObservableList<String> styleClass = newCell.getStyleClass();
-                if (!styleClass.contains(selected)) {
-                    unselect();
-                    styleClass.add(selected);
-                } else {
-                    styleClass.remove(selected);
-                }
-            });
             return newCell;
         });
         cell.setLayoutX(position.x - CELL_RADIUS);

@@ -13,6 +13,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -40,8 +42,6 @@ public class MainInterfaceController {
 
     private MainApp mainApp;
 
-    private Integer step;
-
     @FXML
     private Label stepLabel;
     @FXML
@@ -64,12 +64,80 @@ public class MainInterfaceController {
     private AnchorPane lowerTab;
     @FXML
     private AnchorPane rightControlGroup;
-//todo: FIX SPACE
 
+    private Integer step;
+
+    private List<Integer> data;
+
+    public MainInterfaceController() {
+        step = 0;
+        this.data = new ArrayList<>();
+    }
+
+    @FXML
+    private void initialize() {
+        Group content = heapGraph.getContent();
+        board.getChildren().add(content);
+    }
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
 
     /**
-     * Убрать либо вернуть боковую панель управления.
+     * HEAP OPERATIONS
+     **/
+    @FXML
+    private void insert() {
+        getInput().ifPresent(value -> {
+            if (!data.contains(value)) {
+                heapGraph.addNode(value);
+                data.add(value);
+                step++;
+                logAction();
+            }
+        });
+    }
+
+    @FXML
+    private void getMin() {
+        step++;
+        logAction();
+    }
+
+    /**
+     * Очистить дерево.
      */
+    @FXML
+    public void clean() {
+        step = 0;
+        data.clear();
+        heapGraph.clear();
+        inputValue.clear();
+        //cache.drop();
+        //updateTraversal();
+        logAction();
+    }
+
+    /**
+     * Добавить случайное значение как новый элемент кучи.
+     */
+    @FXML
+    public void insertRandom() {
+        RANDOM.setSeed(System.currentTimeMillis());
+        int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
+        if (!data.contains(randomValue)) {
+            heapGraph.addNode(randomValue);
+            data.add(randomValue);
+            step++;
+            logAction();
+        }
+    }
+
+    /**
+     * HIDE PANELS
+     **/
+
     @FXML
     public void hideSideBar() {
         if (!sideBarToggle.isSelected()) {
@@ -90,64 +158,13 @@ public class MainInterfaceController {
         }
     }
 
-    @FXML
-    private void insert() {
-        getInput().ifPresent(value -> {
-            heapGraph.addNode(value);
-            step++;
-            logAction();
-        });
-    }
-
     /**
-     * Очистить дерево.
-     */
-    @FXML
-    public void clean() {
-        step = 0;
-        heapGraph.clear();
-        inputValue.clear();
-        //cache.drop();
-        //updateTraversal();
-        logAction();
-    }
-
-
-    /**
-     * Добавить случайное значение как новый элемент кучи.
-     */
-    @FXML
-    public void insertRandom() {
-        RANDOM.setSeed(System.currentTimeMillis());
-        int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
-        heapGraph.addNode(randomValue);
-        step++;
-        logAction();
-    }
-
+     * CONSOLE PRINTER
+     **/
     private void logAction() {
-        //stepLabel.setText(step.toString());
+        stepLabel.setText(step.toString());
     }
 
-    @FXML
-    private void getMin() {
-        step++;
-        logAction();
-    }
-
-    public MainInterfaceController() {
-        step = 0;
-    }
-
-    @FXML
-    private void initialize() {
-        Group content = heapGraph.getContent();
-        board.getChildren().add(content);
-    }
-
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
 
     /**
      * Общий обработчик событий клавиатуры.
@@ -159,11 +176,7 @@ public class MainInterfaceController {
     public void onKeyPressed(KeyEvent keyEvent) {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.ENTER)) {
-            getInput().ifPresent(value -> {
-                heapGraph.addNode(value);
-                step++;
-                logAction();
-            });
+            insert();
         }
         //navigateToSelected();
     }
