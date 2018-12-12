@@ -4,7 +4,8 @@ public enum Action {
     INSERT("You have added an element equal to %d to the heap."),
     INSERT_RANDOM("A random element equal to %d items was added to the heap."),
     MIN("The minimum element of the heap is %d."),
-    CLEAR("Heap was cleaned!");
+    CLEAR("Heap was cleaned!"),
+    EMPTY("Heap is empty!");
 
     private final String action;
 

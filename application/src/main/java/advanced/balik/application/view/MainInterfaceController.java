@@ -45,6 +45,10 @@ public class MainInterfaceController {
     @FXML
     private Label stepLabel;
     @FXML
+    private Label logLabel;
+
+
+    @FXML
     private TextField inputValue;
     @FXML
     private FlowPane board;
@@ -78,6 +82,7 @@ public class MainInterfaceController {
     private void initialize() {
         Group content = heapGraph.getContent();
         board.getChildren().add(content);
+        logAction(Action.EMPTY.getAction());
     }
 
     public void setMainApp(MainApp mainApp) {
@@ -109,15 +114,13 @@ public class MainInterfaceController {
     /**
      * Очистить дерево.
      */
-    @FXML
+    @FXML //TODO:fix it
     public void clean() {
-        step = 0;
+        step++;
+        logAction(Action.CLEAR.getAction());
         data.clear();
         heapGraph.clear();
         inputValue.clear();
-        //cache.drop();
-        //updateTraversal();
-        logAction(Action.CLEAR.getAction());
     }
 
     /**
@@ -164,8 +167,8 @@ public class MainInterfaceController {
      **/
     private void logAction(String action) {
         stepLabel.setText(step.toString());
+        logLabel.setText(action);
     }
-
 
     /**
      * Общий обработчик событий клавиатуры.
