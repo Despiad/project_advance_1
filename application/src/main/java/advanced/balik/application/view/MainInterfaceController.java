@@ -107,20 +107,24 @@ public class MainInterfaceController {
     @FXML
     private void getMin() {
         step++;
-        int min = 0;//TODO:fix it
-        logAction(String.format(Action.MIN.getAction(), min));
+        if (!heapGraph.isEmpty()) {
+            int min = heapGraph.getMin();
+            logAction(String.format(Action.MIN.getAction(), min));
+        } else {
+            logAction(Action.EMPTY.getAction());
+        }
     }
 
     /**
      * Очистить дерево.
      */
-    @FXML //TODO:fix it
+    @FXML
     public void clean() {
         step++;
-        logAction(Action.CLEAR.getAction());
         data.clear();
         heapGraph.clear();
         inputValue.clear();
+        logAction(Action.CLEAR.getAction());
     }
 
     /**
@@ -141,7 +145,6 @@ public class MainInterfaceController {
     /**
      * HIDE PANELS
      **/
-
     @FXML
     public void hideSideBar() {
         if (!sideBarToggle.isSelected()) {

@@ -73,6 +73,12 @@ public class HeapGraph {
         findNode(value);
     }
 
+    public int getMin() {
+        int min=tree.exctractMin();
+        draw();
+        return min;
+    }
+
     /**
      * Метод перерисовки графа.
      */
