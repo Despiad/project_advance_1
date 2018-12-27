@@ -2,9 +2,11 @@ package advanced.balik.application.view;
 
 import advanced.balik.application.MainApp;
 import advanced.balik.application.graph.HeapGraph;
+import advanced.balik.application.graph.Style;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,13 +14,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainInterfaceController {
+
+    /**
+     * Длительность задержки при автоматических действиях
+     */
+    private static final Duration DURATION = Duration.millis(500);
 
     /**
      * Генератор случайных чисел.
@@ -47,7 +53,9 @@ public class MainInterfaceController {
     @FXML
     private Label logLabel;
 
-
+    /* Animation controls */
+    @FXML
+    private TitledPane animationPane;
     @FXML
     private TextField inputValue;
     @FXML
@@ -212,4 +220,18 @@ public class MainInterfaceController {
         Platform.exit();
     }
 
+    /**
+     * Метод для отключения и включения кнопок боковой панели.
+     * Используется при запуске и остановке анимации.
+     *
+     * @param disable если true, то отключить кнопки боковой панели управления.
+     *                Если false - то включить их.
+     */
+    private void disableControls(boolean disable) {
+        Set<Node> controls = sideBar.getChildren().stream()
+                .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
+                .filter(node -> !node.equals(animationPane))
+                .collect(Collectors.toSet());
+        controls.forEach(node -> node.setDisable(disable));
+    }
 }

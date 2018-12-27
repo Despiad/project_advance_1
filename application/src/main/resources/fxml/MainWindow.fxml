@@ -25,7 +25,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="660.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advanced.balik.application.view.MainInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="660.0" prefWidth="700.0" stylesheets="@../css/layout.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advanced.balik.application.view.MainInterfaceController">
     <children>
         <SplitPane fx:id="splitPane" dividerPositions="0.75" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -35,7 +35,7 @@
                             <center>
                                 <ScrollPane fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
                                     <content>
-                                        <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="494.0" prefWidth="472.0" stylesheets="@../css/graph.css">
+                                        <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="494.0" prefWidth="472.0">
                                             <padding>
                                                 <Insets bottom="5.0" left="10.0" right="10.0" top="20.0" />
                                             </padding>
@@ -75,16 +75,20 @@
                                                         </VBox>
                                                     </children>
                                                 </AnchorPane>
-                                                <TitledPane animated="false" maxHeight="1.7976931348623157E308" prefHeight="81.0" prefWidth="183.0" text="Animation">
+                                                <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308" prefHeight="81.0" prefWidth="183.0" text="Animation">
                                                     <padding>
                                                         <Insets left="3.0" />
                                                     </padding>
                                                     <content>
                                                         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="178.0">
                                                             <children>
-                                                                <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="▶" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                                                <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="5.0" />
-                                                                <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                <HBox layoutX="17.799999237060547" layoutY="17.799999237060547" spacing="16.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                                      <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="▶" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                                      <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="5.0" />
+                                                                      <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                   </children>
+                                                </HBox>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -93,12 +97,14 @@
                                        <content>
                                           <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="178.0">
                                              <children>
-                                                <Button id="play" layoutX="136.0" layoutY="33.4" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="23.0" styleClass="animation-btn" text="▶" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Button>
-                                                <TextField layoutX="26.4" layoutY="35.4" prefHeight="25.0" prefWidth="125.0" promptText="number of steps" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="5.0" />
+                                                <TextField layoutX="8.0" layoutY="14.0" prefHeight="32.0" prefWidth="162.0" promptText="number of steps" />
+                                                <HBox layoutX="-8.0" layoutY="50.0" spacing="16.0" AnchorPane.leftAnchor="10.0">
+                                                   <children>
+                                                      <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="▶" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                      <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="5.0" />
+                                                      <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </AnchorPane>
                                        </content>
