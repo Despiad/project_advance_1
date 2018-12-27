@@ -256,12 +256,13 @@ public class HeapGraph {
     }
 
     /**
-     * Метод очистки графа: очищает модель и визуальное предстваление!
+     * Метод очистки графа: очищает модель, визуальное предстваление и даже память!
      */
     public void clear() {
         tree.clear();
         scrap();
         cache.drop();
+        System.gc(); //не делайте этого дома без надзора взрослых
     }
 
 
@@ -349,5 +350,4 @@ public class HeapGraph {
             return new Position(this.x + x, this.y + y);
         }
     }
-
 }

@@ -98,7 +98,6 @@ public class MainInterfaceController {
             if (!data.contains(value)) {
                 heapGraph.addNode(value);
                 data.add(value);
-                step++;
                 logAction(String.format(Action.INSERT.getAction(), value));
             }
         });
@@ -106,7 +105,6 @@ public class MainInterfaceController {
 
     @FXML
     private void getMin() {
-        step++;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
             logAction(String.format(Action.MIN.getAction(), min));
@@ -120,7 +118,6 @@ public class MainInterfaceController {
      */
     @FXML
     public void clean() {
-        step++;
         data.clear();
         heapGraph.clear();
         inputValue.clear();
@@ -137,7 +134,6 @@ public class MainInterfaceController {
         if (!data.contains(randomValue)) {
             heapGraph.addNode(randomValue);
             data.add(randomValue);
-            step++;
             logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
         }
     }
@@ -169,6 +165,8 @@ public class MainInterfaceController {
      * CONSOLE PRINTER
      **/
     private void logAction(String action) {
+        System.out.println(action);
+        step++;
         stepLabel.setText(step.toString());
         logLabel.setText(action);
     }
