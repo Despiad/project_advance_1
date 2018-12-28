@@ -3,6 +3,9 @@ package advanced.balik.application.view;
 import advanced.balik.application.MainApp;
 import advanced.balik.application.graph.HeapGraph;
 import advanced.balik.application.graph.Style;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -24,7 +27,7 @@ public class MainInterfaceController {
     /**
      * Длительность задержки при автоматических действиях
      */
-    private static final Duration DURATION = Duration.millis(500);
+    private static final Duration DURATION = Duration.millis(1000);
 
     /**
      * Генератор случайных чисел.
@@ -59,6 +62,8 @@ public class MainInterfaceController {
     @FXML
     private TextField inputValue;
     @FXML
+    private TextField turnValue;
+    @FXML
     private FlowPane board;
     @FXML
     private BorderPane workSpace;
@@ -81,15 +86,34 @@ public class MainInterfaceController {
 
     private List<Integer> data;
 
+    private List<Integer> turns;
+
+    private final Animation animation = new Timeline(new KeyFrame(
+            DURATION,
+            actionEvent -> {
+                if (!turns.isEmpty()) {
+                    if (turns.get(0) == 1) {
+                        insertRandom();
+                    } else {
+                        getMin();
+                    }
+                    turns.remove(0);
+                } else {
+                    stop();
+                }
+            }));
+
     public MainInterfaceController() {
         step = 0;
         this.data = new ArrayList<>();
+        this.turns = new ArrayList<>();
     }
 
     @FXML
     private void initialize() {
         Group content = heapGraph.getContent();
         board.getChildren().add(content);
+        animation.setCycleCount(Animation.INDEFINITE);
         logAction(Action.EMPTY.getAction());
     }
 
@@ -102,7 +126,7 @@ public class MainInterfaceController {
      **/
     @FXML
     private void insert() {
-        getInput().ifPresent(value -> {
+        getInput(inputValue).ifPresent(value -> {
             if (!data.contains(value)) {
                 heapGraph.addNode(value);
                 data.add(value);
@@ -174,7 +198,7 @@ public class MainInterfaceController {
      **/
     private void logAction(String action) {
         System.out.println(action);
-        step++;
+        ++step;
         stepLabel.setText(step.toString());
         logLabel.setText(action);
     }
@@ -191,7 +215,6 @@ public class MainInterfaceController {
         if (keyCode.equals(KeyCode.ENTER)) {
             insert();
         }
-        //navigateToSelected();
     }
 
     /**
@@ -199,8 +222,8 @@ public class MainInterfaceController {
      *
      * @return Optional, возможно содержащий целое число.
      */
-    private Optional<Integer> getInput() {
-        String input = inputValue.getText();
+    private Optional<Integer> getInput(TextField inputField) {
+        String input = inputField.getText();
 
         Optional<Integer> optional;
         if (input.matches("^(-?)\\d+")) {
@@ -208,7 +231,7 @@ public class MainInterfaceController {
         } else {
             optional = Optional.empty();
         }
-        inputValue.clear();
+        inputField.clear();
         return optional;
     }
 
@@ -233,5 +256,45 @@ public class MainInterfaceController {
                 .filter(node -> !node.equals(animationPane))
                 .collect(Collectors.toSet());
         controls.forEach(node -> node.setDisable(disable));
+    }
+
+    /**
+     * Запустить или продолжить анимацию.
+     */
+    @FXML
+    public void play() {
+        animation.play();
+        disableControls(true);
+    }
+
+    /**
+     * Приостановить анимацию.
+     */
+    @FXML
+    public void pause() {
+        animation.pause();
+        disableControls(false);
+    }
+
+    /**
+     * Остановить анимацию.
+     */
+    @FXML
+    private void stop() {
+        animation.stop();
+        turns.clear();
+        disableControls(false);
+    }
+
+    @FXML
+    private void autoMode() {
+        getInput(turnValue).ifPresent(value -> {
+            RANDOM.setSeed(System.currentTimeMillis());
+            for (int i = 0; i < value; ++i) {
+                turns.add(RANDOM.nextInt(2));
+            }
+            play();
+        });
+
     }
 }
