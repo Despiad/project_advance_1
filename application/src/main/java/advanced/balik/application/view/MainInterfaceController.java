@@ -7,6 +7,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -286,15 +287,56 @@ public class MainInterfaceController {
         disableControls(false);
     }
 
+    /**
+     * AUTO MODE
+     **/
+
+    @FXML
+    private RadioButton insertButton;
+    @FXML
+    private RadioButton minButton;
+    @FXML
+    private RadioButton randomButton;
+
+    private boolean onlyInsert;
+    private boolean onlyMin;
+
     @FXML
     private void autoMode() {
         getInput(turnValue).ifPresent(value -> {
             RANDOM.setSeed(System.currentTimeMillis());
             for (int i = 0; i < value; ++i) {
-                turns.add(RANDOM.nextInt(2));
+                if (!onlyMin && !onlyInsert) {
+                    turns.add(RANDOM.nextInt(2));
+                } else if (onlyInsert) {
+                    turns.add(1);
+                } else {
+                    turns.add(0);
+                }
             }
             play();
         });
+    }
 
+    @FXML
+    public void changeMode(ActionEvent event) {
+        insertButton.setSelected(false);
+        minButton.setSelected(false);
+        randomButton.setSelected(false);
+
+        RadioButton currButton = (RadioButton) event.getSource();
+        currButton.setSelected(true);
+
+        String text = currButton.getText();
+        onlyInsert = false;
+        onlyMin = false;
+
+        if (text.equals("Only insert")) {
+            onlyInsert = true;
+        }
+
+        if (text.equals("Only min")) {
+            onlyMin = true;
+        }
     }
 }

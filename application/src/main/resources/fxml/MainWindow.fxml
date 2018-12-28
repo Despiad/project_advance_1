@@ -99,6 +99,13 @@
                                              <children>
                                                 <TextField fx:id="turnValue" layoutX="8.0" layoutY="14.0" prefHeight="32.0" prefWidth="119.0" />
                                                 <Button id="play" layoutX="131.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#autoMode" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="▶" AnchorPane.topAnchor="2.0" />
+                                                <VBox layoutX="14.0" layoutY="66.0" spacing="10.0" AnchorPane.topAnchor="45.0">
+                                                   <children>
+                                                      <RadioButton fx:id="insertButton" layoutX="15.0" layoutY="66.0" mnemonicParsing="false" onAction="#changeMode" text="Only insert" textFill="#dd8484" />
+                                                      <RadioButton fx:id="minButton" layoutX="15.0" layoutY="91.0" mnemonicParsing="false" onAction="#changeMode" text="Only min" textFill="#dd8484" />
+                                                      <RadioButton fx:id="randomButton" layoutX="14.0" layoutY="121.0" mnemonicParsing="false" onAction="#changeMode" selected="true" text="Random action" textFill="#dd8484" />
+                                                   </children>
+                                                </VBox>
                                              </children>
                                           </AnchorPane>
                                        </content>
