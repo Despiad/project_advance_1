@@ -130,23 +130,23 @@
                     <children>
                         <ScrollPane fx:id="consoleTab" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane">
                            <children>
                               <HBox layoutX="236.0" layoutY="9.0" spacing="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                                  <children>
-                                    <Label layoutX="21.0" layoutY="67.0" text="STEP">
+                                    <Label layoutX="21.0" layoutY="67.0" text="STEP" textFill="#dd8484">
                                        <font>
                                           <Font size="21.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="stepLabel" layoutX="54.0" layoutY="67.0" text="0">
+                                    <Label fx:id="stepLabel" layoutX="54.0" layoutY="67.0" text="0" textFill="#dd8484">
                                        <font>
                                           <Font name="DejaVu Serif Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <Label fx:id="logLabel" alignment="CENTER" layoutX="198.0" layoutY="23.0" prefHeight="25.0" prefWidth="228.0" text="HEAP IS EMPTY" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                              <Label fx:id="logLabel" alignment="CENTER" layoutX="198.0" layoutY="23.0" prefHeight="25.0" prefWidth="228.0" text="HEAP IS EMPTY" textAlignment="CENTER" textFill="#dd8484" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                  <font>
                                     <Font size="21.0" />
                                  </font>

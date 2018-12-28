@@ -5,7 +5,7 @@ package advanced.balik.application.graph;
  * <br>Инкапсулирует CSS-классы, используемые приложением динамически.
  * <br>Константы должны соответствовать СSS-классам из файла "layout.css".
  *
- * @author Alexander Gorbunov
+ * @author BaLiK
  */
 public enum Style {
 

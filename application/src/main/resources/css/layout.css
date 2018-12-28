@@ -18,32 +18,6 @@
     -fx-padding: 0 1 0 1;
 }
 
-/* Menu bar & elements styling */
-
-.menu-bar {
-    -fx-base: #333333;
-    -fx-border-radius: 0%;
-    -fx-background-radius: 0%;
-    -fx-border-width: 0 0 0 0;
-}
-
-.menu {
-    -fx-font: 16px "Consolas";
-    -fx-background-color: transparent;
-    -fx-text-fill: black;
-}
-
-.menu .label {
-    -fx-text-fill: silver;
-}
-
-.menu .label:hover {
-    -fx-text-fill: white;
-}
-
-.menu-item:focused .label {
-    -fx-text-fill: black;
-}
 
 /* Sidebar styling */
 
@@ -85,7 +59,7 @@
 
 /* Animation control panel styling */
 
-.titled-pane {
+.titled-pane{
     -fx-font: 16px "Consolas";
     -fx-text-fill: #ffaaaa;
     -fx-pref-width: 180;
@@ -186,8 +160,6 @@
     -fx-background-color: #aa9999;
 }
 
-/*TODO: CONSOLE STYLE
-
 /* Tree graph visualisation styling */
 
 .cell {
@@ -211,4 +183,14 @@
 
 .vertex {
     -fx-stroke-width: 2px;
+}
+
+/**Console**/
+
+.anchor-pane {
+    -fx-font: 16px "Consolas";
+    -fx-text-fill: #ffaaaa;
+    -fx-pref-width: 180;
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: #393739;
 }

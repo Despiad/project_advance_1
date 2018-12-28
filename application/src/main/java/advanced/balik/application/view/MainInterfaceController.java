@@ -327,7 +327,7 @@ public class MainInterfaceController {
         RadioButton currButton = (RadioButton) event.getSource();
         currButton.setSelected(true);
 
-        String text = currButton.getText();
+        final String text = currButton.getText();
         onlyInsert = false;
         onlyMin = false;
 
