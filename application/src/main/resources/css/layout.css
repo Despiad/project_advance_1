@@ -194,3 +194,20 @@
     -fx-padding: 0 0 0 0;
     -fx-background-color: #393739;
 }
+
+.img-button {
+    -fx-background-image: url('/img/back.png');
+    -fx-background-size: 33;
+    -fx-background-radius: 100%;
+    -fx-border-radius: 100%;
+    -fx-border-width: 1;
+    -fx-border-color: silver;
+    -fx-pref-height: 33;
+    -fx-min-width: 33;
+    -fx-pref-width: 33;
+    -fx-max-width: 33;
+    -fx-base: #333333;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+}
+

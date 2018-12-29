@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -151,6 +152,7 @@
                                     <Font size="21.0" />
                                  </font>
                               </Label>
+                              <ToggleButton layoutX="555.0" layoutY="7.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="38.0" styleClass="img-button" />
                            </children>
                         </AnchorPane>
                      </content></ScrollPane>
