@@ -19,11 +19,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainInterfaceController {
+
+    private static final Logger log = Logger.getLogger(MainInterfaceController.class);
 
     /**
      * Длительность задержки при автоматических действиях
@@ -198,7 +201,7 @@ public class MainInterfaceController {
      * CONSOLE PRINTER
      **/
     private void logAction(String action) {
-        System.out.println(action);
+        log.info(action);
         ++step;
         stepLabel.setText(step.toString());
         logLabel.setText(action);

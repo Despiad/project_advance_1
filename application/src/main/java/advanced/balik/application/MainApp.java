@@ -9,10 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class MainApp extends Application {
+
+    private static final Logger log = Logger.getLogger(MainApp.class);
+
     private Stage primaryStage;
     private BorderPane rootLayout;
 
@@ -25,8 +29,6 @@ public class MainApp extends Application {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
-
-    //TODO: ARROW BUTTON IMG
 
     private final static String ROOT_PATH = "/fxml/RootLayout.fxml";
 
@@ -78,7 +80,7 @@ public class MainApp extends Application {
 
             rootLayout.setCenter(mainWindow);
         } catch (IOException e) {
-            e.printStackTrace();//TODO:LOG
+            log.error("show MainWindow error\n"+ e.getMessage());
         }
     }
 
@@ -98,7 +100,7 @@ public class MainApp extends Application {
 
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace();//TODO:LOG
+            log.error("init RootLayout error\n"+ e.getMessage());
         }
     }
 
