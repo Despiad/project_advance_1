@@ -2,9 +2,15 @@ package advanced.balik.application.view;
 
 import advanced.balik.application.MainApp;
 import advanced.balik.application.graph.HeapGraph;
+import advanced.balik.application.graph.Style;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,13 +18,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
+import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainInterfaceController {
+
+    private static final Logger log = Logger.getLogger(MainInterfaceController.class);
+
+    /**
+     * Длительность задержки при автоматических действиях
+     */
+    private static final Duration DURATION = Duration.millis(1000);
 
     /**
      * Генератор случайных чисел.
@@ -47,9 +60,13 @@ public class MainInterfaceController {
     @FXML
     private Label logLabel;
 
-
+    /* Animation controls */
+    @FXML
+    private TitledPane animationPane;
     @FXML
     private TextField inputValue;
+    @FXML
+    private TextField turnValue;
     @FXML
     private FlowPane board;
     @FXML
@@ -73,15 +90,34 @@ public class MainInterfaceController {
 
     private List<Integer> data;
 
+    private List<Integer> turns;
+
+    private final Animation animation = new Timeline(new KeyFrame(
+            DURATION,
+            actionEvent -> {
+                if (!turns.isEmpty()) {
+                    if (turns.get(0) == 1) {
+                        insertRandom();
+                    } else {
+                        getMin();
+                    }
+                    turns.remove(0);
+                } else {
+                    stop();
+                }
+            }));
+
     public MainInterfaceController() {
         step = 0;
         this.data = new ArrayList<>();
+        this.turns = new ArrayList<>();
     }
 
     @FXML
     private void initialize() {
         Group content = heapGraph.getContent();
         board.getChildren().add(content);
+        animation.setCycleCount(Animation.INDEFINITE);
         logAction(Action.EMPTY.getAction());
     }
 
@@ -94,7 +130,7 @@ public class MainInterfaceController {
      **/
     @FXML
     private void insert() {
-        getInput().ifPresent(value -> {
+        getInput(inputValue).ifPresent(value -> {
             if (!data.contains(value)) {
                 heapGraph.addNode(value);
                 data.add(value);
@@ -165,8 +201,8 @@ public class MainInterfaceController {
      * CONSOLE PRINTER
      **/
     private void logAction(String action) {
-        System.out.println(action);
-        step++;
+        log.info(action);
+        ++step;
         stepLabel.setText(step.toString());
         logLabel.setText(action);
     }
@@ -183,7 +219,6 @@ public class MainInterfaceController {
         if (keyCode.equals(KeyCode.ENTER)) {
             insert();
         }
-        //navigateToSelected();
     }
 
     /**
@@ -191,8 +226,8 @@ public class MainInterfaceController {
      *
      * @return Optional, возможно содержащий целое число.
      */
-    private Optional<Integer> getInput() {
-        String input = inputValue.getText();
+    private Optional<Integer> getInput(TextField inputField) {
+        String input = inputField.getText();
 
         Optional<Integer> optional;
         if (input.matches("^(-?)\\d+")) {
@@ -200,7 +235,7 @@ public class MainInterfaceController {
         } else {
             optional = Optional.empty();
         }
-        inputValue.clear();
+        inputField.clear();
         return optional;
     }
 
@@ -212,4 +247,99 @@ public class MainInterfaceController {
         Platform.exit();
     }
 
+    /**
+     * Метод для отключения и включения кнопок боковой панели.
+     * Используется при запуске и остановке анимации.
+     *
+     * @param disable если true, то отключить кнопки боковой панели управления.
+     *                Если false - то включить их.
+     */
+    private void disableControls(boolean disable) {
+        Set<Node> controls = sideBar.getChildren().stream()
+                .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
+                .filter(node -> !node.equals(animationPane))
+                .collect(Collectors.toSet());
+        controls.forEach(node -> node.setDisable(disable));
+    }
+
+    /**
+     * Запустить или продолжить анимацию.
+     */
+    @FXML
+    public void play() {
+        animation.play();
+        disableControls(true);
+    }
+
+    /**
+     * Приостановить анимацию.
+     */
+    @FXML
+    public void pause() {
+        animation.pause();
+        disableControls(false);
+    }
+
+    /**
+     * Остановить анимацию.
+     */
+    @FXML
+    private void stop() {
+        animation.stop();
+        turns.clear();
+        disableControls(false);
+    }
+
+    /**
+     * AUTO MODE
+     **/
+
+    @FXML
+    private RadioButton insertButton;
+    @FXML
+    private RadioButton minButton;
+    @FXML
+    private RadioButton randomButton;
+
+    private boolean onlyInsert;
+    private boolean onlyMin;
+
+    @FXML
+    private void autoMode() {
+        getInput(turnValue).ifPresent(value -> {
+            RANDOM.setSeed(System.currentTimeMillis());
+            for (int i = 0; i < value; ++i) {
+                if (!onlyMin && !onlyInsert) {
+                    turns.add(RANDOM.nextInt(2));
+                } else if (onlyInsert) {
+                    turns.add(1);
+                } else {
+                    turns.add(0);
+                }
+            }
+            play();
+        });
+    }
+
+    @FXML
+    public void changeMode(ActionEvent event) {
+        insertButton.setSelected(false);
+        minButton.setSelected(false);
+        randomButton.setSelected(false);
+
+        RadioButton currButton = (RadioButton) event.getSource();
+        currButton.setSelected(true);
+
+        final String text = currButton.getText();
+        onlyInsert = false;
+        onlyMin = false;
+
+        if (text.equals("Only insert")) {
+            onlyInsert = true;
+        }
+
+        if (text.equals("Only min")) {
+            onlyMin = true;
+        }
+    }
 }
