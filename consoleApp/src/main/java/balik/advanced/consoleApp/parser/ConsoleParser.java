@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static balik.advanced.consoleApp.parser.FileParser.readFileByFileName;
+import static balik.advanced.consoleApp.parser.FileParser.readFile;
 import static picocli.CommandLine.*;
 
 
@@ -54,8 +54,8 @@ public class ConsoleParser {
      */
     void fileParse(String filename) {
         try {
-            File test = new File(filename);
-            new CommandLine(new ConsoleParser()).parse(readFileByFileName(filename));
+            File input = new File(filename);
+            new CommandLine(new ConsoleParser()).parse(readFile(input));
         } catch (FileNotFoundException e) {
             System.out.println(Message.FILE_NOT_FOUND.getMessage());
         } catch (IOException e) {

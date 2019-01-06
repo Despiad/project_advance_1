@@ -2,13 +2,13 @@ package balik.advanced.consoleApp.parser;
 
 import java.io.*;
 
-public class FileParser {
+class FileParser {
 
-    public static String[] readFileByFileName(String fileName) throws IOException {
+    static String[] readFileByFileName(String fileName) throws IOException {
         return readFile(new File(fileName));
     }
 
-    public static String[] readFile(File input) throws IOException {
+    static String[] readFile(File input) throws IOException {
         String[] result;
         try (Reader reader = new FileReader(input);
              BufferedReader bufferedReader = new BufferedReader(reader)) {
