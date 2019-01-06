@@ -28,13 +28,21 @@ public class Main {
         }
         /**
          * В случае некорректного ввода аргументов - сообщение об ошибке
-         */ catch (MissingParameterException e) {
+         */
+        catch (MissingParameterException e) {
             System.out.println(Message.MISSING_PARAMETER.getMessage());
         }
         /**
          * В случае некорректного ввода команды - сообщение об ошибке
-         */ catch (UnmatchedArgumentException e) {
+         */
+        catch (UnmatchedArgumentException e) {
             System.out.println(Message.UNKNOWN_COMMAND.getMessage());
+        }
+        /**
+         * В случае повторного ввода одноразовой команды - сообщение об ошибке
+         */
+        catch (OverwrittenOptionException e) {
+            System.out.println(Message.OVERWRITTEN_OPTION.getMessage());
         }
     }
 }
