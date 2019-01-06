@@ -1,1 +1,1 @@
--e min
+balik mem sanya hello world
