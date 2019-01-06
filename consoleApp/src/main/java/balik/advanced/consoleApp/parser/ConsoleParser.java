@@ -3,13 +3,18 @@ package balik.advanced.consoleApp.parser;
 import balik.advanced.consoleApp.heap.LeftistHeap;
 import picocli.CommandLine;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import static balik.advanced.consoleApp.parser.FileParser.readFileByFileName;
 import static picocli.CommandLine.*;
 
 
 /**
  * Класс с командами, необходимыми для работы с консольной версией приложения.
  *
- * @version 1.0
+ * @version 1.1
  * @autor Александр Яцюк
  */
 public class ConsoleParser {
@@ -34,6 +39,28 @@ public class ConsoleParser {
     public ConsoleParser() {
         extracter = 0;
         inserter = 0;
+    }
+
+    /**
+     * names       - имя команды
+     * description - описание команды
+     *
+     * @Option - аннотация для описания команды командной строки
+     */
+    @Option(names = {"-f", "--file"}, description = "Run program from file")
+    /**
+     * Функция для парсинга команд из файла
+     * @param filename - путь файла с командами
+     */
+    void fileParse(String filename) {
+        try {
+            File test = new File(filename);
+            new CommandLine(new ConsoleParser()).parse(readFileByFileName(filename));
+        } catch (FileNotFoundException e) {
+            System.out.println(Message.FILE_NOT_FOUND.getMessage());
+        } catch (IOException e) {
+            System.out.println(Message.CANT_RESOLVE_SYMBOLS.getMessage());
+        }
     }
 
     /**
@@ -90,7 +117,8 @@ public class ConsoleParser {
      * @param usageHelp   - атрибут для определения параметров справки
      * @param description - описание команды
      */
-    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "Display this help message")
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Display this help message")
     /** Поле - триггер для вывода сообщения для помощи*/
     public boolean usageHelpRequested;
+
 }

@@ -8,7 +8,10 @@ public enum Message {
     INCORRECT_SUBCOMMAND("Incorrect subcommand"),
     REQUIRED_PARAMETER("Required parameter"),
     EXTRACT_MIN("Min number is %d"),
-    INSERT("Inserting %d");
+    INSERT("Inserting %d"),
+    FILE_NOT_FOUND("File not found"),
+    CANT_RESOLVE_SYMBOLS("Can't resolve symbols."),
+    OVERWRITTEN_OPTION("Option should be specified only once.");
 
 
     private final String message;
