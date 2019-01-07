@@ -26,19 +26,32 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="660.0" prefWidth="700.0" stylesheets="@../css/layout.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advanced.balik.application.view.MainInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="660.0" minWidth="700.0"
+            onKeyPressed="#onKeyPressed" prefHeight="660.0" prefWidth="700.0"
+            stylesheets="@../css/layout.css" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="advanced.balik.application.view.MainInterfaceController">
     <children>
-        <SplitPane fx:id="splitPane" dividerPositions="0.75" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane fx:id="splitPane" dividerPositions="0.75" layoutY="186.0"
+                   orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0"
+                   minHeight="375.0" minWidth="600.0"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="600.0">
                     <children>
-                        <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0"
+                                    style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0"
+                                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <center>
-                                <ScrollPane fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                                <ScrollPane fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT"
+                                            prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS"
+                                            BorderPane.alignment="CENTER">
                                     <content>
-                                        <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="494.0" prefWidth="472.0">
+                                        <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="494.0"
+                                                  prefWidth="472.0">
                                             <padding>
-                                                <Insets bottom="5.0" left="10.0" right="10.0" top="20.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="20.0"/>
                                             </padding>
                                         </FlowPane>
                                     </content>
@@ -47,78 +60,164 @@
                             <left>
                                 <AnchorPane fx:id="rightControlGroup" BorderPane.alignment="CENTER">
                                     <children>
-                                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0" prefWidth="180.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0"
+                                              prefWidth="180.0" styleClass="controls" AnchorPane.bottomAnchor="0.0"
+                                              AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0"
+                                              AnchorPane.topAnchor="0.0">
                                             <children>
                                                 <AnchorPane prefHeight="35.0" prefWidth="171.0">
                                                     <children>
-                                                        <TextField fx:id="inputValue" layoutX="34.0" prefHeight="35.0" prefWidth="134.0" promptText="Insert element" styleClass="search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                        <TextField fx:id="inputValue" layoutX="34.0" prefHeight="35.0"
+                                                                   prefWidth="134.0" promptText="Insert element"
+                                                                   styleClass="search" AnchorPane.bottomAnchor="0.0"
+                                                                   AnchorPane.leftAnchor="0.0"
+                                                                   AnchorPane.rightAnchor="0.0"
+                                                                   AnchorPane.topAnchor="0.0"/>
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane prefWidth="180.0">
                                                     <children>
-                                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <children>
-                                                                <Button id="add-node-btn" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="181.0" styleClass="control-btn" text="+" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                                <Button id="min-btn" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#getMin" prefHeight="25.0" prefWidth="183.0" styleClass="control-btn" text="min" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                                                                <Button id="random-btn" mnemonicParsing="false" onAction="#insertRandom" prefHeight="25.0" prefWidth="186.0" text="▶ Random element" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
+                                                                <Button id="add-node-btn" layoutY="7.0"
+                                                                        minHeight="-Infinity" minWidth="-Infinity"
+                                                                        mnemonicParsing="false" onAction="#insert"
+                                                                        prefHeight="25.0" prefWidth="181.0"
+                                                                        styleClass="control-btn" text="+"
+                                                                        AnchorPane.leftAnchor="0.0"
+                                                                        AnchorPane.rightAnchor="0.0"
+                                                                        AnchorPane.topAnchor="0.0"/>
+                                                                <Button id="min-btn" layoutY="50.0"
+                                                                        minHeight="-Infinity" minWidth="-Infinity"
+                                                                        mnemonicParsing="false" onAction="#getMin"
+                                                                        prefHeight="25.0" prefWidth="183.0"
+                                                                        styleClass="control-btn" text="min"
+                                                                        AnchorPane.leftAnchor="0.0"
+                                                                        AnchorPane.rightAnchor="0.0"
+                                                                        AnchorPane.topAnchor="30.0"/>
+                                                                <Button id="random-btn" mnemonicParsing="false"
+                                                                        onAction="#insertRandom" prefHeight="25.0"
+                                                                        prefWidth="186.0" text="▶ Random element"
+                                                                        AnchorPane.leftAnchor="0.0"
+                                                                        AnchorPane.rightAnchor="0.0"
+                                                                        AnchorPane.topAnchor="90.0">
                                                                     <styleClass>
-                                                                        <String fx:value="control-btn" />
-                                                                        <String fx:value="control-btn-left" />
+                                                                        <String fx:value="control-btn"/>
+                                                                        <String fx:value="control-btn-left"/>
                                                                     </styleClass>
                                                                 </Button>
-                                                                <Button id="clean-btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clean" prefHeight="25.0" prefWidth="182.0" text="▶ Clear heap" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+                                                                <Button id="clean-btn" layoutX="10.0" layoutY="10.0"
+                                                                        mnemonicParsing="false" onAction="#clean"
+                                                                        prefHeight="25.0" prefWidth="182.0"
+                                                                        text="▶ Clear heap" AnchorPane.leftAnchor="0.0"
+                                                                        AnchorPane.rightAnchor="0.0"
+                                                                        AnchorPane.topAnchor="150.0">
                                                                     <styleClass>
-                                                                        <String fx:value="control-btn" />
-                                                                        <String fx:value="control-btn-left" />
+                                                                        <String fx:value="control-btn"/>
+                                                                        <String fx:value="control-btn-left"/>
                                                                     </styleClass>
                                                                 </Button>
                                                             </children>
                                                         </VBox>
                                                     </children>
                                                 </AnchorPane>
-                                                <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308" prefHeight="81.0" prefWidth="183.0" text="Animation">
+                                                <TitledPane fx:id="animationPane" animated="false"
+                                                            maxHeight="1.7976931348623157E308" prefHeight="81.0"
+                                                            prefWidth="183.0" text="Animation">
                                                     <padding>
-                                                        <Insets left="3.0" />
+                                                        <Insets left="3.0"/>
                                                     </padding>
                                                     <content>
-                                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="178.0">
+                                                        <AnchorPane maxHeight="1.7976931348623157E308"
+                                                                    maxWidth="-Infinity" minHeight="0.0" minWidth="0.0"
+                                                                    prefHeight="120.0" prefWidth="178.0">
                                                             <children>
-                                                <HBox layoutX="17.799999237060547" layoutY="17.799999237060547" spacing="16.0" AnchorPane.topAnchor="0.0">
-                                                   <children>
-                                                                      <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="▶" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                                                      <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" onAction="#pause" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="5.0" />
-                                                                      <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" onAction="#stop" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                                   </children>
-                                                </HBox>
+                                                                <HBox layoutX="17.799999237060547"
+                                                                      layoutY="17.799999237060547" spacing="16.0"
+                                                                      AnchorPane.topAnchor="0.0">
+                                                                    <children>
+                                                                        <Button id="play" layoutX="25.8" layoutY="25.8"
+                                                                                maxWidth="-Infinity"
+                                                                                minWidth="-Infinity"
+                                                                                mnemonicParsing="false" onAction="#play"
+                                                                                prefHeight="30.0" prefWidth="30.0"
+                                                                                styleClass="animation-btn" text="▶"
+                                                                                AnchorPane.leftAnchor="5.0"
+                                                                                AnchorPane.topAnchor="5.0"/>
+                                                                        <Button id="pause" layoutX="72.0" layoutY="13.0"
+                                                                                mnemonicParsing="false"
+                                                                                onAction="#pause" prefHeight="30.0"
+                                                                                styleClass="animation-btn" text="||"
+                                                                                AnchorPane.topAnchor="5.0"/>
+                                                                        <Button id="stop" layoutX="103.0" layoutY="35.8"
+                                                                                mnemonicParsing="false" onAction="#stop"
+                                                                                prefHeight="30.0"
+                                                                                styleClass="animation-btn" text="■"
+                                                                                AnchorPane.rightAnchor="5.0"
+                                                                                AnchorPane.topAnchor="5.0"/>
+                                                                    </children>
+                                                                </HBox>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                    <TitledPane animated="false" layoutX="10.0" layoutY="145.0" maxHeight="1.7976931348623157E308" prefHeight="89.0" prefWidth="183.0" text="Auto mode" VBox.vgrow="ALWAYS">
-                                       <content>
-                                          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="178.0">
-                                             <children>
-                                                <TextField fx:id="turnValue" layoutX="8.0" layoutY="14.0" prefHeight="32.0" prefWidth="119.0" />
-                                                <Button id="play" layoutX="131.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#autoMode" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="▶" AnchorPane.topAnchor="2.0" />
-                                                <VBox layoutX="14.0" layoutY="66.0" spacing="10.0" AnchorPane.topAnchor="45.0">
-                                                   <children>
-                                                      <RadioButton fx:id="insertButton" layoutX="15.0" layoutY="66.0" mnemonicParsing="false" onAction="#changeMode" text="Only insert" textFill="#dd8484" />
-                                                      <RadioButton fx:id="minButton" layoutX="15.0" layoutY="91.0" mnemonicParsing="false" onAction="#changeMode" text="Only min" textFill="#dd8484" />
-                                                      <RadioButton fx:id="randomButton" layoutX="14.0" layoutY="121.0" mnemonicParsing="false" onAction="#changeMode" selected="true" text="Random action" textFill="#dd8484" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </AnchorPane>
-                                       </content>
-                                       <padding>
-                                          <Insets left="3.0" />
-                                       </padding>
-                                    </TitledPane>
+                                                <TitledPane animated="false" layoutX="10.0" layoutY="145.0"
+                                                            maxHeight="1.7976931348623157E308" prefHeight="89.0"
+                                                            prefWidth="183.0" text="Auto mode" VBox.vgrow="ALWAYS">
+                                                    <content>
+                                                        <AnchorPane maxHeight="1.7976931348623157E308"
+                                                                    maxWidth="-Infinity" minHeight="0.0" minWidth="0.0"
+                                                                    prefHeight="120.0" prefWidth="178.0">
+                                                            <children>
+                                                                <TextField fx:id="turnValue" layoutX="8.0"
+                                                                           layoutY="14.0" prefHeight="32.0"
+                                                                           prefWidth="119.0"/>
+                                                                <Button id="play" layoutX="131.0" maxWidth="-Infinity"
+                                                                        minWidth="-Infinity" mnemonicParsing="false"
+                                                                        onAction="#autoMode" prefHeight="30.0"
+                                                                        prefWidth="30.0" styleClass="animation-btn"
+                                                                        text="▶" AnchorPane.topAnchor="2.0"/>
+                                                                <VBox layoutX="14.0" layoutY="66.0" spacing="10.0"
+                                                                      AnchorPane.topAnchor="45.0">
+                                                                    <children>
+                                                                        <RadioButton fx:id="insertButton" layoutX="15.0"
+                                                                                     layoutY="66.0"
+                                                                                     mnemonicParsing="false"
+                                                                                     onAction="#changeMode"
+                                                                                     text="Only insert"
+                                                                                     textFill="#dd8484"/>
+                                                                        <RadioButton fx:id="minButton" layoutX="15.0"
+                                                                                     layoutY="91.0"
+                                                                                     mnemonicParsing="false"
+                                                                                     onAction="#changeMode"
+                                                                                     text="Only min"
+                                                                                     textFill="#dd8484"/>
+                                                                        <RadioButton fx:id="randomButton" layoutX="14.0"
+                                                                                     layoutY="121.0"
+                                                                                     mnemonicParsing="false"
+                                                                                     onAction="#changeMode"
+                                                                                     selected="true"
+                                                                                     text="Random action"
+                                                                                     textFill="#dd8484"/>
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                    <padding>
+                                                        <Insets left="3.0"/>
+                                                    </padding>
+                                                </TitledPane>
                                             </children>
                                         </VBox>
-                                        <ToggleButton fx:id="sideBarToggle" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#hideSideBar" prefHeight="335.0" selected="true" styleClass="hide-controls-button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <ToggleButton fx:id="sideBarToggle" maxWidth="-Infinity" minWidth="-Infinity"
+                                                      mnemonicParsing="false" onAction="#hideSideBar" prefHeight="335.0"
+                                                      selected="true" styleClass="hide-controls-button"
+                                                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                      AnchorPane.topAnchor="0.0">
                                             <graphic>
-                                                <Label styleClass="hide-controls" text="▼" />
+                                                <Label styleClass="hide-controls" text="▼"/>
                                             </graphic>
                                         </ToggleButton>
                                     </children>
@@ -127,36 +226,59 @@
                         </BorderPane>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="lowerTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
+                <AnchorPane fx:id="lowerTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                            minHeight="25.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0"
+                            style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
                     <children>
-                        <ScrollPane fx:id="consoleTab" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane">
-                           <children>
-                              <HBox layoutX="236.0" layoutY="9.0" spacing="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                                 <children>
-                                    <Label layoutX="21.0" layoutY="67.0" text="STEP" textFill="#dd8484">
-                                       <font>
-                                          <Font size="21.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="stepLabel" layoutX="54.0" layoutY="67.0" text="0" textFill="#dd8484">
-                                       <font>
-                                          <Font name="DejaVu Serif Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <Label fx:id="logLabel" alignment="CENTER" layoutX="198.0" layoutY="23.0" prefHeight="25.0" prefWidth="228.0" text="HEAP IS EMPTY" textAlignment="CENTER" textFill="#dd8484" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-                                 <font>
-                                    <Font size="21.0" />
-                                 </font>
-                              </Label>
-                              <ToggleButton layoutX="555.0" layoutY="7.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="38.0" styleClass="img-button" />
-                           </children>
-                        </AnchorPane>
-                     </content></ScrollPane>
-                        <ToggleButton fx:id="hideConsoleToggle" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hideConsole" styleClass="hide-controls-button" text="▲" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <ScrollPane fx:id="consoleTab" fitToHeight="true" fitToWidth="true"
+                                    AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <content>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane">
+                                    <children>
+                                        <HBox layoutX="555.0" layoutY="7.0" spacing="10.0"
+                                              AnchorPane.bottomAnchor="96.0" AnchorPane.rightAnchor="20.0"
+                                              AnchorPane.topAnchor="7.0">
+                                            <children>
+                                                <ToggleButton layoutX="555.0" layoutY="7.0" mnemonicParsing="false"
+                                                              prefHeight="17.0" prefWidth="38.0"
+                                                              styleClass="img-button"/>
+                                                <HBox layoutX="236.0" layoutY="9.0" spacing="5.0"
+                                                      AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                                                    <children>
+                                                        <Label layoutX="21.0" layoutY="67.0" text="STEP"
+                                                               textFill="#dd8484">
+                                                            <font>
+                                                                <Font size="21.0"/>
+                                                            </font>
+                                                        </Label>
+                                                        <Label fx:id="stepLabel" layoutX="54.0" layoutY="67.0" text="0"
+                                                               textFill="#dd8484">
+                                                            <font>
+                                                                <Font name="DejaVu Serif Bold" size="20.0"/>
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </HBox>
+                                        <Label fx:id="logLabel" alignment="CENTER" layoutX="198.0" layoutY="23.0"
+                                               prefHeight="25.0" prefWidth="228.0" text="HEAP IS EMPTY"
+                                               textAlignment="CENTER" textFill="#dd8484" AnchorPane.leftAnchor="0.0"
+                                               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                            <font>
+                                                <Font size="21.0"/>
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </ScrollPane>
+                        <ToggleButton fx:id="hideConsoleToggle" alignment="CENTER_LEFT" maxWidth="-Infinity"
+                                      minWidth="-Infinity"  mnemonicParsing="false"
+                                      onAction="#hideConsole" styleClass="hide-controls-button" text="▲"
+                                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                      AnchorPane.rightAnchor="0.0"/>
                     </children>
                 </AnchorPane>
             </items>

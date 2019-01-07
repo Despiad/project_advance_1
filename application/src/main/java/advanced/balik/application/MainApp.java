@@ -1,13 +1,12 @@
 package advanced.balik.application;
 
 import advanced.balik.application.view.MainInterfaceController;
-import advanced.balik.application.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
@@ -18,8 +17,7 @@ public class MainApp extends Application {
     private static final Logger log = Logger.getLogger(MainApp.class);
 
     private Stage primaryStage;
-    private BorderPane rootLayout;
-
+    private Parent mainWindow;
 
     /**
      * Возвращает главную сцену.
@@ -29,8 +27,6 @@ public class MainApp extends Application {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
-
-    private final static String ROOT_PATH = "/fxml/RootLayout.fxml";
 
     private final static String MAIN_PATH = "/fxml/MainWindow.fxml";
 
@@ -65,42 +61,35 @@ public class MainApp extends Application {
         this.primaryStage.setMinHeight(MIN_HEIGHT);
         this.primaryStage.setMinWidth(MIN_WIDTH);
 
-        initRootLayout();
-
         showMainWindow();
+        primaryStage.show();
     }
 
     private void showMainWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PATH));
-            AnchorPane mainWindow = loader.load();
-
+            mainWindow = loader.load();
             MainInterfaceController controller = loader.getController();
             controller.setMainApp(this);
 
-            rootLayout.setCenter(mainWindow);
-        } catch (IOException e) {
-            log.error("show MainWindow error\n"+ e.getMessage());
-        }
-    }
-
-    private void initRootLayout() {
-        try {
-            // Загружаем корневой макет из fxml файла.
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(ROOT_PATH));
-
-            rootLayout = loader.load();
-
-            // Отображаем сцену, содержащую корневой макет.
-            Scene scene = new Scene(rootLayout);
+            Scene scene = new Scene(mainWindow);
             primaryStage.setScene(scene);
 
-            RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
+            this.primaryStage.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)
+                    -> {
+                primaryStage.setWidth((Double) newSceneWidth);
+                ((AnchorPane) mainWindow).setMinWidth((Double) newSceneWidth);
+                log.info("Width: " + newSceneWidth);
+            });
+            this.primaryStage.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight)
+                    -> {
+                primaryStage.setHeight((Double) newSceneHeight);
+                ((AnchorPane) mainWindow).setMinHeight((Double) newSceneHeight);
+                log.info("Height: " + newSceneHeight);
+            });
 
-            primaryStage.show();
         } catch (IOException e) {
-            log.error("init RootLayout error\n"+ e.getMessage());
+            log.error("show MainWindow error\n" + e.getMessage());
         }
     }
 
