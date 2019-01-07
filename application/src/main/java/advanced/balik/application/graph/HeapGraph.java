@@ -74,9 +74,12 @@ public class HeapGraph {
     }
 
     public int getMin() {
-        int min=tree.exctractMin();
+        return tree.getMin();
+    }
+
+    public void extractMin(){
+        tree.exctractMin();
         draw();
-        return min;
     }
 
     /**
@@ -213,7 +216,7 @@ public class HeapGraph {
     /**
      * Убрать выделение с выделенной вершины графа.
      */
-    private void unselect() {
+    public void unselect() {
         cells.getChildren()
                 .forEach(node -> node.getStyleClass()
                         .removeIf(Predicate.isEqual(Style.CELL_SELECTED_STYLE.getStyleClass())));
@@ -226,7 +229,7 @@ public class HeapGraph {
      *
      * @return контейнер, который может содержать ссылку на выделенную ячейку.
      */
-    public Optional<Label> getSelected() {
+    private Optional<Label> getSelected() {
         return Optional.ofNullable((Label) cells.lookup('.' + Style.CELL_SELECTED_STYLE.getStyleClass()));
     }
 

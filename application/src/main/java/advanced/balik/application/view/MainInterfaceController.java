@@ -12,6 +12,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -21,7 +24,9 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainInterfaceController {
@@ -132,6 +137,7 @@ public class MainInterfaceController {
     private void insert() {
         getInput(inputValue).ifPresent(value -> {
             if (!data.contains(value)) {
+                ++step;
                 heapGraph.addNode(value);
                 data.add(value);
                 logAction(String.format(Action.INSERT.getAction(), value));
@@ -143,10 +149,31 @@ public class MainInterfaceController {
     private void getMin() {
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
-            logAction(String.format(Action.MIN.getAction(), min));
+            ++step;
+
+            Thread machineryThread = new Thread(() -> {
+                try {
+                    Platform.runLater(heapGraph::unselect);
+                    Thread.sleep(1000);
+                    Platform.runLater(() -> {
+                        heapGraph.findNode(min);
+                        logAction(String.format(Action.MIN.getAction(), min));
+                    });
+                    Thread.sleep(1000);
+                    Platform.runLater(() -> {
+                        heapGraph.extractMin();
+                        logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            machineryThread.start();
         } else {
             logAction(Action.EMPTY.getAction());
         }
+
     }
 
     /**
@@ -157,6 +184,7 @@ public class MainInterfaceController {
         data.clear();
         heapGraph.clear();
         inputValue.clear();
+        ++step;
         logAction(Action.CLEAR.getAction());
     }
 
@@ -168,6 +196,7 @@ public class MainInterfaceController {
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         if (!data.contains(randomValue)) {
+            ++step;
             heapGraph.addNode(randomValue);
             data.add(randomValue);
             logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
@@ -202,7 +231,6 @@ public class MainInterfaceController {
      **/
     private void logAction(String action) {
         log.info(action);
-        ++step;
         stepLabel.setText(step.toString());
         logLabel.setText(action);
     }

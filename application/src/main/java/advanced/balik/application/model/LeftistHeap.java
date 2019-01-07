@@ -58,12 +58,14 @@ public class LeftistHeap {
         return x;
     }
 
-    public int exctractMin() {
+    public int getMin(){
         if (isEmpty())
             return -1;
-        int minItem = root.element;
+        return root.element;
+    }
+
+    public void exctractMin() {
         root = merge(root.left, root.right);
-        return minItem;
     }
 
     public LeftHeapNode getRoot() {
