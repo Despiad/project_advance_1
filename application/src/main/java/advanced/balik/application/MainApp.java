@@ -35,7 +35,7 @@ public class MainApp extends Application {
     /**
      * Минимальная высота окна в пикселях.
      */
-    private static final int MIN_HEIGHT = 660;
+    private static final int MIN_HEIGHT = 695;
 
     /**
      * Минимальная ширина окна в пикселях.
@@ -85,7 +85,7 @@ public class MainApp extends Application {
                     -> {
                 primaryStage.setHeight((Double) newSceneHeight);
                 ((AnchorPane) mainWindow).setMinHeight((Double) newSceneHeight);
-                log.info("Height: " + newSceneHeight);
+               log.info("Height: " + newSceneHeight);
             });
 
         } catch (IOException e) {

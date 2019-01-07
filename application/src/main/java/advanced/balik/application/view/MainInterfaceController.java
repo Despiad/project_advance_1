@@ -334,4 +334,15 @@ public class MainInterfaceController {
             onlyMin = true;
         }
     }
+
+    /**menu bar**/
+
+    /**
+     * Завершить работу программы.
+     */
+    @FXML
+    public void close() {
+        Platform.exit();
+    }
+
 }
