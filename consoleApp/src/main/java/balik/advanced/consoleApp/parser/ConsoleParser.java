@@ -83,7 +83,7 @@ public class ConsoleParser {
         if (parameters[extracter].equals("min")) {
             System.out.println(String.format(Message.EXTRACT_MIN.getMessage(), heap.extractMin()));
         } else {
-            System.out.println(Message.INCORRECT_SUBCOMMAND.getMessage());
+            System.out.println(Message.WRONG_PARAMETER.getMessage());
         }
         ++extracter;
     }

@@ -23,11 +23,11 @@ public class Main {
                     CommandLine.usage(new ConsoleParser(), System.out);
                 }
             } else {
-                System.out.println(Message.MISSING_PARAMETER.getMessage());
+                System.out.println(Message.NO_COMMANDS.getMessage());
             }
         }
         /**
-         * В случае некорректного ввода аргументов - сообщение об ошибке
+         * В случае пропуска аргументов - сообщение об ошибке
          */
         catch (MissingParameterException e) {
             System.out.println(Message.MISSING_PARAMETER.getMessage());
@@ -43,6 +43,12 @@ public class Main {
          */
         catch (OverwrittenOptionException e) {
             System.out.println(Message.OVERWRITTEN_OPTION.getMessage());
+        }
+        /**
+         * В случае некорректного воода агрументов - сообщение об ошибке
+         */
+        catch (ParameterException e){
+            System.out.println(Message.WRONG_PARAMETER.getMessage());
         }
     }
 }
