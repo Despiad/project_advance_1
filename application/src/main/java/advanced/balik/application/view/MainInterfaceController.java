@@ -153,6 +153,7 @@ public class MainInterfaceController {
 
             Thread minThread = new Thread(() -> {
                 try {
+                    Platform.runLater(()->disableAll(true));
                     Platform.runLater(heapGraph::unselect);
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
@@ -164,6 +165,7 @@ public class MainInterfaceController {
                         heapGraph.extractMin();
                         logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
                     });
+                    Platform.runLater(()->disableAll(false));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -291,6 +293,11 @@ public class MainInterfaceController {
                 .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
                 .filter(node -> !node.equals(animationPane))
                 .collect(Collectors.toSet());
+        controls.forEach(node -> node.setDisable(disable));
+    }
+
+    private void disableAll(boolean disable) {
+        Set<Node> controls = new HashSet<>(sideBar.getChildren());
         controls.forEach(node -> node.setDisable(disable));
     }
 
