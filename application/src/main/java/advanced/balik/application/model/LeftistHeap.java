@@ -64,7 +64,7 @@ public class LeftistHeap {
         return root.element;
     }
 
-    public void exctractMin() {
+    public void extractMin() {
         root = merge(root.left, root.right);
     }
 

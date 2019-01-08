@@ -78,7 +78,7 @@ public class HeapGraph {
     }
 
     public void extractMin(){
-        tree.exctractMin();
+        tree.extractMin();
         draw();
     }
 
@@ -146,7 +146,7 @@ public class HeapGraph {
         String text = String.valueOf(value);
         Label cell = cache.getCell(value, () -> {
             Label newCell = new Label(text);
-            newCell.setId(text);//TODO:UNIQUE ID
+            newCell.setId(text);
             newCell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
             return newCell;
         });
@@ -185,8 +185,6 @@ public class HeapGraph {
         }
 
     }
-
-    //TODO: UNIQUE VERTEX
 
     /**
      * Метод отрисовки ребра графа между двумя его вершинами с указанными значениями.

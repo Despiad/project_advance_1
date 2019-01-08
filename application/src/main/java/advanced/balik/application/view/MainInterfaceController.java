@@ -146,12 +146,12 @@ public class MainInterfaceController {
     }
 
     @FXML
-    private void getMin() {
+    private void getMinWithAnimation() {
+        ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
-            ++step;
 
-            Thread machineryThread = new Thread(() -> {
+            Thread minThread = new Thread(() -> {
                 try {
                     Platform.runLater(heapGraph::unselect);
                     Thread.sleep(1000);
@@ -169,12 +169,24 @@ public class MainInterfaceController {
                 }
             });
 
-            machineryThread.start();
+            minThread.start();
         } else {
             logAction(Action.EMPTY.getAction());
         }
 
     }
+
+    private void getMin() {
+        ++step;
+        if (!heapGraph.isEmpty()) {
+            int min = heapGraph.getMin();
+            heapGraph.extractMin();
+            logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
+        } else {
+            logAction(Action.EMPTY.getAction());
+        }
+    }
+
 
     /**
      * Очистить дерево.
