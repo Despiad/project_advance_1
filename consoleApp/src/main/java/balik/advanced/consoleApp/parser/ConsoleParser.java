@@ -41,6 +41,10 @@ public class ConsoleParser {
         inserter = 0;
     }
 
+    public void clearHeap() {
+        heap.clear();
+    }
+
     /**
      * names       - имя команды
      * description - описание команды

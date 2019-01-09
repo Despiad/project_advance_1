@@ -1,0 +1,4 @@
+-e min
+-e min
+-i 3
+-e min
