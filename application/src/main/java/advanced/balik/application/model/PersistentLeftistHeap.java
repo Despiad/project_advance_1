@@ -2,13 +2,20 @@ package advanced.balik.application.model;
 
 public class PersistentLeftistHeap {
     private LeftHeapNode root;
+    private PersistentLeftistHeap previous;
 
-    private PersistentLeftistHeap(LeftHeapNode node) {
+    public PersistentLeftistHeap(LeftHeapNode node, PersistentLeftistHeap prev) {
         root = node;
+        previous = prev;
+    }
+
+    public PersistentLeftistHeap getPrevious() {
+        return previous;
     }
 
     public PersistentLeftistHeap() {
         root = null;
+        previous = null;
     }
 
     public boolean isEmpty() {
@@ -20,7 +27,7 @@ public class PersistentLeftistHeap {
     }
 
     public PersistentLeftistHeap insert(int x) {
-        return new PersistentLeftistHeap(merge(new LeftHeapNode(x), root));
+        return new PersistentLeftistHeap(merge(new LeftHeapNode(x), root), this);
     }
 
     private LeftHeapNode merge(LeftHeapNode leftTree, LeftHeapNode rightTree) {
@@ -57,10 +64,11 @@ public class PersistentLeftistHeap {
     }
 
     public PersistentLeftistHeap extractMin() {
-        return new PersistentLeftistHeap(merge(root.left, root.right));
+
+        return new PersistentLeftistHeap(merge(root.left, root.right), this);
     }
 
-    private LeftHeapNode getRoot() {
+    public LeftHeapNode getRoot() {
         return root;
     }
 
@@ -85,8 +93,8 @@ public class PersistentLeftistHeap {
         if (root == null) {
             return level;
         }
-        PersistentLeftistHeap left = new PersistentLeftistHeap(root.getLeft());
-        PersistentLeftistHeap right = new PersistentLeftistHeap(root.getRight());
+        PersistentLeftistHeap left = new PersistentLeftistHeap(root.getLeft(), this);
+        PersistentLeftistHeap right = new PersistentLeftistHeap(root.getRight(), this);
 
         int nextLevel = level + 1;
 
