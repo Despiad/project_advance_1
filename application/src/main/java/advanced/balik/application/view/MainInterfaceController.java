@@ -93,8 +93,6 @@ public class MainInterfaceController {
 
     private Integer step;
 
-    private List<Integer> data;
-
     private List<Integer> turns;
 
     private final Animation animation = new Timeline(new KeyFrame(
@@ -114,7 +112,6 @@ public class MainInterfaceController {
 
     public MainInterfaceController() {
         step = 0;
-        this.data = new ArrayList<>();
         this.turns = new ArrayList<>();
     }
 
@@ -136,10 +133,9 @@ public class MainInterfaceController {
     @FXML
     private void insert() {
         getInput(inputValue).ifPresent(value -> {
-            if (!data.contains(value)) {
+            if (!heapGraph.checkValue(value)) {
                 ++step;
                 heapGraph.addNode(value);
-                data.add(value);
                 logAction(String.format(Action.INSERT.getAction(), value));
             }
         });
@@ -153,7 +149,7 @@ public class MainInterfaceController {
 
             Thread minThread = new Thread(() -> {
                 try {
-                    Platform.runLater(()->disableAll(true));
+                    Platform.runLater(() -> disableAll(true));
                     Platform.runLater(heapGraph::unselect);
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
@@ -162,10 +158,11 @@ public class MainInterfaceController {
                     });
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
+                        heapGraph.unselect();
                         heapGraph.extractMin();
                         logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
                     });
-                    Platform.runLater(()->disableAll(false));
+                    Platform.runLater(() -> disableAll(false));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -195,7 +192,6 @@ public class MainInterfaceController {
      */
     @FXML
     public void clean() {
-        data.clear();
         heapGraph.clear();
         inputValue.clear();
         ++step;
@@ -209,10 +205,9 @@ public class MainInterfaceController {
     public void insertRandom() {
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
-        if (!data.contains(randomValue)) {
+        if (!heapGraph.checkValue(randomValue)) {
             ++step;
             heapGraph.addNode(randomValue);
-            data.add(randomValue);
             logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
         }
     }

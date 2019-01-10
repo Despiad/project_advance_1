@@ -77,7 +77,7 @@ public class HeapGraph {
         return tree.getMin();
     }
 
-    public void extractMin(){
+    public void extractMin() {
         tree.extractMin();
         draw();
     }
@@ -254,6 +254,10 @@ public class HeapGraph {
     public void findNode(int value) {
         Optional.ofNullable(cells.lookup("#" + value))
                 .ifPresent(node -> selectCell((Label) node));
+    }
+
+    public boolean checkValue(int value) {
+        return  cells.lookup("#" + value) != null;
     }
 
     /**

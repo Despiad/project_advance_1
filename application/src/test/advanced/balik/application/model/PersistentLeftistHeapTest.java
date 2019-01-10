@@ -18,12 +18,18 @@ public class PersistentLeftistHeapTest {
     }
 
     @Test
-    public void simpleInsertExtractClearTest() {
+    public void testZeroEmpty(){
+        assertTrue("Version 0 heap should be empty", heaps.get(0).isEmpty());
+    }
+
+    @Test
+    public void InsertExtractEmptyTest() {
         heaps.add(heaps.get(0).insert(1));
         heaps.add(heaps.get(0).insert(2));
         assertEquals("Version 1 min should be 1:", 1, heaps.get(1).getMin());
         assertEquals("Version 2 min should be 2:", 2, heaps.get(2).getMin());
         assertTrue("Version 0 heap should be empty", heaps.get(0).isEmpty());
+        assertEquals("Version 0 min should be -1",-1, heaps.get(0).getMin());
         assertTrue("Version 1 heap should be non empty", !heaps.get(1).isEmpty());
         assertTrue("Version 2 heap should be non empty", !heaps.get(2).isEmpty());
         heaps.add(heaps.get(1).insert(-100));
