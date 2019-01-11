@@ -38,4 +38,21 @@ public class PersistentLeftistHeapTest {
         assertEquals("Version 4 min should be 1:", 1, heaps.get(4).getMin());
 
     }
+
+    @Test
+    public void testStepBack(){
+        PersistentLeftistHeap tree=new PersistentLeftistHeap();
+        assertTrue("Version 0 heap should be empty",tree.isEmpty());
+        assertNull("Version 0 previous heap should be empty", tree.getPrevious());
+        tree=tree.insert(1);
+        assertEquals("Version 1 min should be 1:", 1, tree.getMin());
+        tree=tree.insert(-2);
+        assertEquals("Version 2 min should be -2:", -2, tree.getMin());
+        tree=tree.getPrevious();// back to version 1
+        assertEquals("Version 1 min should be 1:", 1, tree.getMin());
+        tree=tree.getPrevious();//back to version 0
+        assertTrue("Version 0 heap should be empty",tree.isEmpty());
+        assertNull("Version 0 previous heap should be empty", tree.getPrevious());
+    }
+
 }

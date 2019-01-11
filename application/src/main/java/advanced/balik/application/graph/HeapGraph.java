@@ -298,6 +298,9 @@ public class HeapGraph {
         return content;
     }
 
+    public void stepBack(){
+
+    }
 
     private static final class GraphCache {
 
