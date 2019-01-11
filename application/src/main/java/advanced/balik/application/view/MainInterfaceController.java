@@ -186,6 +186,19 @@ public class MainInterfaceController {
         }
     }
 
+    @FXML
+    public void stepBack() {
+        heapGraph.unselect();
+        boolean isBack=heapGraph.stepBack();
+        if(isBack){
+            step++;
+            logAction(Action.STEP_BACK.getAction());
+        }
+        else{
+            // TODO: warning message
+        }
+    }
+
 
     /**
      * Очистить дерево.

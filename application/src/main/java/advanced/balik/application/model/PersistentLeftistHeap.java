@@ -23,11 +23,17 @@ public class PersistentLeftistHeap {
     }
 
     public PersistentLeftistHeap clear() {
-        return new PersistentLeftistHeap();
+        return new PersistentLeftistHeap(null, this);
     }
 
     public PersistentLeftistHeap insert(int x) {
-        return new PersistentLeftistHeap(merge(new LeftHeapNode(x), root), this);
+        LeftHeapNode newRoot;
+        if (root != null) {
+            newRoot = root.copy();
+        } else {
+            newRoot = null;
+        }
+        return new PersistentLeftistHeap(merge(new LeftHeapNode(x), newRoot), this);
     }
 
     private LeftHeapNode merge(LeftHeapNode leftTree, LeftHeapNode rightTree) {
@@ -64,8 +70,22 @@ public class PersistentLeftistHeap {
     }
 
     public PersistentLeftistHeap extractMin() {
+        LeftHeapNode newLeft;
+        if (root.left != null) {
+            newLeft = root.left.copy();
+        } else {
+            newLeft = null;
+        }
 
-        return new PersistentLeftistHeap(merge(root.left, root.right), this);
+        LeftHeapNode newRight;
+        if (root.right != null) {
+            newRight = root.right.copy();
+        } else {
+            newRight = null;
+        }
+
+
+        return new PersistentLeftistHeap(merge(newLeft, newRight), this);
     }
 
     public LeftHeapNode getRoot() {

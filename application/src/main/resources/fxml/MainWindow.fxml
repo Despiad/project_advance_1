@@ -135,7 +135,7 @@
                                     <children>
                                         <HBox layoutX="555.0" layoutY="7.0" spacing="10.0" AnchorPane.bottomAnchor="96.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="7.0">
                                             <children>
-                                                <ToggleButton layoutX="555.0" layoutY="7.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="38.0" styleClass="img-button" />
+                                                <ToggleButton layoutX="555.0" layoutY="7.0" mnemonicParsing="false" onAction="#stepBack" prefHeight="17.0" prefWidth="38.0" styleClass="img-button" />
                                                 <HBox layoutX="236.0" layoutY="9.0" spacing="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                                                     <children>
                                                         <Label layoutX="21.0" layoutY="67.0" text="STEP" textFill="#dd8484">

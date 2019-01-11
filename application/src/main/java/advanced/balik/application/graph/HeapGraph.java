@@ -265,7 +265,7 @@ public class HeapGraph {
      * Метод очистки графа: очищает модель, визуальное предстваление и даже память!
      */
     public void clear() {
-        persistentTree=persistentTree.clear();
+        persistentTree = persistentTree.clear();
         scrap();
         cache.drop();
         System.gc(); //не делайте этого дома без надзора взрослых
@@ -298,8 +298,13 @@ public class HeapGraph {
         return content;
     }
 
-    public void stepBack(){
-
+    public boolean stepBack() {
+        if (persistentTree.getPrevious() != null) {
+            persistentTree = persistentTree.getPrevious();
+            draw();
+            return true;
+        }
+        return false;
     }
 
     private static final class GraphCache {
