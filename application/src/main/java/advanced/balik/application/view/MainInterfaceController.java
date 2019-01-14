@@ -137,6 +137,9 @@ public class MainInterfaceController {
                 ++step;
                 heapGraph.addNode(value);
                 logAction(String.format(Action.INSERT.getAction(), value));
+            } else {
+                log.error(Error.ALREADY_IN_THIS_HEAP.getMessage());
+                showError(Error.ALREADY_IN_THIS_HEAP);
             }
         });
     }
@@ -189,13 +192,13 @@ public class MainInterfaceController {
     @FXML
     public void stepBack() {
         heapGraph.unselect();
-        boolean isBack=heapGraph.stepBack();
-        if(isBack){
+        boolean isBack = heapGraph.stepBack();
+        if (isBack) {
             step++;
             logAction(Action.STEP_BACK.getAction());
-        }
-        else{
-            // TODO: warning message
+        } else {
+            log.error("Attempt to access non-existent version.");
+            showError(Error.NO_VERSIONS);
         }
     }
 
@@ -222,6 +225,8 @@ public class MainInterfaceController {
             ++step;
             heapGraph.addNode(randomValue);
             logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
+        } else {
+            insertRandom();
         }
     }
 
@@ -283,7 +288,9 @@ public class MainInterfaceController {
         if (input.matches("^(-?)\\d+")) {
             optional = Optional.of(Integer.parseInt(input));
         } else {
+            log.error(Error.INVALID_INPUT.getHeader());
             optional = Optional.empty();
+            showError(Error.INVALID_INPUT);
         }
         inputField.clear();
         return optional;
@@ -388,6 +395,16 @@ public class MainInterfaceController {
         if (text.equals("Only min")) {
             onlyMin = true;
         }
+    }
+
+    public void showError(Error error) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(mainApp.getPrimaryStage());
+        alert.setTitle("Error!");
+        alert.setHeaderText(error.getHeader());
+        alert.setContentText(error.getMessage());
+
+        alert.showAndWait();
     }
 
     /**menu bar**/
