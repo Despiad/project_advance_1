@@ -34,7 +34,7 @@
                     <children>
                         <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <center>
-                                <ScrollPane fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                                <ScrollPane fx:id="viewArea" fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
                                     <content>
                                         <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="494.0" prefWidth="472.0">
                                             <padding>
@@ -166,25 +166,26 @@
                 </AnchorPane>
             </items>
         </SplitPane>
-      <MenuBar layoutX="14.0" prefHeight="13.0" prefWidth="700.0" stylesheets="@../css/menuBar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="App">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="View">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Zoom in" />
-                  <MenuItem mnemonicParsing="false" text="Zoom out" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+        <MenuBar layoutX="14.0" prefHeight="13.0" prefWidth="700.0" stylesheets="@../css/menuBar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="App">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="Zoom in" />
+                        <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="Zoom out" />
+                  <MenuItem mnemonicParsing="false" onAction="#setDefault" text="Set default" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
     </children>
 </AnchorPane>

@@ -3,6 +3,7 @@ package advanced.balik.application.view;
 import advanced.balik.application.MainApp;
 import advanced.balik.application.graph.HeapGraph;
 import advanced.balik.application.graph.Style;
+import advanced.balik.application.graph.ViewMode;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,6 +26,8 @@ import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,8 +75,14 @@ public class MainInterfaceController {
     private TextField inputValue;
     @FXML
     private TextField turnValue;
+    /* Workspace */
+
     @FXML
     private FlowPane board;
+
+    @FXML
+    private ScrollPane viewArea;
+
     @FXML
     private BorderPane workSpace;
     @FXML
@@ -120,6 +129,8 @@ public class MainInterfaceController {
         Group content = heapGraph.getContent();
         board.getChildren().add(content);
         animation.setCycleCount(Animation.INDEFINITE);
+        mode = new ArrayList<>(Arrays.asList(ViewMode.values()));
+        currMode = ViewMode.STANDART;
         logAction(Action.EMPTY.getAction());
     }
 
@@ -225,6 +236,7 @@ public class MainInterfaceController {
             ++step;
             heapGraph.addNode(randomValue);
             logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
+            navigateToSelected();
         } else {
             insertRandom();
         }
@@ -345,6 +357,27 @@ public class MainInterfaceController {
     }
 
     /**
+     * Сдвинуть экран до выделенной ячейки.
+     */
+    private void navigateToSelected() {
+        heapGraph.getSelected().ifPresent(label -> {
+            Group content = heapGraph.getContent();
+
+            double layoutX = label.getLayoutX() + label.getWidth();
+            double layoutMaxX = content.getBoundsInLocal().getMaxX();
+            double layoutMinX = content.getBoundsInLocal().getMinX();
+            double newH = (layoutX + Math.abs(layoutMinX)) / (Math.abs(layoutMaxX) + Math.abs(layoutMinX));
+            viewArea.setHvalue(new BigDecimal(newH).setScale(2, RoundingMode.HALF_UP).doubleValue());
+
+            double layoutY = label.getLayoutY() + label.getWidth();
+            double layoutMaxY = content.getBoundsInLocal().getMaxY();
+            double layoutMinY = content.getBoundsInLocal().getMinY();
+            double newV = (layoutY + Math.abs(layoutMinY)) / (Math.abs(layoutMaxY) + Math.abs(layoutMinY));
+            viewArea.setVvalue(new BigDecimal(newV).setScale(3, RoundingMode.HALF_UP).doubleValue());
+        });
+    }
+
+    /**
      * AUTO MODE
      **/
 
@@ -397,7 +430,7 @@ public class MainInterfaceController {
         }
     }
 
-    public void showError(Error error) {
+    private void showError(Error error) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initOwner(mainApp.getPrimaryStage());
         alert.setTitle("Error!");
@@ -417,4 +450,38 @@ public class MainInterfaceController {
         Platform.exit();
     }
 
+    /**
+     * View
+     **/
+    private List<ViewMode> mode;
+    private ViewMode currMode;
+
+    @FXML
+    public void setDefault() {
+        heapGraph.setMode(ViewMode.STANDART);
+        currMode = ViewMode.STANDART;
+    }
+
+    @FXML
+    public void zoomIn(){
+        int index=mode.indexOf(currMode);
+        if(index!=0){
+            currMode=mode.get(index-1);
+            heapGraph.setMode(currMode);
+        }else{
+            //TODO:error
+        }
+    }
+
+    @FXML
+    public void zoomOut(){
+        int index =mode.indexOf(currMode);
+        if(index!=mode.size()-1){
+            currMode=mode.get(index+1);
+            heapGraph.setMode(currMode);
+        }
+        else{
+            //TODO:error
+        }
+    }
 }

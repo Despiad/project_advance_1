@@ -22,12 +22,14 @@ public class HeapGraph {
     /**
      * Базовый радиус ячейки на графе.
      */
-    public static final double CELL_RADIUS = 20;
+    static double CELL_RADIUS;
 
     /**
      * Вертикальное расстояние между вершинами графа.
      */
-    private static final double VERTICAL_GAP = CELL_RADIUS * 3;
+    private static double VERTICAL_GAP;
+
+    private ViewMode currMode;
 
     /**
      * Ячейки - группа вершин графа, предстваленных стилизованным {@link Label}.
@@ -61,6 +63,7 @@ public class HeapGraph {
         vertexes = new Group();
         content = new Group(vertexes, cells);
         persistentTree = new PersistentLeftistHeap();
+        currMode = ViewMode.STANDART;
     }
 
     /**
@@ -87,6 +90,8 @@ public class HeapGraph {
      * Метод перерисовки графа.
      */
     private void draw() {
+        CELL_RADIUS = currMode.getCellRadius();
+        VERTICAL_GAP = CELL_RADIUS * 3;
         scrap();
         display(persistentTree);
     }
@@ -148,7 +153,7 @@ public class HeapGraph {
         Label cell = cache.getCell(value, () -> {
             Label newCell = new Label(text);
             newCell.setId(text);
-            newCell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
+            newCell.getStyleClass().add(currMode.getStyle().getStyleClass());
             return newCell;
         });
         cell.setLayoutX(position.x - CELL_RADIUS);
@@ -228,7 +233,7 @@ public class HeapGraph {
      *
      * @return контейнер, который может содержать ссылку на выделенную ячейку.
      */
-    private Optional<Label> getSelected() {
+    public Optional<Label> getSelected() {
         return Optional.ofNullable((Label) cells.lookup('.' + Style.CELL_SELECTED_STYLE.getStyleClass()));
     }
 
@@ -305,6 +310,18 @@ public class HeapGraph {
             return true;
         }
         return false;
+    }
+
+    public void setMode(ViewMode mode) {
+        currMode = mode;
+        Optional<Label> selected = getSelected();
+        Optional<Integer> number;
+        number = selected.map(label -> Integer.parseInt(label.getText()));
+        cache.drop();
+        draw();
+        if (number.isPresent()) {
+            findNode(number.get());
+        }
     }
 
     private static final class GraphCache {
