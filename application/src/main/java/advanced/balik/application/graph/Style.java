@@ -19,6 +19,9 @@ public enum Style {
      */
     VERTEX("vertex"),
 
+    CELL_20px("cell-20px"),
+
+    CELL_18px("cell-18px"),
 
     CELL_16px("cell-16px"),
     /**
@@ -29,6 +32,8 @@ public enum Style {
     CELL_12px("cell-12px"),
 
     CELL_10px("cell-10px"),
+
+    CELL_8px("cell-8px"),
 
     /**
      * Стиль выбранной ячейки дерева.

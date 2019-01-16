@@ -463,25 +463,26 @@ public class MainInterfaceController {
     }
 
     @FXML
-    public void zoomIn(){
-        int index=mode.indexOf(currMode);
-        if(index!=0){
-            currMode=mode.get(index-1);
+    public void zoomIn() {
+        int index = mode.indexOf(currMode);
+        if (index != 0) {
+            currMode = mode.get(index - 1);
             heapGraph.setMode(currMode);
-        }else{
-            //TODO:error
+        } else {
+            log.error(Error.MAX_CELL_SIZE.getHeader());
+            showError(Error.MAX_CELL_SIZE);
         }
     }
 
     @FXML
-    public void zoomOut(){
-        int index =mode.indexOf(currMode);
-        if(index!=mode.size()-1){
-            currMode=mode.get(index+1);
+    public void zoomOut() {
+        int index = mode.indexOf(currMode);
+        if (index != mode.size() - 1) {
+            currMode = mode.get(index + 1);
             heapGraph.setMode(currMode);
-        }
-        else{
-            //TODO:error
+        } else {
+            log.error(Error.MIN_CELL_SIZE.getHeader());
+            showError(Error.MIN_CELL_SIZE);
         }
     }
 }
