@@ -70,6 +70,9 @@ public class PersistentLeftistHeap {
     }
 
     public PersistentLeftistHeap extractMin() {
+        if (root == null) {
+            return new PersistentLeftistHeap(null, this);
+        }
         LeftHeapNode newLeft;
         if (root.left != null) {
             newLeft = root.left.copy();

@@ -55,7 +55,9 @@ public class LeftistHeap {
     }
 
     public void extractMin() {
-        root = merge(root.left, root.right);
+        if (root != null) {
+            root = merge(root.left, root.right);
+        }
     }
 
     public int getMin() {
