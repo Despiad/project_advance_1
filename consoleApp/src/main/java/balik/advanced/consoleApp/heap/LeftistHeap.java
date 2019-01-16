@@ -19,46 +19,50 @@ public class LeftistHeap {
         root = merge(new Node(x), root);
     }
 
-    public void merge(LeftistHeap rhs) {
-        if (this == rhs)
+    void merge(LeftistHeap rhs) {
+        if (this == rhs) {
             return;
+        }
         root = merge(root, rhs.root);
         rhs.root = null;
     }
 
-    private Node merge(Node x, Node y) {
-        if (x == null)
-            return y;
-        if (y == null)
-            return x;
-        if (x.element > y.element) {
-            Node temp = x;
-            x = y;
-            y = temp;
+    private Node merge(Node leftTree, Node right) {
+        if (leftTree == null)
+            return right;
+        if (right == null)
+            return leftTree;
+        if (leftTree.element > right.element) {
+            Node temp = leftTree;
+            leftTree = right;
+            right = temp;
         }
 
-        x.right = merge(x.right, y);
+        leftTree.right = merge(leftTree.right, right);
 
-        if (x.left == null) {
-            x.left = x.right;
-            x.right = null;
+        if (leftTree.left == null) {
+            leftTree.left = leftTree.right;
+            leftTree.right = null;
         } else {
-            if (x.left.sValue < x.right.sValue) {
-                Node temp = x.left;
-                x.left = x.right;
-                x.right = temp;
+            if (leftTree.left.sValue < leftTree.right.sValue) {
+                Node temp = leftTree.left;
+                leftTree.left = leftTree.right;
+                leftTree.right = temp;
             }
-            x.sValue = x.right.sValue + 1;
+            leftTree.sValue = leftTree.right.sValue + 1;
         }
-        return x;
+        return leftTree;
     }
 
-    public int extractMin() {
-        if (isEmpty())
-            return -1;
-        int minItem = root.element;
+    public void extractMin() {
         root = merge(root.left, root.right);
-        return minItem;
+    }
+
+    public int getMin() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return root.element;
     }
 
 }

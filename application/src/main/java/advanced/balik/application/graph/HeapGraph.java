@@ -189,7 +189,6 @@ public class HeapGraph {
                 drawVertexes(leftBranch);
             }
         }
-
     }
 
     /**
@@ -220,6 +219,7 @@ public class HeapGraph {
     /**
      * Убрать выделение с выделенной вершины графа.
      */
+    //TODO:test this
     public void unselect() {
         cells.getChildren()
                 .forEach(node -> node.getStyleClass()
@@ -257,11 +257,13 @@ public class HeapGraph {
      *
      * @param value искомое значение.
      */
+    //TODO:test this
     public void findNode(int value) {
         Optional.ofNullable(cells.lookup("#" + value))
                 .ifPresent(node -> selectCell((Label) node));
     }
 
+    //TODO:test this
     public boolean checkValue(int value) {
         return cells.lookup("#" + value) != null;
     }

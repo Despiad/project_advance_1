@@ -1,5 +1,6 @@
 package advanced.balik.application.model;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,6 @@ public class LeftistHeapTest {
         heap.insert(5);
         heap.insert(1);
         heap.insert(2);
-
     }
 
     @Test
@@ -70,5 +70,10 @@ public class LeftistHeapTest {
         heap.extractMin();
         assertEquals("Min should be -1:", -1, heap.getMin());
         assertTrue("Heap should be empty", heap.isEmpty());
+    }
+
+    @After
+    public void cleanAfter() {
+        heap.clear();
     }
 }
