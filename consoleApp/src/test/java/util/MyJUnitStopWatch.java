@@ -1,4 +1,4 @@
-package balik.advanced.consoleApp.log;
+package util;
 
 
 import org.apache.log4j.Logger;
