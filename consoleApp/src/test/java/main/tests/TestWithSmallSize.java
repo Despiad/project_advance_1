@@ -1,8 +1,10 @@
 package main.tests;
 
 import balik.advanced.consoleApp.heap.LeftistHeap;
+import balik.advanced.consoleApp.log.MyJUnitStopWatch;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ public class TestWithSmallSize {
     private LeftistHeap heap;
 
     private final int size = 50;
+
+    @Rule
+    public MyJUnitStopWatch stopwatch = new MyJUnitStopWatch();
 
     /**
      * Генератор случайных чисел.
