@@ -7,10 +7,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -219,7 +216,26 @@ public class TestWithSmallSize {
         assertArrayEquals("Arrays should be equal", expectedArray, resultArray);
     }
 
-    //todo:compare with priority queue random
+    @Test
+    public void insertCompareWithPriorityQueue() {
+        PriorityQueue<Integer> javaPriorityQueue = new PriorityQueue<>();
+        RANDOM.setSeed(System.currentTimeMillis());
+        for (int i = 0; i < size; ++i) {
+            final int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
+            javaPriorityQueue.add(randomValue);
+            heap.insert(randomValue);
+            assertEquals("Minimums in heaps should be equal:", (int) javaPriorityQueue.peek(), heap.getMin());
+        }
+
+        for (int i = 0; i < size; ++i) {
+            assertEquals("Minimums in heaps should be equal:", (int) javaPriorityQueue.peek(), heap.getMin());
+            javaPriorityQueue.poll();
+            heap.extractMin();
+        }
+
+        assertEquals("Heaps should be empty",heap.isEmpty(),javaPriorityQueue.isEmpty());
+    }
+
 
     @After
     public void closeTest() {
