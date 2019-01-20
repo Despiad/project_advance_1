@@ -1,7 +1,6 @@
 package main.tests;
 
 import balik.advanced.consoleApp.heap.LeftistHeap;
-import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -15,16 +14,17 @@ import util.MyJUnitStopWatch;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-@Epic("Tests with small amount of elements")
-@Feature("Number of elements is 500")
-public class TestWithSmallSize {
+@Epic("Tests with medium amount of elements")
+@Feature("Number of elements is 5000")
+public class TestWithMediumSize {
 
-    private static Logger logger = Logger.getLogger(TestWithSmallSize.class);
+    private static Logger logger = Logger.getLogger(TestWithMediumSize.class);
 
     private LeftistHeap heap;
 
-    private final int size = 500;
+    private final int size = 5000;
 
     @Rule
     public MyJUnitStopWatch stopwatch = new MyJUnitStopWatch();
@@ -44,7 +44,7 @@ public class TestWithSmallSize {
      */
     private static final int LOWER_BOUND_RANDOM = -999;
 
-    public TestWithSmallSize() {
+    public TestWithMediumSize() {
         logger.info(String.format("Tests with heap size %d are running...", size));
     }
 
