@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class TestWithBigSize {
-
+//todo:memory test
     private static Logger logger = Logger.getLogger(TestWithBigSize.class);
 
     private LeftistHeap heap;
