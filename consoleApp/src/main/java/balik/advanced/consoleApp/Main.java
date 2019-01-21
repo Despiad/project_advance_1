@@ -12,14 +12,28 @@ public class Main {
             if (args.length != 0) {
                 ConsoleParser parser = new ConsoleParser();
                 parser.clearHeap();
-                /**
-                 * На этом моменте парсятся команды коммандной строки
-                 */
-                new CommandLine(parser).parse(args);
+                String[] test = new String[2];
+                boolean isTest = false;
+                int counter = 0;
                 /**
                  * Если встретилась команда с usageHelp = true, то выведется сообщение с помощью.
                  * Сообщение описывает каждую команду, помеченную аннотацией @Option
                  */
+
+                for (int i = 0; i < args.length; ++i) {
+                    if (args[i].equals("-t")|| args[i].equals("--test")) {
+                        isTest = true;
+                        counter = i;
+                    }
+                }
+                if (isTest) {
+                    test[0] = args[counter];
+                    test[1] = args[counter + 1];
+                    new CommandLine(parser).parse(test);
+                } else {
+                    new CommandLine(parser).parse(args);
+                }
+
                 if (parser.usageHelpRequested) {
                     CommandLine.usage(new ConsoleParser(), System.out);
                 }

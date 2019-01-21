@@ -172,7 +172,7 @@ public class MainTest {
     public void testCustomTesterWithOtherCommandAfter() {
         systemOutRule.clearLog();
         final String[] args = {"--test", "where is it?,./src/main/resources/outputTest.txt", "-i", "6"};
-        final String expectedOut = Message.WRONG_PARAMETER_NUMBER.getMessage() + "\n";
+        final String expectedOut = Message.INPUT_FILE_ERROR.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
     }
@@ -181,7 +181,7 @@ public class MainTest {
     public void testCustomTesterWithOtherCommandBefore() {
         systemOutRule.clearLog();
         final String[] args = {"-i", "6", "-e", "min", "--test", "where is it?,./src/main/resources/outputTest.txt"};
-        final String expectedOut = Message.WRONG_PARAMETER_NUMBER.getMessage() + "\n";
+        final String expectedOut = Message.INPUT_FILE_ERROR.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
     }
