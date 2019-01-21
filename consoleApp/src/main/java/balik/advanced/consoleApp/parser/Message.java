@@ -13,6 +13,7 @@ public enum Message {
     OVERWRITTEN_OPTION("Option should be specified only once"),
     WRONG_PARAMETER("Wrong parameter"),
     NO_COMMANDS("There are no commands"),
+    WRONG_PARAMETER_NUMBER("Incorrect number of parameters"),
     /**
      * TESTER MESSAGES
      **/
