@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class TestRunner {
+class TestRunner {
     private File inputFile;
     private File answerFile;
 
@@ -18,7 +18,7 @@ public class TestRunner {
 
     private boolean validateInput = true;
 
-    public TestRunner(File inputFile, File answerFile) {
+    TestRunner(File inputFile, File answerFile) throws IOException {
         this.inputFile = inputFile;
         this.answerFile = answerFile;
         answers = new ArrayList<>();
@@ -27,7 +27,7 @@ public class TestRunner {
         readAnswer();
     }
 
-    private void readAnswer() {
+    private void readAnswer() throws IOException {
         try (Reader reader = new FileReader(answerFile);
              BufferedReader bufferedReader = new BufferedReader(reader)) {
 
@@ -38,11 +38,11 @@ public class TestRunner {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public void runTest() {
+    void runTest() throws IOException {
         try (Reader reader = new FileReader(inputFile);
              BufferedReader bufferedReader = new BufferedReader(reader)) {
 
@@ -65,17 +65,20 @@ public class TestRunner {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public boolean checkTest() {
+    boolean checkTest() {
         if (!validateInput) {
             return false;
         }
         return Arrays.equals(answers.toArray(), inputResults.toArray());
     }
 
+    boolean isValidateInput() {
+        return validateInput;
+    }
 
     private Optional<Integer> getInput(String input) {
         Optional<Integer> optional;
