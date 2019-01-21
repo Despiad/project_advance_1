@@ -1,6 +1,7 @@
 package balik.advanced.consoleApp.tester;
 
 import balik.advanced.consoleApp.parser.Message;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 
 public class CustomTesterTest {
-    //todo:make after with log clear
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
@@ -33,7 +33,6 @@ public class CustomTesterTest {
 
     @Test
     public void correctTest() {
-        systemOutRule.clearLog();
         File inputFile = new File(classLoader.getResource(correctInputFileName).getFile());
         CustomTester tester = new CustomTester(inputFile, answerFile);
         tester.runTest();
@@ -42,7 +41,6 @@ public class CustomTesterTest {
 
     @Test
     public void incorrectTest() {
-        systemOutRule.clearLog();
         File inputFile = new File(classLoader.getResource(incorrectInputFileName).getFile());
         CustomTester tester = new CustomTester(inputFile, answerFile);
         tester.runTest();
@@ -51,7 +49,6 @@ public class CustomTesterTest {
 
     @Test
     public void validateTest() {
-        systemOutRule.clearLog();
         File inputFile = new File(classLoader.getResource(validateTestFileName).getFile());
         CustomTester tester = new CustomTester(inputFile, answerFile);
         tester.runTest();
@@ -60,7 +57,6 @@ public class CustomTesterTest {
 
     @Test
     public void incorrectOutputFile() {
-        systemOutRule.clearLog();
         File inputFile = new File(classLoader.getResource(correctInputFileName).getFile());
         CustomTester tester=new CustomTester(inputFile,new File("where is it?"));
         tester.runTest();
@@ -69,10 +65,13 @@ public class CustomTesterTest {
 
     @Test
     public void incorrectInputFile(){
-        systemOutRule.clearLog();
         CustomTester tester = new CustomTester(new File("where is it?"), answerFile);
         tester.runTest();
         assertEquals(Message.INPUT_FILE_ERROR.getMessage() + "\n", systemOutRule.getLog());
     }
 
+    @After
+    public void clearLogs(){
+        systemOutRule.clearLog();
+    }
 }
