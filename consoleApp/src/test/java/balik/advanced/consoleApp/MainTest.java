@@ -7,6 +7,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 import static org.junit.Assert.*;
 
 public class MainTest {
+    //todo:make after with log clear
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 

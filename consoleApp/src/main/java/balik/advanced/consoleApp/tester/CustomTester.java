@@ -1,5 +1,7 @@
 package balik.advanced.consoleApp.tester;
 
+import balik.advanced.consoleApp.parser.Message;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -17,23 +19,23 @@ public class CustomTester {
         try {
             runner = new TestRunner(inputFile, answerFile);
         } catch (IOException e) {
-            printResult("Error read answer file");
+            printResult(Message.OUTPUT_FILE_ERROR.getMessage());
             return;
         }
         try {
             runner.runTest();
         } catch (IOException e) {
-            printResult("Error read input file");
+            printResult(Message.INPUT_FILE_ERROR.getMessage());
             return;
         }
 
-        if(runner.checkTest()){
-            printResult("OK");
-        }else{
-            if(runner.isValidateInput()){
-                printResult("WA");
-            }else {
-                printResult("PE");
+        if (runner.checkTest()) {
+            printResult(Message.TEST_OK.getMessage());
+        } else {
+            if (runner.isValidateInput()) {
+                printResult(Message.WRONG_ANSWER.getMessage());
+            } else {
+                printResult(Message.INPUT_ERROR.getMessage());
             }
         }
     }
