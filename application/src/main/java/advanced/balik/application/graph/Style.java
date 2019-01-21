@@ -19,35 +19,26 @@ public enum Style {
      */
     VERTEX("vertex"),
 
+    CELL_20px("cell-20px"),
+
+    CELL_18px("cell-18px"),
+
+    CELL_16px("cell-16px"),
     /**
      * Базовый стиль ячейки дерева.
      */
     CELL_STYLE("cell"),
 
+    CELL_12px("cell-12px"),
+
+    CELL_10px("cell-10px"),
+
+    CELL_8px("cell-8px"),
+
     /**
      * Стиль выбранной ячейки дерева.
      */
-    CELL_SELECTED_STYLE("cell-selected"),
-
-    /**
-     * Базовый стиль текста строки на нижней панели (консоли).
-     */
-    CONSOLE_OUT("console-out"),
-
-    /**
-     * Стиль соединительной стрелки строк вывода на нижней панели (консоли).
-     */
-    CONSOLE_OUT_ARROW("console-out-arrow"),
-
-    /**
-     * Стиль значений вершин дерева в строках вывода на нижней панели (консоли).
-     */
-    CONSOLE_OUT_VALUE("console-out-value"),
-
-    /**
-     * Стиль текста выбранной строки на нижней панели (консоли).
-     */
-    CONSOLE_OUT_SELECTED("console-out-selected");
+    CELL_SELECTED_STYLE("cell-selected");
 
     /**
      * Имя СSS-класса из layout.css

@@ -1,4 +1,4 @@
-package balik.advanced.consoleApp.heap;
+package advanced.balik.application.model;
 
 import org.junit.After;
 import org.junit.Before;
@@ -73,7 +73,7 @@ public class LeftistHeapTest {
     }
 
     @After
-    public void closeTest() {
+    public void cleanAfter() {
         heap.clear();
     }
 }

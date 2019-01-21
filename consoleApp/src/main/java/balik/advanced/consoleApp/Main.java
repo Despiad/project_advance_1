@@ -11,6 +11,7 @@ public class Main {
         try {
             if (args.length != 0) {
                 ConsoleParser parser = new ConsoleParser();
+                parser.clearHeap();
                 /**
                  * На этом моменте парсятся команды коммандной строки
                  */
@@ -28,26 +29,22 @@ public class Main {
         }
         /**
          * В случае пропуска аргументов - сообщение об ошибке
-         */
-        catch (MissingParameterException e) {
+         */ catch (MissingParameterException e) {
             System.out.println(Message.MISSING_PARAMETER.getMessage());
         }
         /**
          * В случае некорректного ввода команды - сообщение об ошибке
-         */
-        catch (UnmatchedArgumentException e) {
+         */ catch (UnmatchedArgumentException e) {
             System.out.println(Message.UNKNOWN_COMMAND.getMessage());
         }
         /**
          * В случае повторного ввода одноразовой команды - сообщение об ошибке
-         */
-        catch (OverwrittenOptionException e) {
+         */ catch (OverwrittenOptionException e) {
             System.out.println(Message.OVERWRITTEN_OPTION.getMessage());
         }
         /**
          * В случае некорректного воода агрументов - сообщение об ошибке
-         */
-        catch (ParameterException e){
+         */ catch (ParameterException e) {
             System.out.println(Message.WRONG_PARAMETER.getMessage());
         }
     }

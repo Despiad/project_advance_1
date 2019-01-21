@@ -59,7 +59,7 @@
 
 /* Animation control panel styling */
 
-.titled-pane{
+.titled-pane {
     -fx-font: 16px "Consolas";
     -fx-text-fill: #ffaaaa;
     -fx-pref-width: 180;
@@ -161,6 +161,48 @@
 }
 
 /* Tree graph visualisation styling */
+.cell-20px {
+    -fx-font: 20px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 55;
+    -fx-pref-height: 55;
+    -fx-max-width: 105;
+    -fx-max-height: 105;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+.cell-18px {
+    -fx-font: 18px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 50;
+    -fx-pref-height: 50;
+    -fx-max-width: 100;
+    -fx-max-height: 100;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+.cell-16px {
+    -fx-font: 16px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 45;
+    -fx-pref-height: 45;
+    -fx-max-width: 95;
+    -fx-max-height: 95;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
 
 .cell {
     -fx-font: 14px "Consolas";
@@ -172,6 +214,48 @@
     -fx-pref-height: 40;
     -fx-max-width: 90;
     -fx-max-height: 90;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+.cell-12px {
+    -fx-font: 12px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 35;
+    -fx-pref-height: 35;
+    -fx-max-width: 85;
+    -fx-max-height: 85;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+.cell-10px {
+    -fx-font: 10px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
+    -fx-max-width: 80;
+    -fx-max-height: 80;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+.cell-8px {
+    -fx-font: 8px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 25;
+    -fx-pref-height: 25;
+    -fx-max-width: 75;
+    -fx-max-height: 75;
     -fx-alignment: center;
     -fx-background-color: white;
 }

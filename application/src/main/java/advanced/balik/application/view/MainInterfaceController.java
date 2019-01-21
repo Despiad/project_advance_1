@@ -3,6 +3,7 @@ package advanced.balik.application.view;
 import advanced.balik.application.MainApp;
 import advanced.balik.application.graph.HeapGraph;
 import advanced.balik.application.graph.Style;
+import advanced.balik.application.graph.ViewMode;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -12,6 +13,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -21,7 +25,11 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainInterfaceController {
@@ -67,8 +75,14 @@ public class MainInterfaceController {
     private TextField inputValue;
     @FXML
     private TextField turnValue;
+    /* Workspace */
+
     @FXML
     private FlowPane board;
+
+    @FXML
+    private ScrollPane viewArea;
+
     @FXML
     private BorderPane workSpace;
     @FXML
@@ -87,8 +101,6 @@ public class MainInterfaceController {
     private AnchorPane rightControlGroup;
 
     private Integer step;
-
-    private List<Integer> data;
 
     private List<Integer> turns;
 
@@ -109,7 +121,6 @@ public class MainInterfaceController {
 
     public MainInterfaceController() {
         step = 0;
-        this.data = new ArrayList<>();
         this.turns = new ArrayList<>();
     }
 
@@ -118,6 +129,8 @@ public class MainInterfaceController {
         Group content = heapGraph.getContent();
         board.getChildren().add(content);
         animation.setCycleCount(Animation.INDEFINITE);
+        mode = new ArrayList<>(Arrays.asList(ViewMode.values()));
+        currMode = ViewMode.STANDART;
         logAction(Action.EMPTY.getAction());
     }
 
@@ -131,32 +144,84 @@ public class MainInterfaceController {
     @FXML
     private void insert() {
         getInput(inputValue).ifPresent(value -> {
-            if (!data.contains(value)) {
+            if (!heapGraph.checkValue(value)) {
+                ++step;
                 heapGraph.addNode(value);
-                data.add(value);
                 logAction(String.format(Action.INSERT.getAction(), value));
+            } else {
+                log.error(Error.ALREADY_IN_THIS_HEAP.getMessage());
+                showError(Error.ALREADY_IN_THIS_HEAP);
             }
         });
     }
 
     @FXML
-    private void getMin() {
+    private void getMinWithAnimation() {
+        ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
-            logAction(String.format(Action.MIN.getAction(), min));
+
+            Thread minThread = new Thread(() -> {
+                try {
+                    Platform.runLater(() -> disableAll(true));
+                    Platform.runLater(heapGraph::unselect);
+                    Thread.sleep(1000);
+                    Platform.runLater(() -> {
+                        heapGraph.findNode(min);
+                        logAction(String.format(Action.MIN.getAction(), min));
+                    });
+                    Thread.sleep(1000);
+                    Platform.runLater(() -> {
+                        heapGraph.unselect();
+                        heapGraph.extractMin();
+                        logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
+                    });
+                    Platform.runLater(() -> disableAll(false));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            minThread.start();
+        } else {
+            logAction(Action.EMPTY.getAction());
+        }
+
+    }
+
+    private void getMin() {
+        ++step;
+        if (!heapGraph.isEmpty()) {
+            int min = heapGraph.getMin();
+            heapGraph.extractMin();
+            logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
         } else {
             logAction(Action.EMPTY.getAction());
         }
     }
+
+    @FXML
+    public void stepBack() {
+        heapGraph.unselect();
+        boolean isBack = heapGraph.stepBack();
+        if (isBack) {
+            step++;
+            logAction(Action.STEP_BACK.getAction());
+        } else {
+            log.error("Attempt to access non-existent version.");
+            showError(Error.NO_VERSIONS);
+        }
+    }
+
 
     /**
      * Очистить дерево.
      */
     @FXML
     public void clean() {
-        data.clear();
         heapGraph.clear();
         inputValue.clear();
+        ++step;
         logAction(Action.CLEAR.getAction());
     }
 
@@ -167,10 +232,13 @@ public class MainInterfaceController {
     public void insertRandom() {
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
-        if (!data.contains(randomValue)) {
+        if (!heapGraph.checkValue(randomValue)) {
+            ++step;
             heapGraph.addNode(randomValue);
-            data.add(randomValue);
             logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
+            navigateToSelected();
+        } else {
+            insertRandom();
         }
     }
 
@@ -202,7 +270,6 @@ public class MainInterfaceController {
      **/
     private void logAction(String action) {
         log.info(action);
-        ++step;
         stepLabel.setText(step.toString());
         logLabel.setText(action);
     }
@@ -233,18 +300,12 @@ public class MainInterfaceController {
         if (input.matches("^(-?)\\d+")) {
             optional = Optional.of(Integer.parseInt(input));
         } else {
+            log.error(Error.INVALID_INPUT.getHeader());
             optional = Optional.empty();
+            showError(Error.INVALID_INPUT);
         }
         inputField.clear();
         return optional;
-    }
-
-    /**
-     * Завершить работу программы.
-     */
-    @FXML
-    public void close() {
-        Platform.exit();
     }
 
     /**
@@ -259,6 +320,11 @@ public class MainInterfaceController {
                 .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
                 .filter(node -> !node.equals(animationPane))
                 .collect(Collectors.toSet());
+        controls.forEach(node -> node.setDisable(disable));
+    }
+
+    private void disableAll(boolean disable) {
+        Set<Node> controls = new HashSet<>(sideBar.getChildren());
         controls.forEach(node -> node.setDisable(disable));
     }
 
@@ -288,6 +354,27 @@ public class MainInterfaceController {
         animation.stop();
         turns.clear();
         disableControls(false);
+    }
+
+    /**
+     * Сдвинуть экран до выделенной ячейки.
+     */
+    private void navigateToSelected() {
+        heapGraph.getSelected().ifPresent(label -> {
+            Group content = heapGraph.getContent();
+
+            double layoutX = label.getLayoutX() + label.getWidth();
+            double layoutMaxX = content.getBoundsInLocal().getMaxX();
+            double layoutMinX = content.getBoundsInLocal().getMinX();
+            double newH = (layoutX + Math.abs(layoutMinX)) / (Math.abs(layoutMaxX) + Math.abs(layoutMinX));
+            viewArea.setHvalue(new BigDecimal(newH).setScale(2, RoundingMode.HALF_UP).doubleValue());
+
+            double layoutY = label.getLayoutY() + label.getWidth();
+            double layoutMaxY = content.getBoundsInLocal().getMaxY();
+            double layoutMinY = content.getBoundsInLocal().getMinY();
+            double newV = (layoutY + Math.abs(layoutMinY)) / (Math.abs(layoutMaxY) + Math.abs(layoutMinY));
+            viewArea.setVvalue(new BigDecimal(newV).setScale(3, RoundingMode.HALF_UP).doubleValue());
+        });
     }
 
     /**
@@ -340,6 +427,62 @@ public class MainInterfaceController {
 
         if (text.equals("Only min")) {
             onlyMin = true;
+        }
+    }
+
+    private void showError(Error error) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(mainApp.getPrimaryStage());
+        alert.setTitle("Error!");
+        alert.setHeaderText(error.getHeader());
+        alert.setContentText(error.getMessage());
+
+        alert.showAndWait();
+    }
+
+    /**menu bar**/
+
+    /**
+     * Завершить работу программы.
+     */
+    @FXML
+    public void close() {
+        Platform.exit();
+    }
+
+    /**
+     * View
+     **/
+    private List<ViewMode> mode;
+    private ViewMode currMode;
+
+    @FXML
+    public void setDefault() {
+        heapGraph.setMode(ViewMode.STANDART);
+        currMode = ViewMode.STANDART;
+    }
+
+    @FXML
+    public void zoomIn() {
+        int index = mode.indexOf(currMode);
+        if (index != 0) {
+            currMode = mode.get(index - 1);
+            heapGraph.setMode(currMode);
+        } else {
+            log.error(Error.MAX_CELL_SIZE.getHeader());
+            showError(Error.MAX_CELL_SIZE);
+        }
+    }
+
+    @FXML
+    public void zoomOut() {
+        int index = mode.indexOf(currMode);
+        if (index != mode.size() - 1) {
+            currMode = mode.get(index + 1);
+            heapGraph.setMode(currMode);
+        } else {
+            log.error(Error.MIN_CELL_SIZE.getHeader());
+            showError(Error.MIN_CELL_SIZE);
         }
     }
 }

@@ -2,6 +2,7 @@ package advanced.balik.application.graph;
 
 import advanced.balik.application.model.LeftHeapNode;
 import advanced.balik.application.model.LeftistHeap;
+import advanced.balik.application.model.PersistentLeftistHeap;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -21,12 +22,14 @@ public class HeapGraph {
     /**
      * Базовый радиус ячейки на графе.
      */
-    private static final double CELL_RADIUS = 20;
+    static double CELL_RADIUS;
 
     /**
      * Вертикальное расстояние между вершинами графа.
      */
-    private static final double VERTICAL_GAP = CELL_RADIUS * 3;
+    private static double VERTICAL_GAP;
+
+    private ViewMode currMode;
 
     /**
      * Ячейки - группа вершин графа, предстваленных стилизованным {@link Label}.
@@ -49,7 +52,7 @@ public class HeapGraph {
      */
     private final GraphCache cache = new GraphCache();
 
-    private LeftistHeap tree;
+    private PersistentLeftistHeap persistentTree;
 
 
     /**
@@ -59,7 +62,8 @@ public class HeapGraph {
         cells = new Group();
         vertexes = new Group();
         content = new Group(vertexes, cells);
-        tree = new LeftistHeap();
+        persistentTree = new PersistentLeftistHeap();
+        currMode = ViewMode.STANDART;
     }
 
     /**
@@ -68,23 +72,28 @@ public class HeapGraph {
      * @param value целое число.
      */
     public void addNode(int value) {
-        tree.insert(value);
+        persistentTree = persistentTree.insert(value);
         draw();
         findNode(value);
     }
 
     public int getMin() {
-        int min=tree.exctractMin();
+        return persistentTree.getMin();
+    }
+
+    public void extractMin() {
+        persistentTree = persistentTree.extractMin();
         draw();
-        return min;
     }
 
     /**
      * Метод перерисовки графа.
      */
     private void draw() {
+        CELL_RADIUS = currMode.getCellRadius();
+        VERTICAL_GAP = CELL_RADIUS * 3;
         scrap();
-        display(tree);
+        display(persistentTree);
     }
 
     /**
@@ -92,7 +101,7 @@ public class HeapGraph {
      *
      * @param tree модель данных, на основе которой выполняется построение графа.
      */
-    private void display(LeftistHeap tree) {
+    private void display(PersistentLeftistHeap tree) {
         Map<Integer, Position> levels = buildLevels(tree, new Position(0, 0));
 
         levels.forEach(this::drawCell);
@@ -110,7 +119,7 @@ public class HeapGraph {
      *
      * @return карта позиций для каждого значения из дерева.
      */
-    private Map<Integer, Position> buildLevels(LeftistHeap tree, Position position) {
+    private Map<Integer, Position> buildLevels(PersistentLeftistHeap tree, Position position) {
         if (tree.isEmpty()) return Collections.emptyMap();
 
         Map<Integer, Position> nodeMap = new HashMap<>();
@@ -119,8 +128,8 @@ public class HeapGraph {
 
         rootNode.ifPresent(root -> nodeMap.put(root.getElement(), position));
 
-        LeftistHeap left = new LeftistHeap(tree.getRoot().getLeft());
-        LeftistHeap right = new LeftistHeap(tree.getRoot().getRight());
+        PersistentLeftistHeap left = new PersistentLeftistHeap(tree.getRoot().getLeft(), tree);
+        PersistentLeftistHeap right = new PersistentLeftistHeap(tree.getRoot().getRight(), tree);
 
         int height = right.height() > left.height() ? right.height() : left.height();
         double horizontalGap = (CELL_RADIUS * 0.75) * (1L << height); // fastest way to get a power of 2
@@ -143,8 +152,8 @@ public class HeapGraph {
         String text = String.valueOf(value);
         Label cell = cache.getCell(value, () -> {
             Label newCell = new Label(text);
-            newCell.setId(text);//TODO:UNIQUE ID
-            newCell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
+            newCell.setId(text);
+            newCell.getStyleClass().add(currMode.getStyle().getStyleClass());
             return newCell;
         });
         cell.setLayoutX(position.x - CELL_RADIUS);
@@ -160,14 +169,14 @@ public class HeapGraph {
      *
      * @param tree {@link LeftistHeap}
      */
-    private void drawVertexes(LeftistHeap tree) {
+    private void drawVertexes(PersistentLeftistHeap tree) {
         Optional<LeftHeapNode> root = Optional.ofNullable(tree.getRoot());
 
         if (root.isPresent()) {
             int rootVal = root.get().getElement();
 
-            LeftistHeap leftBranch = new LeftistHeap(tree.getRoot().getLeft());
-            LeftistHeap rightBranch = new LeftistHeap(tree.getRoot().getRight());
+            PersistentLeftistHeap leftBranch = new PersistentLeftistHeap(tree.getRoot().getLeft(), tree);
+            PersistentLeftistHeap rightBranch = new PersistentLeftistHeap(tree.getRoot().getRight(), tree);
 
             Optional<LeftHeapNode> right = Optional.ofNullable(rightBranch.getRoot());
             Optional<LeftHeapNode> left = Optional.ofNullable(leftBranch.getRoot());
@@ -180,10 +189,7 @@ public class HeapGraph {
                 drawVertexes(leftBranch);
             }
         }
-
     }
-
-    //TODO: UNIQUE VERTEX
 
     /**
      * Метод отрисовки ребра графа между двумя его вершинами с указанными значениями.
@@ -213,7 +219,8 @@ public class HeapGraph {
     /**
      * Убрать выделение с выделенной вершины графа.
      */
-    private void unselect() {
+    //TODO:test this
+    public void unselect() {
         cells.getChildren()
                 .forEach(node -> node.getStyleClass()
                         .removeIf(Predicate.isEqual(Style.CELL_SELECTED_STYLE.getStyleClass())));
@@ -250,16 +257,22 @@ public class HeapGraph {
      *
      * @param value искомое значение.
      */
+    //TODO:test this
     public void findNode(int value) {
         Optional.ofNullable(cells.lookup("#" + value))
                 .ifPresent(node -> selectCell((Label) node));
+    }
+
+    //TODO:test this
+    public boolean checkValue(int value) {
+        return cells.lookup("#" + value) != null;
     }
 
     /**
      * Метод очистки графа: очищает модель, визуальное предстваление и даже память!
      */
     public void clear() {
-        tree.clear();
+        persistentTree = persistentTree.clear();
         scrap();
         cache.drop();
         System.gc(); //не делайте этого дома без надзора взрослых
@@ -272,7 +285,7 @@ public class HeapGraph {
      * @return результат проверки
      */
     public boolean isEmpty() {
-        return tree.isEmpty();
+        return persistentTree.isEmpty();
     }
 
     /**
@@ -292,6 +305,26 @@ public class HeapGraph {
         return content;
     }
 
+    public boolean stepBack() {
+        if (persistentTree.getPrevious() != null) {
+            persistentTree = persistentTree.getPrevious();
+            draw();
+            return true;
+        }
+        return false;
+    }
+
+    public void setMode(ViewMode mode) {
+        currMode = mode;
+        Optional<Label> selected = getSelected();
+        Optional<Integer> number;
+        number = selected.map(label -> Integer.parseInt(label.getText()));
+        cache.drop();
+        draw();
+        if (number.isPresent()) {
+            findNode(number.get());
+        }
+    }
 
     private static final class GraphCache {
 

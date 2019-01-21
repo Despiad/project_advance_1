@@ -12,7 +12,15 @@ public enum Message {
     CANT_RESOLVE_SYMBOLS("Can't resolve symbols"),
     OVERWRITTEN_OPTION("Option should be specified only once"),
     WRONG_PARAMETER("Wrong parameter"),
-    NO_COMMANDS("There are no commands");
+    NO_COMMANDS("There are no commands"),
+    /**
+     * TESTER MESSAGES
+     **/
+    TEST_OK("OK - Solution passed"),
+    INPUT_ERROR("IE - Invalid input format"),
+    WRONG_ANSWER("WA - Wrong answer"),
+    INPUT_FILE_ERROR("RE - Error reading input file"),
+    OUTPUT_FILE_ERROR("RE - Error reading answer file");
 
     private final String message;
 
