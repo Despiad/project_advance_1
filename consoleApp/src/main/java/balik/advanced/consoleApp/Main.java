@@ -43,7 +43,7 @@ public class Main {
             System.out.println(Message.OVERWRITTEN_OPTION.getMessage());
         }
         /**
-         * В случае некорректного воода агрументов - сообщение об ошибке
+         * В случае некорректного ввода агрументов - сообщение об ошибке
          */ catch (ParameterException e) {
             System.out.println(Message.WRONG_PARAMETER.getMessage());
         }

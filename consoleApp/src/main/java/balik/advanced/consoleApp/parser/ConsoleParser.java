@@ -1,6 +1,7 @@
 package balik.advanced.consoleApp.parser;
 
 import balik.advanced.consoleApp.heap.LeftistHeap;
+import balik.advanced.consoleApp.tester.CustomTester;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -14,7 +15,7 @@ import static picocli.CommandLine.*;
 /**
  * Класс с командами, необходимыми для работы с консольной версией приложения.
  *
- * @version 1.1
+ * @version 1.2
  * @autor Александр Яцюк
  */
 public class ConsoleParser {
@@ -65,6 +66,26 @@ public class ConsoleParser {
         } catch (IOException e) {
             System.out.println(Message.CANT_RESOLVE_SYMBOLS.getMessage());
         }
+    }
+
+    /**
+     * names       - имя команды
+     * description - описание команды
+     *
+     * @Option - аннотация для описания команды командной строки
+     */
+    @Option(names = {"test"}, description = "Run test(s) from file")
+
+    /**
+     * Функция для запуска собственных тестов  из файла
+     * @param inputFile  - путь файла с тестами
+     * @param answerFile - путь файла с результами
+     */
+    void customTest(String inputFile, String answerFile) {
+        File input = new File(inputFile);
+        File answer = new File(answerFile);
+        CustomTester tester = new CustomTester(input, answer);
+        tester.runTest();
     }
 
     /**
