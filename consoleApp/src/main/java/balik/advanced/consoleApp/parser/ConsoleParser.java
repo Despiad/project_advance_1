@@ -61,13 +61,12 @@ public class ConsoleParser {
      * @param answerFile - путь файла с результами
      */
     void customTest(String[] paths) {
-        if (paths.length !=2) {
-            System.out.println("Incorrect number of parameters");
-            return;
+        if (paths.length != 2) {
+            System.out.println(Message.WRONG_PARAMETER_NUMBER.getMessage());
         } else {
             File input = new File(paths[0]);
             File answer = new File(paths[1]);
-            CustomTester tester = new CustomTester(input,answer);
+            CustomTester tester = new CustomTester(input, answer);
             tester.runTest();
         }
     }
@@ -107,7 +106,6 @@ public class ConsoleParser {
      * @param parameters - имена параметров для команды -e
      */
     void extract(String[] parameters) {
-        System.out.println(parameters[0]);
         if (heap.isEmpty()) {
             System.out.println(Message.EMPTY_HEAP.getMessage());
             return;
