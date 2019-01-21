@@ -7,6 +7,7 @@ import picocli.CommandLine;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import static balik.advanced.consoleApp.parser.FileParser.readFile;
 import static picocli.CommandLine.*;
@@ -15,7 +16,7 @@ import static picocli.CommandLine.*;
 /**
  * Класс с командами, необходимыми для работы с консольной версией приложения.
  *
- * @version 1.2
+ * @version 1.3
  * @autor Александр Яцюк
  */
 public class ConsoleParser {
@@ -52,6 +53,31 @@ public class ConsoleParser {
      *
      * @Option - аннотация для описания команды командной строки
      */
+    @Option(names = {"-t", "--test"}, split = ",", description = "Run test(s) from file")
+
+    /**
+     * Функция для запуска собственных тестов  из файла
+     * @param inputFile  - путь файла с тестами
+     * @param answerFile - путь файла с результами
+     */
+    void customTest(String[] paths) {
+        if (paths.length !=2) {
+            System.out.println("Incorrect number of parameters");
+            return;
+        } else {
+            File input = new File(paths[0]);
+            File answer = new File(paths[1]);
+            CustomTester tester = new CustomTester(input,answer);
+            tester.runTest();
+        }
+    }
+
+    /**
+     * names       - имя команды
+     * description - описание команды
+     *
+     * @Option - аннотация для описания команды командной строки
+     */
     @Option(names = {"-f", "--file"}, description = "Run program from file")
     /**
      * Функция для парсинга команд из файла
@@ -74,26 +100,6 @@ public class ConsoleParser {
      *
      * @Option - аннотация для описания команды командной строки
      */
-    @Option(names = {"test"}, description = "Run test(s) from file")
-
-    /**
-     * Функция для запуска собственных тестов  из файла
-     * @param inputFile  - путь файла с тестами
-     * @param answerFile - путь файла с результами
-     */
-    void customTest(String inputFile, String answerFile) {
-        File input = new File(inputFile);
-        File answer = new File(answerFile);
-        CustomTester tester = new CustomTester(input, answer);
-        tester.runTest();
-    }
-
-    /**
-     * names       - имя команды
-     * description - описание команды
-     *
-     * @Option - аннотация для описания команды командной строки
-     */
     @Option(names = {"-e", "--extract"}, description = "Extract min number from the heap")
 
     /**
@@ -101,6 +107,7 @@ public class ConsoleParser {
      * @param parameters - имена параметров для команды -e
      */
     void extract(String[] parameters) {
+        System.out.println(parameters[0]);
         if (heap.isEmpty()) {
             System.out.println(Message.EMPTY_HEAP.getMessage());
             return;

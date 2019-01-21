@@ -126,7 +126,7 @@ public class MainTest {
     @Test
     public void testCorrect() {
         systemOutRule.clearLog();
-        final String[] args = {"test", "./src/main/resources/inputTest.txt", "./src/main/resources/outputTest.txt"};
+        final String[] args = {"-t", "./src/main/resources/inputTest.txt,./src/main/resources/outputTest.txt"};
         final String expectedOut = Message.TEST_OK.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
@@ -135,8 +135,8 @@ public class MainTest {
     @Test
     public void testIncorrect() {
         systemOutRule.clearLog();
-        final String[] args = {"test", "./src/main/resources/incorrectTest.txt", "./src/main/resources/outputTest.txt"};
-        final String expectedOut =Message.WRONG_ANSWER.getMessage() + "\n";
+        final String[] args = {"--test", "./src/main/resources/incorrectTest.txt,./src/main/resources/outputTest.txt"};
+        final String expectedOut = Message.WRONG_ANSWER.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
     }
@@ -144,7 +144,7 @@ public class MainTest {
     @Test
     public void testValidate() {
         systemOutRule.clearLog();
-        final String[] args = {"test", "./src/main/resources/validateTest.txt", "./src/main/resources/outputTest.txt"};
+        final String[] args = {"--test", "./src/main/resources/validateTest.txt,./src/main/resources/outputTest.txt"};
         final String expectedOut = Message.INPUT_ERROR.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
@@ -153,7 +153,7 @@ public class MainTest {
     @Test
     public void testIncorrectOutputFile() {
         systemOutRule.clearLog();
-        final String[] args = {"test", "./src/main/resources/inputTest.txt", "where is it?"};
+        final String[] args = {"--test", "./src/main/resources/inputTest.txt,where is it?"};
         final String expectedOut = Message.OUTPUT_FILE_ERROR.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
@@ -162,7 +162,7 @@ public class MainTest {
     @Test
     public void testIncorrectInputFile() {
         systemOutRule.clearLog();
-        final String[] args = {"test", "where is it?", "./src/main/resources/outputTest.txt"};
+        final String[] args = {"--test", "where is it?,./src/main/resources/outputTest.txt"};
         final String expectedOut = Message.INPUT_FILE_ERROR.getMessage() + "\n";
         Main.main(args);
         assertEquals(expectedOut, systemOutRule.getLog());
