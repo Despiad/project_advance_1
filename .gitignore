@@ -5,4 +5,4 @@ target
 */*.log
 */*.log**
 */.allure
-*/target
+*/cmake-build-debug
