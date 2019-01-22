@@ -21,7 +21,12 @@ public enum Message {
     INPUT_ERROR("IE - Invalid input format"),
     WRONG_ANSWER("WA - Wrong answer"),
     INPUT_FILE_ERROR("RE - Error reading input file"),
-    OUTPUT_FILE_ERROR("RE - Error reading answer file");
+    OUTPUT_FILE_ERROR("RE - Error reading answer file"),
+    /**
+     * TESTER TOKEN
+     **/
+    GET_MIN("min"),
+    DELETE_MIN("extractMin");
 
     private final String message;
 
