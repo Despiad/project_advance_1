@@ -1,3 +1,0 @@
-/home/balik/Desktop/Programming/project_advance_1/cppRealization/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/balik/Desktop/Programming/project_advance_1/cppRealization/cmake-build-debug/CMakeFiles/cppRealization.dir
-/home/balik/Desktop/Programming/project_advance_1/cppRealization/cmake-build-debug/CMakeFiles/edit_cache.dir
