@@ -141,16 +141,25 @@ public class MainInterfaceController {
     /**
      * HEAP OPERATIONS
      **/
+    //TODO: too big input
     @FXML
     private void insert() {
         getInput(inputValue).ifPresent(value -> {
             if (!heapGraph.checkValue(value)) {
-                ++step;
-                heapGraph.addNode(value);
-                logAction(String.format(Action.INSERT.getAction(), value));
+                if (Math.abs(value) < 1000) {
+                    ++step;
+                    heapGraph.addNode(value);
+                    logAction(String.format(Action.INSERT.getAction(), value));
+                } else {
+                    log.error(Error.TOO_BIG.getHeader());
+                    showError(Error.TOO_BIG);
+                }
             } else {
-                log.error(Error.ALREADY_IN_THIS_HEAP.getMessage());
-                showError(Error.ALREADY_IN_THIS_HEAP);
+                ++step;
+                heapGraph.unselect();
+                heapGraph.findNode(value);
+                navigateToSelected();
+                logAction(String.format(Action.ALREADY_IN_THE_HEAP.getAction(), value));
             }
         });
     }
@@ -219,6 +228,7 @@ public class MainInterfaceController {
      */
     @FXML
     public void clean() {
+        heapGraph.unselect();
         heapGraph.clear();
         inputValue.clear();
         ++step;

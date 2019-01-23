@@ -7,8 +7,8 @@ public enum Action {
     EXTRACT_MIN("A minimum element equal to %d was taken from the heap."),
     CLEAR("Heap was cleaned!"),
     EMPTY("Heap is empty!"),
-    STEP_BACK("Step back to previous heap!");
-
+    STEP_BACK("Step back to previous heap!"),
+    ALREADY_IN_THE_HEAP("Element %d is already in the heap");
     private final String action;
 
     Action(String action) {
