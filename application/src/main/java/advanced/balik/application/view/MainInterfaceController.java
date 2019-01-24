@@ -4,6 +4,7 @@ import advanced.balik.application.MainApp;
 import advanced.balik.application.graph.HeapGraph;
 import advanced.balik.application.graph.Style;
 import advanced.balik.application.graph.ViewMode;
+import advanced.balik.application.graph.Turn;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,7 +26,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -109,9 +109,9 @@ public class MainInterfaceController {
             actionEvent -> {
                 if (!turns.isEmpty()) {
                     if (turns.get(0) == 1) {
-                        insertRandom();
+                        insertWithoutAnimation();
                     } else {
-                        getMin();
+                        getMinWithoutAnimation();
                     }
                     turns.remove(0);
                 } else {
@@ -141,15 +141,13 @@ public class MainInterfaceController {
     /**
      * HEAP OPERATIONS
      **/
-    //TODO: too big input
     @FXML
     private void insert() {
         getInput(inputValue).ifPresent(value -> {
             if (!heapGraph.checkValue(value)) {
                 if (Math.abs(value) < 1000) {
                     ++step;
-                    heapGraph.addNode(value);
-                    logAction(String.format(Action.INSERT.getAction(), value));
+                    insertInOtherThread(value);
                 } else {
                     log.error(Error.TOO_BIG.getHeader());
                     showError(Error.TOO_BIG);
@@ -164,8 +162,60 @@ public class MainInterfaceController {
         });
     }
 
+    private void insertWithoutAnimation() {
+        RANDOM.setSeed(System.currentTimeMillis());
+        int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
+        if (!heapGraph.checkValue(randomValue)) {
+            ++step;
+            heapGraph.addNode(randomValue);
+            heapGraph.draw();
+            heapGraph.unselect();
+            heapGraph.findNode(randomValue);
+            logAction(String.format(Action.INSERT.getAction(), randomValue));
+            navigateToSelected();
+        } else {
+            insertWithoutAnimation();
+        }
+    }
+
+    //todo:find with other color??
+    private void insertInOtherThread(int value) {
+        Thread insertThread = new Thread(() -> {
+            Platform.runLater(() -> this.disableAll(true));
+            heapGraph.addNode(value);
+            ArrayList<Turn> mergeLogs = heapGraph.getLog();
+
+            for (Turn currentTurn : mergeLogs) {
+                Platform.runLater(() -> {
+                    heapGraph.drawCurrent(currentTurn.getHeap());
+                    if (!heapGraph.checkValue(value)) {
+                        Platform.runLater(() -> heapGraph.drawFutureNewElement(value));
+                    }
+                    heapGraph.unselect();
+                    heapGraph.findNode(currentTurn.getSelectedNode());
+                    navigateToSelected();
+                    logAction(currentTurn.getTurnLog());
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Platform.runLater(heapGraph::draw);
+            Platform.runLater(() -> heapGraph.findNode(value));
+            Platform.runLater(this::navigateToSelected);
+            Platform.runLater(() -> logAction(String.format(Action.INSERT.getAction(), value)));
+            Platform.runLater(() -> this.disableAll(false));
+        });
+
+        insertThread.start();
+    }
+
+
     @FXML
-    private void getMinWithAnimation() {
+    private void getMin() {
         ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
@@ -177,6 +227,7 @@ public class MainInterfaceController {
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
                         heapGraph.findNode(min);
+                        this.navigateToSelected();
                         logAction(String.format(Action.MIN.getAction(), min));
                     });
                     Thread.sleep(1000);
@@ -198,7 +249,7 @@ public class MainInterfaceController {
 
     }
 
-    private void getMin() {
+    private void getMinWithoutAnimation() {
         ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
@@ -244,9 +295,7 @@ public class MainInterfaceController {
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         if (!heapGraph.checkValue(randomValue)) {
             ++step;
-            heapGraph.addNode(randomValue);
-            logAction(String.format(Action.INSERT_RANDOM.getAction(), randomValue));
-            navigateToSelected();
+            insertInOtherThread(randomValue);
         } else {
             insertRandom();
         }
