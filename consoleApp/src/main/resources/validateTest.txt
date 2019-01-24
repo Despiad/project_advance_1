@@ -1,6 +1,6 @@
 1
 2
 3
-min
-min
 max
+min
+min

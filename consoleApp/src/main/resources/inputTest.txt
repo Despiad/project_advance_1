@@ -2,5 +2,8 @@
 2
 3
 min
+extractMin
 min
+extractMin
 min
+extractMin

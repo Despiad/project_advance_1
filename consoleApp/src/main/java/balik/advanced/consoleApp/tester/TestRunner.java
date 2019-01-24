@@ -1,6 +1,7 @@
 package balik.advanced.consoleApp.tester;
 
 import balik.advanced.consoleApp.heap.LeftistHeap;
+import balik.advanced.consoleApp.parser.Message;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -48,10 +49,13 @@ class TestRunner {
 
             String currLine = bufferedReader.readLine();
             while (currLine != null) {
-                if (currLine.equals("min")) {
+                if (currLine.equals(Message.GET_MIN.getMessage())) {
                     inputResults.add(String.valueOf(testHeap.getMin()));
+                }
+                else if(currLine.equals(Message.DELETE_MIN.getMessage())){
                     testHeap.extractMin();
-                } else {
+                }
+                else {
                     Optional<Integer> newValue = getInput(currLine);
                     if (newValue.isPresent()) {
                         testHeap.insert(newValue.get());
