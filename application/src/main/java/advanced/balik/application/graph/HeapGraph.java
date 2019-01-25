@@ -10,10 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -73,8 +70,10 @@ public class HeapGraph {
      */
     public void addNode(int value) {
         persistentTree = persistentTree.insert(value);
-        draw();
-        findNode(value);
+    }
+
+    public ArrayList<Turn> getLog() {
+        return persistentTree.getMergeLog();
     }
 
     public int getMin() {
@@ -83,17 +82,27 @@ public class HeapGraph {
 
     public void extractMin() {
         persistentTree = persistentTree.extractMin();
-        draw();
     }
 
     /**
      * Метод перерисовки графа.
      */
-    private void draw() {
+    public void draw() {
         CELL_RADIUS = currMode.getCellRadius();
         VERTICAL_GAP = CELL_RADIUS * 3;
         scrap();
         display(persistentTree);
+    }
+
+    public void drawCurrent(PersistentLeftistHeap heap) {
+        CELL_RADIUS = currMode.getCellRadius();
+        VERTICAL_GAP = CELL_RADIUS * 3;
+        scrap();
+        display(heap);
+    }
+
+    public void drawFutureNewElement(int value) {
+        drawCell(value, new Position(4*CELL_RADIUS, 0));
     }
 
     /**
@@ -128,8 +137,8 @@ public class HeapGraph {
 
         rootNode.ifPresent(root -> nodeMap.put(root.getElement(), position));
 
-        PersistentLeftistHeap left = new PersistentLeftistHeap(tree.getRoot().getLeft(), tree);
-        PersistentLeftistHeap right = new PersistentLeftistHeap(tree.getRoot().getRight(), tree);
+        PersistentLeftistHeap left = new PersistentLeftistHeap(tree.getRoot().getLeft());
+        PersistentLeftistHeap right = new PersistentLeftistHeap(tree.getRoot().getRight());
 
         int height = right.height() > left.height() ? right.height() : left.height();
         double horizontalGap = (CELL_RADIUS * 0.75) * (1L << height); // fastest way to get a power of 2
@@ -175,8 +184,8 @@ public class HeapGraph {
         if (root.isPresent()) {
             int rootVal = root.get().getElement();
 
-            PersistentLeftistHeap leftBranch = new PersistentLeftistHeap(tree.getRoot().getLeft(), tree);
-            PersistentLeftistHeap rightBranch = new PersistentLeftistHeap(tree.getRoot().getRight(), tree);
+            PersistentLeftistHeap leftBranch = new PersistentLeftistHeap(tree.getRoot().getLeft());
+            PersistentLeftistHeap rightBranch = new PersistentLeftistHeap(tree.getRoot().getRight());
 
             Optional<LeftHeapNode> right = Optional.ofNullable(rightBranch.getRoot());
             Optional<LeftHeapNode> left = Optional.ofNullable(leftBranch.getRoot());
