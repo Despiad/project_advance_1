@@ -110,7 +110,7 @@ void extractTime(LeftistHeap &heap, std::ostream &output = std::cout) {
         std::chrono::high_resolution_clock::time_point finish = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-        if (duration <= 8000 && index % 10 == 0) {
+        if (duration <= 5000 && index % 1000 == 0) {
             output << index << ',' << duration << '\n';
         }
     }
