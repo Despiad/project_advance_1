@@ -82,7 +82,6 @@ public class HeapGraph {
 
     public void extractMin() {
         persistentTree = persistentTree.extractMin();
-        draw();
     }
 
     /**

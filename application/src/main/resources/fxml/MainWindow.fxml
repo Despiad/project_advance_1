@@ -154,7 +154,7 @@
                                         </HBox>
                                         <Label fx:id="logLabel" alignment="CENTER" layoutX="198.0" layoutY="23.0" prefHeight="25.0" prefWidth="228.0" text="HEAP IS EMPTY" textAlignment="CENTER" textFill="#dd8484" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                             <font>
-                                                <Font size="21.0" />
+                                                <Font name="System Bold" size="18.0" />
                                             </font>
                                         </Label>
                                     </children>
@@ -173,7 +173,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="View">
+                <Menu fx:id="viewMenu" mnemonicParsing="false" text="View">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="Zoom in" />
                         <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="Zoom out" />

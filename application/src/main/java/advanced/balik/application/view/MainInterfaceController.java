@@ -99,6 +99,8 @@ public class MainInterfaceController {
     private AnchorPane lowerTab;
     @FXML
     private AnchorPane rightControlGroup;
+    @FXML
+    private Menu viewMenu;
 
     private Integer step;
 
@@ -178,7 +180,6 @@ public class MainInterfaceController {
         }
     }
 
-    //todo:find with other color??
     private void insertInOtherThread(int value) {
         Thread insertThread = new Thread(() -> {
             Platform.runLater(() -> this.disableAll(true));
@@ -227,15 +228,32 @@ public class MainInterfaceController {
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
                         heapGraph.findNode(min);
-                        this.navigateToSelected();
+                        navigateToSelected();
                         logAction(String.format(Action.MIN.getAction(), min));
                     });
                     Thread.sleep(1000);
+
+                    Platform.runLater(heapGraph::unselect);
+                    heapGraph.extractMin();
+                    ArrayList<Turn> mergeLogs = heapGraph.getLog();
+
+                    for (Turn currentTurn : mergeLogs) {
+                        Platform.runLater(() -> {
+                            heapGraph.drawCurrent(currentTurn.getHeap());
+                            heapGraph.unselect();
+                            heapGraph.findNode(currentTurn.getSelectedNode());
+                            navigateToSelected();
+                            logAction(currentTurn.getTurnLog());
+                        });
+                        Thread.sleep(1000);
+                    }
+
                     Platform.runLater(() -> {
                         heapGraph.unselect();
-                        heapGraph.extractMin();
+                        heapGraph.draw();
                         logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
                     });
+
                     Platform.runLater(() -> disableAll(false));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -380,11 +398,13 @@ public class MainInterfaceController {
                 .filter(node -> !node.equals(animationPane))
                 .collect(Collectors.toSet());
         controls.forEach(node -> node.setDisable(disable));
+        viewMenu.setDisable(disable);
     }
 
     private void disableAll(boolean disable) {
         Set<Node> controls = new HashSet<>(sideBar.getChildren());
         controls.forEach(node -> node.setDisable(disable));
+        viewMenu.setDisable(disable);
     }
 
     /**

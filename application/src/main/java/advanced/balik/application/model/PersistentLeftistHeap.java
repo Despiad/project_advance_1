@@ -152,7 +152,8 @@ public class PersistentLeftistHeap {
     }
 
     public PersistentLeftistHeap extractMin() {
-        mergeLog = new ArrayList<>();//TODO:fix this correct
+        mergeLog = new ArrayList<>();
+
         if (root == null) {
             return new PersistentLeftistHeap(null, this);
         }
@@ -170,8 +171,17 @@ public class PersistentLeftistHeap {
             newRight = null;
         }
 
+        if (root != null) {
+            logRoot = root.copy();
+        }
+        mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot), Action.EXTRACT_BEGIN,
+                this.getMin()));
+        level = 0;
 
-        return new PersistentLeftistHeap(merge(newLeft, newRight), this);
+        PersistentLeftistHeap persistentLeftistHeap = new PersistentLeftistHeap(merge(newLeft, newRight), this);
+        persistentLeftistHeap.setMergeLog(mergeLog);
+
+        return persistentLeftistHeap;
     }
 
     public LeftHeapNode getRoot() {
