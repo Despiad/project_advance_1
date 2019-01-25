@@ -110,6 +110,7 @@ public class MainInterfaceController {
             DURATION,
             actionEvent -> {
                 if (!turns.isEmpty()) {
+                    ++step;
                     if (turns.get(0) == 1) {
                         insertWithoutAnimation();
                     } else {
@@ -126,7 +127,6 @@ public class MainInterfaceController {
         this.turns = new ArrayList<>();
     }
 
-    //todo:fix steps
     @FXML
     private void initialize() {
         Group content = heapGraph.getContent();
@@ -176,10 +176,10 @@ public class MainInterfaceController {
      */
     @FXML
     public void insertRandom() {
+        ++step;
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         if (!heapGraph.checkValue(randomValue)) {
-            ++step;
             if (isAnimation) {
                 insertInOtherThread(randomValue);
             } else {
@@ -194,7 +194,6 @@ public class MainInterfaceController {
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         if (!heapGraph.checkValue(randomValue)) {
-            ++step;
             heapGraph.addNode(randomValue);
             heapGraph.draw();
             heapGraph.unselect();
@@ -240,14 +239,14 @@ public class MainInterfaceController {
         insertThread.start();
     }
 
-
     @FXML
     private void getMin() {
+        ++step;
+
         if (!isAnimation) {
             getMinWithoutAnimation();
             return;
         }
-        ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
 
@@ -298,7 +297,6 @@ public class MainInterfaceController {
     }
 
     private void getMinWithoutAnimation() {
-        ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
             heapGraph.extractMin();
