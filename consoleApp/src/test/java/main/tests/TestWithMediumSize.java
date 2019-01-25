@@ -54,7 +54,59 @@ public class TestWithMediumSize {
     }
 
     @Test
-    @DisplayName("Increasing elements test")
+    @DisplayName("Increasing negative elements test")
+    public void insertNegativeIncreasing() {
+        List<Integer> expected = new ArrayList<>();
+        for (int i = size-1; i >= 0; --i) {
+            heap.insert(-i);
+            expected.add(-i);
+            assertEquals("Min should be -size:", -(size-1), heap.getMin());
+        }
+
+        Integer[] expectedArray = new Integer[expected.size()];
+        expectedArray = expected.toArray(expectedArray);
+        Arrays.sort(expectedArray);
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < size; ++i) {
+            result.add(heap.getMin());
+            heap.extractMin();
+        }
+
+        Integer[] resultArray = new Integer[result.size()];
+        resultArray = result.toArray(resultArray);
+
+        assertArrayEquals("Arrays should be equal", expectedArray, resultArray);
+    }
+
+    @Test
+    @DisplayName("Decreasing negative elements test")
+    public void insertNegativeDecreasing(){
+        List<Integer> expected = new ArrayList<>();
+        for (int i = 0; i < size; ++i) {
+            heap.insert(-i);
+            expected.add(-i);
+            assertEquals("Min should be 0:", -i, heap.getMin());
+        }
+
+        Integer[] expectedArray = new Integer[expected.size()];
+        expectedArray = expected.toArray(expectedArray);
+        Arrays.sort(expectedArray);
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < size; ++i) {
+            result.add(heap.getMin());
+            heap.extractMin();
+        }
+
+        Integer[] resultArray = new Integer[result.size()];
+        resultArray = result.toArray(resultArray);
+
+        assertArrayEquals("Arrays should be equal", expectedArray, resultArray);
+    }
+
+    @Test
+    @DisplayName("Increasing positive elements test")
     public void insertIncreasing() {
         List<Integer> expected = new ArrayList<>();
         for (int i = 0; i < size; ++i) {
@@ -80,7 +132,7 @@ public class TestWithMediumSize {
     }
 
     @Test
-    @DisplayName("Decreasing elements test")
+    @DisplayName("Decreasing positive elements test")
     public void insertDecreasing() {
         List<Integer> expected = new ArrayList<>();
         for (int i = size; i > 0; --i) {
