@@ -155,6 +155,7 @@ public class MainInterfaceController {
                     } else {
                         heapGraph.addNode(value);
                         heapGraph.draw();
+                        heapGraph.findNode(value);
                         logAction(String.format(Action.INSERT.getAction(), value));
                     }
                 } else {
