@@ -13,7 +13,7 @@
 | `-f, --file=<fileParse>`                           | Считывает из файла команды и запускает их        |
 | `-h, --help`                                       | Выводит описание всех команд                     |
 | `-i, --insert=<insert>[,<insert>...]`              | Добавляет число в кучу                           |
-| `-t, --test=<customTest>[,<customTest>...]`        | Запускает пользовательские тесты из файла        |
+| `-t, --test=<inputFile>,<answerFie>`               | Запускает пользовательские тесты из файла        |
 ## Примеры использования
 - insert & extract                                                         
 ```
@@ -56,13 +56,25 @@ __Запрещается использовать вместе с другими
 
 {path}/test.txt
 ```
--e min
--e min
--i 3
--e min
+1
+2
+3
+min
+extractMin
+min
+extractMin
+min
+extractMin
+```
+
+{path}/answer.txt
+```
+1
+2
+3
 ```
 ```
--t {path}/test.txt
+-t {path}/test.txt,{path}/answer.txt 
 OK - Solution passed
 ```
 
@@ -83,10 +95,18 @@ OK - Solution passed
 | Incorrect number of parameters                            | Некорректное число аргументов команды (для тестов)                 |
 
 ## Тесты
+### Формат ввода
+`min` - Выводится минимальное число, но __не удаляется__
 
-| OK - Solution passed||
-| IE - Invalid input format||
-| WA - Wrong answer||
-| RE - Error reading input file||
-| RE - Error reading answer file||
+`extractMin` - __Удаляется__ минимальное число
+### Сообщения тестера
+| Сообщение тестера              | Значение                                                  |
+|--------------------------------|-----------------------------------------------------------|
+| OK - Solution passed           | Программа верно работает на соответствующем наборе тестов |
+| IE - Invalid input format      | Неверный формат вывода                                    |
+| WA - Wrong answer              | Ответ неверен                                             |
+| RE - Error reading input file  | Ошибка чтения файла ввода                                 |
+| RE - Error reading answer file | Ошибка чтения файла с ответами                            |
+
+### Пример
 
