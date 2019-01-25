@@ -68,7 +68,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>Main</mainClass>
+                            <mainClass>balik.advanced.consoleApp.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
