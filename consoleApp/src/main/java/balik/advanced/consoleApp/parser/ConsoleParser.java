@@ -133,7 +133,7 @@ public class ConsoleParser {
      */
     void insert(Integer[] numbers) {
         if (numbers[inserter] == null) {
-            System.out.println(Message.REQUIRED_PARAMETER.getMessage());
+            System.out.println(Message.MISSING_PARAMETER.getMessage());
             return;
         }
         for (; inserter < numbers.length; ++inserter) {

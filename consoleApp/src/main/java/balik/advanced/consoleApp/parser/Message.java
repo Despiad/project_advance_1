@@ -5,7 +5,6 @@ public enum Message {
     MISSING_PARAMETER("Missing parameters in some methods. Use -h for help."),
     UNKNOWN_COMMAND("Unknown command"),
     EMPTY_HEAP("Heap is empty!"),
-    REQUIRED_PARAMETER("Required parameter"),
     EXTRACT_MIN("Min number is %d"),
     INSERT("Inserting %d"),
     FILE_NOT_FOUND("File not found"),
