@@ -110,6 +110,7 @@ public class MainInterfaceController {
             DURATION,
             actionEvent -> {
                 if (!turns.isEmpty()) {
+                    ++step;
                     if (turns.get(0) == 1) {
                         insertWithoutAnimation();
                     } else {
@@ -149,7 +150,13 @@ public class MainInterfaceController {
             if (!heapGraph.checkValue(value)) {
                 if (Math.abs(value) < 1000) {
                     ++step;
-                    insertInOtherThread(value);
+                    if (isAnimation) {
+                        insertInOtherThread(value);
+                    } else {
+                        heapGraph.addNode(value);
+                        heapGraph.draw();
+                        logAction(String.format(Action.INSERT.getAction(), value));
+                    }
                 } else {
                     log.error(Error.TOO_BIG.getHeader());
                     showError(Error.TOO_BIG);
@@ -164,11 +171,29 @@ public class MainInterfaceController {
         });
     }
 
+    /**
+     * Добавить случайное значение как новый элемент кучи.
+     */
+    @FXML
+    public void insertRandom() {
+        ++step;
+        RANDOM.setSeed(System.currentTimeMillis());
+        int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
+        if (!heapGraph.checkValue(randomValue)) {
+            if (isAnimation) {
+                insertInOtherThread(randomValue);
+            } else {
+                insertWithoutAnimation();
+            }
+        } else {
+            insertRandom();
+        }
+    }
+
     private void insertWithoutAnimation() {
         RANDOM.setSeed(System.currentTimeMillis());
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         if (!heapGraph.checkValue(randomValue)) {
-            ++step;
             heapGraph.addNode(randomValue);
             heapGraph.draw();
             heapGraph.unselect();
@@ -214,10 +239,14 @@ public class MainInterfaceController {
         insertThread.start();
     }
 
-
     @FXML
     private void getMin() {
         ++step;
+
+        if (!isAnimation) {
+            getMinWithoutAnimation();
+            return;
+        }
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
 
@@ -268,10 +297,10 @@ public class MainInterfaceController {
     }
 
     private void getMinWithoutAnimation() {
-        ++step;
         if (!heapGraph.isEmpty()) {
             int min = heapGraph.getMin();
             heapGraph.extractMin();
+            heapGraph.draw();
             logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
         } else {
             logAction(Action.EMPTY.getAction());
@@ -304,20 +333,6 @@ public class MainInterfaceController {
         logAction(Action.CLEAR.getAction());
     }
 
-    /**
-     * Добавить случайное значение как новый элемент кучи.
-     */
-    @FXML
-    public void insertRandom() {
-        RANDOM.setSeed(System.currentTimeMillis());
-        int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
-        if (!heapGraph.checkValue(randomValue)) {
-            ++step;
-            insertInOtherThread(randomValue);
-        } else {
-            insertRandom();
-        }
-    }
 
     /**
      * HIDE PANELS
@@ -469,6 +484,12 @@ public class MainInterfaceController {
 
     private boolean onlyInsert;
     private boolean onlyMin;
+    private boolean isAnimation = true;
+
+    @FXML
+    private void setAnimation() {
+        isAnimation = !isAnimation;
+    }
 
     @FXML
     private void autoMode() {
