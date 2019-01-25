@@ -175,6 +175,7 @@
                 </Menu>
                 <Menu fx:id="viewMenu" mnemonicParsing="false" text="View">
                     <items>
+                  <CheckMenuItem mnemonicParsing="false" onAction="#setAnimation" text="No animation" />
                         <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="Zoom in" />
                         <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="Zoom out" />
                   <MenuItem mnemonicParsing="false" onAction="#setDefault" text="Set default" />
