@@ -56,7 +56,7 @@ public class PersistentLeftistHeap {
                 1001));//because 999 is maximum
         level = 0;
         PersistentLeftistHeap persistentLeftistHeap =
-                new PersistentLeftistHeap(merge(new LeftHeapNode(x), newRoot, null), this);
+                new PersistentLeftistHeap(merge(newRoot, new LeftHeapNode(x), null), this);
 
         persistentLeftistHeap.setMergeLog(mergeLog);
         return persistentLeftistHeap;

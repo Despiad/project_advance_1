@@ -311,6 +311,7 @@ public class MainInterfaceController {
             int min = heapGraph.getMin();
             heapGraph.extractMin();
             heapGraph.draw();
+            heapGraph.unselect();
             logAction(String.format(Action.EXTRACT_MIN.getAction(), min));
         } else {
             logAction(Action.EMPTY.getAction());
