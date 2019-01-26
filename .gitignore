@@ -1,8 +1,0 @@
-*.iml
-out
-.idea
-target
-*/*.log
-*/*.log**
-*/.allure
-*/cmake-build-debug
