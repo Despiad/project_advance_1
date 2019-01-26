@@ -53,7 +53,7 @@ public class PersistentLeftistHeap {
             logRoot = root.copy();
         }
         mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot), Action.INSERT_BEGIN.getAction(),
-                1000));//because 999 is maximum
+                1001));//because 999 is maximum
         level = 0;
         PersistentLeftistHeap persistentLeftistHeap =
                 new PersistentLeftistHeap(merge(new LeftHeapNode(x), newRoot, null), this);
@@ -61,7 +61,7 @@ public class PersistentLeftistHeap {
         persistentLeftistHeap.setMergeLog(mergeLog);
         return persistentLeftistHeap;
     }
-    
+
     private LeftHeapNode merge(LeftHeapNode leftTree, LeftHeapNode rightTree, LeftHeapNode parent) {
         level++;
         if (leftTree == null) {
@@ -70,6 +70,9 @@ public class PersistentLeftistHeap {
                     mergeLog.add(new Turn(new PersistentLeftistHeap(rightTree.copy()),
                             Action.LEFT_NULL.getAction(), rightTree.element));
                 } else {
+                    if (parent != null) {
+                        parent.right = rightTree;
+                    }
                     mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot.copy()),
                             Action.LEFT_NULL.getAction(), rightTree.element));
                 }
@@ -81,17 +84,17 @@ public class PersistentLeftistHeap {
                 mergeLog.add(new Turn(new PersistentLeftistHeap(leftTree.copy()), Action.RIGHT_NULL.getAction(),
                         leftTree.element));
             } else {
+                if (parent != null) {
+                    parent.right = leftTree;
+                }
                 mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot.copy()), Action.RIGHT_NULL.getAction(),
                         leftTree.element));
             }
             return leftTree;
         }
 
-        if (parent != null) {
-            parent.right = leftTree;
-        }
-
         if (leftTree.element > rightTree.element) {
+
             if (logRoot != null) {
                 mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot.copy()), Action.MIN_ELEMENT_RIGHT.getAction(),
                         rightTree.element));
@@ -99,18 +102,17 @@ public class PersistentLeftistHeap {
             LeftHeapNode temp = leftTree;
             leftTree = rightTree;
             rightTree = temp;
+
+
         }
 
         if (level == 1) {
             logRoot = leftTree;
         }
 
+        mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot.copy()), Action.MIN_ELEMENT_LEFT.getAction(),
+                leftTree.element));
 
-
-        if (logRoot != null) {
-            mergeLog.add(new Turn(new PersistentLeftistHeap(logRoot.copy()), Action.MIN_ELEMENT_LEFT.getAction(),
-                    leftTree.element));
-        }
         leftTree.right = merge(leftTree.right, rightTree, leftTree);
 
         if (logRoot != null) {

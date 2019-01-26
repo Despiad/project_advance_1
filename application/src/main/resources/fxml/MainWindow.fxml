@@ -76,7 +76,7 @@
                                                         </VBox>
                                                     </children>
                                                 </AnchorPane>
-                                                <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308" prefHeight="81.0" prefWidth="183.0" text="Animation">
+                                                <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308" prefHeight="81.0" prefWidth="183.0" text="Controllers">
                                                     <padding>
                                                         <Insets left="3.0" />
                                                     </padding>
@@ -94,7 +94,7 @@
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane animated="false" layoutX="10.0" layoutY="145.0" maxHeight="1.7976931348623157E308" prefHeight="89.0" prefWidth="183.0" text="Auto mode" VBox.vgrow="ALWAYS">
+                                                <TitledPane animated="false" layoutX="10.0" layoutY="145.0" maxHeight="1.7976931348623157E308" prefHeight="220.0" prefWidth="183.0" text="Auto mode" VBox.vgrow="ALWAYS">
                                                     <content>
                                                         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="178.0">
                                                             <children>
@@ -154,9 +154,10 @@
                                         </HBox>
                                         <Label fx:id="logLabel" alignment="CENTER" layoutX="198.0" layoutY="23.0" prefHeight="25.0" prefWidth="228.0" text="HEAP IS EMPTY" textAlignment="CENTER" textFill="#dd8484" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                             <font>
-                                                <Font name="System Bold" size="18.0" />
+                                                <Font name="System Bold" size="16.0" />
                                             </font>
                                         </Label>
+                              <Slider fx:id="animationSlider" blockIncrement="100.0" layoutX="14.0" layoutY="2.0" max="10000.0" min="100.0" prefHeight="45.0" prefWidth="165.0" value="1000.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="14.0" />
                                     </children>
                                 </AnchorPane>
                             </content>

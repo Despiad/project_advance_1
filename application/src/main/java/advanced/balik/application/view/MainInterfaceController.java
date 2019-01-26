@@ -9,6 +9,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -40,6 +42,10 @@ public class MainInterfaceController {
      * Длительность задержки при автоматических действиях
      */
     private static final Duration DURATION = Duration.millis(1000);
+
+    private volatile int AnimationDuration=1000;
+    @FXML
+    private Slider animationSlider;
 
     /**
      * Генератор случайных чисел.
@@ -135,6 +141,9 @@ public class MainInterfaceController {
         mode = new ArrayList<>(Arrays.asList(ViewMode.values()));
         currMode = ViewMode.STANDART;
         logAction(Action.EMPTY.getAction());
+        // Adding Listener to value property.
+        animationSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+                AnimationDuration=newValue.intValue());
     }
 
     public void setMainApp(MainApp mainApp) {
@@ -224,7 +233,7 @@ public class MainInterfaceController {
                     logAction(currentTurn.getTurnLog());
                 });
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(AnimationDuration);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -255,13 +264,13 @@ public class MainInterfaceController {
                 try {
                     Platform.runLater(() -> disableAll(true));
                     Platform.runLater(heapGraph::unselect);
-                    Thread.sleep(1000);
+                    Thread.sleep(AnimationDuration);
                     Platform.runLater(() -> {
                         heapGraph.findNode(min);
                         navigateToSelected();
                         logAction(String.format(Action.MIN.getAction(), min));
                     });
-                    Thread.sleep(1000);
+                    Thread.sleep(AnimationDuration);
 
                     Platform.runLater(heapGraph::unselect);
                     heapGraph.extractMin();
@@ -275,7 +284,7 @@ public class MainInterfaceController {
                             navigateToSelected();
                             logAction(currentTurn.getTurnLog());
                         });
-                        Thread.sleep(1000);
+                        Thread.sleep(AnimationDuration);
                     }
 
                     Platform.runLater(() -> {
