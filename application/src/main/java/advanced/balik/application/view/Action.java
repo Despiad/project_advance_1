@@ -23,7 +23,7 @@ public enum Action {
             "Swapping..."),
     LEFT_SUBTREE_LARGER("Left subtree has Null Path Length at least as large as right subtree." +
             "No swap required..."),
-    LEFT_CHILD_IS_NULL("LEFT TREE IS NULL"),//TODO:CHANGE
+    LEFT_CHILD_IS_NULL("Left child of node %d is null, occupy his place..."),
     EXTRACT_BEGIN("Remove root element,leaving two subtrees");
 
     private final String action;
